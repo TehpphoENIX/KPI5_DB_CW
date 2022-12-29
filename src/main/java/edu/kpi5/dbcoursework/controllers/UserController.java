@@ -1,19 +1,45 @@
 package edu.kpi5.dbcoursework.controllers;
 
 import edu.kpi5.dbcoursework.beans.HttpSessionBean;
-import io.micrometer.common.util.StringUtils;
+import edu.kpi5.dbcoursework.entities.User;
+import edu.kpi5.dbcoursework.utility.UserForm;
+import io.netty.util.internal.StringUtil;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.util.StringUtils;
 
-@RestController
+@Controller
 public class UserController {
-    private final HttpSessionBean httpSessionBean;
-
-    public UserController(HttpSessionBean httpSessionBean) {
-        this.httpSessionBean = httpSessionBean;
+    @Resource(name = "sessionScopedBean")
+    HttpSessionBean httpSessionBean;
+    @GetMapping(path="/")
+    public String deflt(){
+        if(httpSessionBean.getUser() == null || StringUtils.isEmpty(httpSessionBean.getUser().getLogin())){
+            return "redirect:/login";
+        }else{
+            return "redirect:/user/"+httpSessionBean.getUser().getLogin();
+        }
     }
-
-
+    @GetMapping(path="/login")
+    public String loginForm(Model model){
+        model.addAttribute("userform", new UserForm());
+        return "login-screen";
+    }
+    @PostMapping(path="/login")
+    public String loginRequest(@ModelAttribute UserForm userForm, Model model){
+        httpSessionBean.setUser(new User());
+        httpSessionBean.getUser().setLogin(userForm.getLogin());
+        return "redirect:/user/"+userForm.getLogin();
+    }
+    @GetMapping(path="/user/{name}")
+    public String forwardMenuRequest(@PathVariable String name){
+        return "redirect:/student/menu";
+    }
+    @GetMapping(path="/exit")
+    public String exit() {
+        httpSessionBean.setUser(null);
+        return "redirect:/";
+    }
 }
