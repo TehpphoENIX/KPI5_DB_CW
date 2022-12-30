@@ -63,19 +63,19 @@ public class DBApi {
     }//join
     public MarksList getMarksOfCourse(String courseName){
         return null;
-    }//MongoDB
+    }//Mongodb
     public MarksList getMarksOfCourse(String courseName, String studentName){
         return null;
-    }//MongoDB
+    }//Mongodb
     public int setMarks(String courseName, MarksList marksList){
         return 0;
-    }//MongoDB
+    }//Mongodb
     public int setExam(String courseName, MarksList marksList){
         return 0;
-    }//MongoDB
+    }//Mongodb
     public int setSocialWork(String courseName, MarksList marksList){
         return 0;
-    }//MongoDB
+    }//Mongodb
 
     public boolean addGroup(String groupName) {
         return false;

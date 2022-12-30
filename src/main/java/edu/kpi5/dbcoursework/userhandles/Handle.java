@@ -5,6 +5,10 @@ import edu.kpi5.dbcoursework.entities.User;
 public class Handle {
     private User user;
 
+    Handle(User user){
+        this.user = user;
+    }
+
     public User getUser(){
         return user;
     }

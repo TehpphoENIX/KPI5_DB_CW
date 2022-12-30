@@ -8,6 +8,10 @@ import org.springframework.data.util.Pair;
 import java.util.ArrayList;
 
 public class AdminHandle extends TeacherHandle{
+    public AdminHandle(User user) {
+        super(user);
+    }
+
     public ArrayList<Student> kickStudents(boolean deleteAcounts) {
         return null;
     }
