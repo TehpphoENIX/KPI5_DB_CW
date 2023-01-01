@@ -1,6 +1,5 @@
 package edu.kpi5.dbcoursework.entities;
 
-import javax.swing.text.StyledEditorKit;
 import java.util.Objects;
 
 public class Student extends User{
