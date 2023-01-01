@@ -2,7 +2,7 @@ package edu.kpi5.dbcoursework.entities;
 
 import java.util.Objects;
 
-public class Student extends User{
+public class Student {
 
 	private Long ID;
 
@@ -26,8 +26,6 @@ public class Student extends User{
 	public Student(String login, Long ID,
 	               String name, String surname, Group group, Integer hostel,
 	               Short numberOfExams, Float averageMark, Boolean socialWork) {
-
-		super(login, AccessLevel.student);
 
 		this.ID = ID;
 
@@ -131,7 +129,6 @@ public class Student extends User{
 
 		return "Student{" +
 				"ID=" + ID +
-				", login='" + getLogin() + '\'' +
 				", name='" + name + '\'' +
 				", surname='" + surname + '\'' +
 				", group=" + group +
