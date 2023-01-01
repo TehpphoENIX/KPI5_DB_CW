@@ -11,10 +11,10 @@ public class Security {
         User user = api.loginToUser(login, password);
         if(user != null){
             return switch(user.getAccessLevel()){
-                case AccessLevel.student -> new HandleFactory().createStudentHandle(user);
-                case AccessLevel.admin -> new HandleFactory().createAdminHandle(user);
-                case AccessLevel.teacher -> new HandleFactory().createTeacherHandle(user);
-                case AccessLevel.none -> null;
+                case student -> new HandleFactory().createStudentHandle(user);
+                case admin -> new HandleFactory().createAdminHandle(user);
+                case teacher -> new HandleFactory().createTeacherHandle(user);
+                case none -> null;
             };
         }else{
             return null;
