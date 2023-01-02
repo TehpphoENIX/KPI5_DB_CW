@@ -3,6 +3,9 @@ package edu.kpi5.dbcoursework.dbaccess;
 import edu.kpi5.dbcoursework.dbaccess.repositories.*;
 import edu.kpi5.dbcoursework.entities.*;
 import edu.kpi5.dbcoursework.utility.MarksList;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +45,8 @@ public class DBApi {
                 userRepository);
     }
 
+    //create new course with "courseName" and add students from "groups" to it.
+    //
     public boolean addCourse(String courseName, ArrayList<String> groups){
         return false;
     }
@@ -55,10 +60,10 @@ public class DBApi {
     public List<Course> getCourse(String courseName) {
         return courseRepository.findByName(courseName);
     }
-    public ArrayList<Student> getCourseStudents(String courseName) {
+    public List<Student> getCourseStudents(String courseName) {
         return null;
     }//join
-    public ArrayList<Course> getCourseList(User user) {
+    public List<Course> getCourseList(User user) {
         return courseRepository.findAllByUser(user);
     }//join
     public MarksList getMarksOfCourse(String courseName){

@@ -18,7 +18,7 @@ public class TeacherController {
     HttpSessionBean httpSessionBean;
     @RequestMapping("menu")
     public String menu(Model model){
-        model.addAttribute("name",httpSessionBean.getUser().getLogin());
+        model.addAttribute("name",httpSessionBean.getAppHandle().getUser().getLogin());
         return "teacher-menu";
     }
     @RequestMapping("courses/{course}/attest/set")
