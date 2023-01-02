@@ -19,7 +19,7 @@ public class StudentController {
     HttpSessionBean httpSessionBean;
     @RequestMapping(path="menu")
     public String menu(Model model){
-        model.addAttribute("name",httpSessionBean.getUser().getLogin());
+        model.addAttribute("name",httpSessionBean.getAppHandle().getUser().getLogin());
         return "student-menu";
     }
 //    @RequestMapping(path="{name}/summary")

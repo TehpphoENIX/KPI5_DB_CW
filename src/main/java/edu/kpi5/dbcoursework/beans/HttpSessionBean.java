@@ -1,6 +1,7 @@
 package edu.kpi5.dbcoursework.beans;
 
 import edu.kpi5.dbcoursework.entities.User;
+import edu.kpi5.dbcoursework.userhandles.Handle;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
@@ -13,12 +14,14 @@ public class HttpSessionBean {
     public HttpSessionBean sessionScopedBean() {
         return new HttpSessionBean();
     }
-    private User user;
-    public User getUser() {
-        return user;
+
+    private Handle appHandle;
+
+    public Handle getAppHandle() {
+        return appHandle;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setAppHandle(Handle appHandle) {
+        this.appHandle = appHandle;
     }
 }

@@ -10,7 +10,9 @@ import java.util.List;
 public interface StudentRepository extends CrudRepository<Student,Long> {
     //wrong query
     @Query(
-            value = "SELECT * FROM USERS u",
+            value = "" +
+                    "SELECT * " +
+                    "FROM USERS u",
             nativeQuery = true)
     List<Student> getKickList();
     //wrong query

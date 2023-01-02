@@ -2,6 +2,7 @@ package edu.kpi5.dbcoursework.controllers;
 
 import edu.kpi5.dbcoursework.beans.HttpSessionBean;
 import edu.kpi5.dbcoursework.entities.User;
+import edu.kpi5.dbcoursework.utility.Security;
 import edu.kpi5.dbcoursework.utility.UserForm;
 import io.netty.util.internal.StringUtil;
 import jakarta.annotation.Resource;
@@ -10,36 +11,69 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.util.StringUtils;
 
+/**
+ * This is default web controller
+ * It handles login and redirection to user menu
+ * SPRING CONTROLLER USE ONLY!
+ */
 @Controller
 public class UserController {
+    /**
+     * Bean links
+     */
     @Resource(name = "sessionScopedBean")
     HttpSessionBean httpSessionBean;
+
+    /**
+     * Home mapping. Redirects to log in or user methods.
+     * @return view
+     */
     @GetMapping(path="/")
     public String deflt(){
-        if(httpSessionBean.getUser() == null || StringUtils.isEmpty(httpSessionBean.getUser().getLogin())){
+        if(httpSessionBean.getAppHandle() == null){
             return "redirect:/login";
         }else{
-            return "redirect:/user/"+httpSessionBean.getUser().getLogin();
+            return "redirect:/user/"+httpSessionBean.getAppHandle().getUser().getLogin();
         }
     }
+
+    /**
+     * Login GET mapping. Shows login screen. Supplies form memory to fill.
+     * @param model -- new model
+     * @return view
+     */
     @GetMapping(path="/login")
     public String loginForm(Model model){
         model.addAttribute("userform", new UserForm());
         return "login-screen";
     }
+
+    /**
+     * Login POST mapping. Processes received form. Authorizes user and redirects to home page
+     * @param userForm -- received user form
+     * @param model -- new model
+     * @return redirect
+     */
     @PostMapping(path="/login")
     public String loginRequest(@ModelAttribute UserForm userForm, Model model){
-        httpSessionBean.setUser(new User());
-        httpSessionBean.getUser().setLogin(userForm.getLogin());
-        return "redirect:/user/"+userForm.getLogin();
+        httpSessionBean.setAppHandle(Security.authorize(null,userForm.getLogin(),userForm.getPassword()));
+        if(httpSessionBean.getAppHandle() == null)
+        {
+            model.addAttribute("error","authorization failed");
+            return "redirect:/login";
+        }else{
+            return "redirect:/user/"+httpSessionBean.getAppHandle().getUser().getLogin();
+        }
+
     }
+
     @GetMapping(path="/user/{name}")
     public String forwardMenuRequest(@PathVariable String name){
         return "redirect:/student/menu";
     }
     @GetMapping(path="/exit")
     public String exit() {
-        httpSessionBean.setUser(null);
+        httpSessionBean.setAppHandle(null);
         return "redirect:/";
     }
 }
