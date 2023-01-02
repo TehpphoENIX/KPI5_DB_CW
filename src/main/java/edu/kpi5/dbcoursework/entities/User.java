@@ -5,6 +5,7 @@ import java.util.Objects;
 public class User {
 
     private String login;
+    private AccessLevel accessLevel;
 
     private AccessLevel accessLevel;
 
