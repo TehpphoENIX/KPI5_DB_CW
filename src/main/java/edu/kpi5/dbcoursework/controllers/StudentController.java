@@ -33,13 +33,13 @@ public class StudentController {
         return "course-list";
     }
     @GetMapping(path="courses/{course}/marks")
-    public String GetMarksOfCourse(Model model, @PathVariable(value = "course") String course) {
+    public String GetMarksOfCourse(Model model, @PathVariable(value = "course") Long course) {
         StudentHandle handle = (StudentHandle) httpSessionBean.getAppHandle();
         model.addAttribute("marks", handle.GetMarksOfCourse(course));
         return "marks-list";
     }
     @GetMapping(path="courses/{course}/RSO")
-    public String GetRSOOfCourse(Model model, @PathVariable(value = "course") String course) {
+    public String GetRSOOfCourse(Model model, @PathVariable(value = "course") Long course) {
         StudentHandle handle = (StudentHandle) httpSessionBean.getAppHandle();
         model.addAttribute("RSO", handle.GetRSOOfCourse(course));
         return "RSO";
