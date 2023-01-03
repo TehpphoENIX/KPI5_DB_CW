@@ -13,19 +13,22 @@ public class AdminHandle extends TeacherHandle{
         super(user);
     }
 
-    public ArrayList<Student> kickStudents(boolean deleteAcounts)  {
-        //як саме повинна працювати дана функція ?
-        return null;
+    public ArrayList<Student> kickStudents(boolean deleteAcounts, DBApi object)  {
+        ArrayList<String> userCredits = new ArrayList<>();
+        var kickedList = object.getKickList();
+        for(var a : kickedList) {
+            userCredits.add(a.getName());//брав пошук по імені, але можливо треба по чомусь іншому
+        }
+        if(deleteAcounts){
+            object.removeUsers(userCredits);
+        }
+        return new ArrayList<>(kickedList);
     }
-    public int removeUsers(ArrayList<String> userNames, DBApi object) {
-        //чому повертається значення інт ?
+    public void removeUsers(ArrayList<String> userNames, DBApi object) {
         object.removeUsers(userNames);
-        return 0;
     }
-    public int applyScholarship(ArrayList<Student> listOfStudents, boolean increased, DBApi object) {
-        //чому повертається інт ?
+    public void applyScholarship(ArrayList<Student> listOfStudents, boolean increased, DBApi object) {
         object.applyScholarship(listOfStudents, increased);
-        return 0;
     }
     public ArrayList<Student> getScholarshipList(boolean increased, DBApi object) {
         return new ArrayList<>(object.getScholarshipList(increased));
@@ -52,23 +55,19 @@ public class AdminHandle extends TeacherHandle{
     public ArrayList<User> getUserList(DBApi object) {
         return new ArrayList<>(object.getUserList());
     }
-    public boolean addGroup(String groupName, DBApi object) {
+    public void addGroup(String groupName, DBApi object) {
         try{
             object.addGroup(groupName);
-            return true;
         }catch (Exception e){
 
         }
-        return false;
     }
-    public boolean editGroup(String groupName, DBApi object) {
+    public void editGroup(String groupName, DBApi object) {
         try{
             object.editGroup(groupName);
-            return true;
         }catch (Exception e){
 
         }
-        return false;
     }
 
     public boolean addStudentsToGroup(String groupName, ArrayList<Student> students, DBApi object){
@@ -79,16 +78,13 @@ public class AdminHandle extends TeacherHandle{
             return true;
         }
         return false;
-
     }
 
-    public boolean removeGroup(String groupName, DBApi object){
-        //в DBApi в методі removeGroup йде видалення за айді, а не за назвою
-        object.removeGroup(groupName);
+    public boolean removeGroup(Long groupId, DBApi object){
+        object.removeGroup(groupId);
     }
 
     public Group getGroup(String groupName, DBApi object){
-        //в DBApi getGroup повинно повертати не список, а лише одну групу
         return object.getGroup(groupName);
     }
 

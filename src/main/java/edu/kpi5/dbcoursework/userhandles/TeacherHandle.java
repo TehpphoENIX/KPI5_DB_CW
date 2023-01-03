@@ -26,7 +26,6 @@ public class TeacherHandle extends Handle {
     }
 
     public void setMark(String courseName, Student Student, int mark, DBApi object) {
-        //поставив войд, бо чи потрібно щось повертати ?
         try{
             //переписати, бо непевний чи правильно розташував ключі
             object.setMarks(courseName, new MarksList(courseName, new AbstractMap.SimpleEntry<String, Float>(Student.getName(),Float.valueOf(mark))));
@@ -36,7 +35,6 @@ public class TeacherHandle extends Handle {
     }
 
     public void setMarks(String courseName, MarksList marksList, DBApi object) {
-        //поставив войд, бо чи потрібно щось повертати ?
         try{
             object.setMarks(courseName, marksList);
         }catch (Exception e){
@@ -45,7 +43,6 @@ public class TeacherHandle extends Handle {
     }
 
     public void setSocialWork(String courseName, MarksList marksList, DBApi object) {
-        //поставив войд, бо чи потрібно щось повертати ?
         try{
             object.setSocialWork(courseName, marksList);
         }catch (Exception e){
@@ -54,7 +51,6 @@ public class TeacherHandle extends Handle {
     }
 
     public void setExam(String courseName, MarksList marksList, DBApi object) {
-        //поставив войд, бо чи потрібно щось повертати ?
         try{
             object.setExam(courseName, marksList);
         }catch (Exception e){
@@ -63,7 +59,6 @@ public class TeacherHandle extends Handle {
     }
 
     public void addCourse(String courseName, ArrayList<String> groups,DBApi object) {
-        //поставив войд, бо чи потрібно щось повертати ?
         try{
             object.addCourse(courseName,groups);
         }catch (Exception e){
@@ -71,33 +66,26 @@ public class TeacherHandle extends Handle {
         }
     }
 
-    public boolean editCourse(String courseName, String newCourseName, DBApi object) {
-        //чи потрібно щось повертати ?
+    public void editCourse(String courseName, String newCourseName, DBApi object) {
         try{
             object.editCourse(courseName,newCourseName);
-            return true;
         }catch (Exception e){
             //error handling
         }
-        return false;
     }
 
-    public boolean removeCourse(Long courseID, DBApi object) {
+    public void removeCourse(Long courseID, DBApi object) {
         //в класі курсу немає courseID
         //навіщо повертати булл ?
         try{
             object.removeCourse(courseID);
-            return true;
         }catch (Exception e){
             //error handling
         }
-        return false;
     }
 
-    public Course getCourse(String courseName, DBApi object) {
-        return object.getCourse(courseName);//чому getCourse в DBApi повертає список, якщо повинен
-                                            //тільки один курс ?
-                                            //чи реалізувати пошук по списку в цьому методі ?
+    public Course getCourse(Long courseId, DBApi object) {
+        return object.getCourse(courseId);
     }
 
     public ArrayList<Student> getCourseStudents(String courseName, DBApi object) {
