@@ -8,6 +8,7 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.lang.reflect.InvocationHandler;
@@ -32,13 +33,13 @@ public class StudentController {
         return "course-list";
     }
     @GetMapping(path="courses/{course}/marks")
-    public String GetMarksOfCourse(Model model, String course) {
+    public String GetMarksOfCourse(Model model, @PathVariable(value = "course") String course) {
         StudentHandle handle = (StudentHandle) httpSessionBean.getAppHandle();
         model.addAttribute("marks", handle.GetMarksOfCourse(course));
         return "marks-list";
     }
     @GetMapping(path="courses/{course}/RSO")
-    public String GetRSOOfCourse(Model model, String course) {
+    public String GetRSOOfCourse(Model model, @PathVariable(value = "course") String course) {
         StudentHandle handle = (StudentHandle) httpSessionBean.getAppHandle();
         model.addAttribute("RSO", handle.GetRSOOfCourse(course));
         return "RSO";
