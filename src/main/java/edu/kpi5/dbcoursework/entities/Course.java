@@ -1,73 +1,95 @@
 package edu.kpi5.dbcoursework.entities;
 
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.Objects;
+import jakarta.persistence.*;
 
+import java.util.*;
+
+@Entity
+@Table(name="COURSE")
 public class Course {
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	@Column(name="course_name", length=50, nullable=false, unique=false)
 	private String name;
+	@ManyToMany
+	@JoinTable(name = "student_course",
+			joinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"),
+			inverseJoinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id")
+	)
+	private Set<Student> students = new HashSet<>();
 
-	private ArrayList<AbstractMap.SimpleEntry<String, ArrayList
-			<AbstractMap.SimpleEntry<String, Float>>>> field;
+	//private ArrayList<AbstractMap.SimpleEntry<String, ArrayList
+	//		<AbstractMap.SimpleEntry<String, Float>>>> field;
 
 	public Course() {
 	}
 
-	public Course(String name, ArrayList<AbstractMap.SimpleEntry<String,
-			ArrayList<AbstractMap.SimpleEntry<String, Float>>>> field) {
-
+	public Course(String name) {
 		this.name = name;
-
-		this.field = field;
 	}
 
+//	public Course(String name, ArrayList<AbstractMap.SimpleEntry<String,
+//			ArrayList<AbstractMap.SimpleEntry<String, Float>>>> field) {
+//		this.name = name;
+//
+//	//	this.field = field;
+//	}
 	public String getName() {
 
 		return name;
 	}
 
-	public ArrayList<AbstractMap.SimpleEntry<String,
-			ArrayList<AbstractMap.SimpleEntry<String, Float>>>> getField() {
-
-		return field;
-	}
-
+	//public ArrayList<AbstractMap.SimpleEntry<String,
+	//		ArrayList<AbstractMap.SimpleEntry<String, Float>>>> getField() {
+	//	return field;
+	//}
 	public void setName(String name) {
 
 		this.name = name;
 	}
 
-	public void setField(ArrayList<AbstractMap.SimpleEntry<String,
-			ArrayList<AbstractMap.SimpleEntry<String, Float>>>> field) {
-
-		this.field = field;
+	public Long getId() {
+		return id;
 	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Set<Student> getStudents() {
+		return students;
+	}
+
+	public void setStudents(Set<Student> students) {
+		this.students = students;
+	}
+
+	//public void setField(ArrayList<AbstractMap.SimpleEntry<String,
+	//		ArrayList<AbstractMap.SimpleEntry<String, Float>>>> field) {
+	//	this.field = field;
+	//}
 
 	@Override
 	public String toString() {
 
 		return "Course{" +
 				"name='" + name + '\'' +
-				", field=" + field +
+				//", field=" + field +
 				'}';
 	}
 
 	@Override
 	public boolean equals(Object o) {
-
 		if (this == o)
 			return true;
-
 		if (o == null || getClass() != o.getClass())
 			return false;
-
 		Course course = (Course) o;
-
-		return name.equals(course.name);
+		return Objects.equals(id, course.id);
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(name);
+		return id != null ? id.hashCode() : 0;
 	}
 }

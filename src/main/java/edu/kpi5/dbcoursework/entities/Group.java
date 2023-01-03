@@ -1,14 +1,24 @@
 package edu.kpi5.dbcoursework.entities;
 
+import jakarta.persistence.*;
+
 import java.util.Objects;
+import java.util.Set;
 
+@Entity
+@Table(name = "FGROUP")
 public class Group {
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	@Column(name = "group_name", length = 50, nullable = false)
 	private String name;
-
+	@Column(name = "group_year", nullable = false)
 	private Integer yearCreated;
-
+	@Column(name = "group_spec", nullable = false)
 	private Short speciality;
+	@OneToMany(mappedBy = "group")
+	private Set<Student> Students;
 
 	public Group() {
 	}
@@ -81,6 +91,6 @@ public class Group {
 	@Override
 	public int hashCode() {
 
-		return Objects.hash(name, yearCreated, speciality);
+		return id != null ? id.hashCode() : 0;
 	}
 }

@@ -10,5 +10,5 @@ import java.util.List;
 public interface CourseRepository extends CrudRepository<Course, Long> {
     public List<Course> findByName(String name);
 
-    public List<Course> findAllByUser(User user);
+    //public List<Course> findAllByUser(User user);
 }

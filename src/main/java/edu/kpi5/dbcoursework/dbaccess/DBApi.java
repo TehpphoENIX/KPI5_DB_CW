@@ -64,7 +64,8 @@ public class DBApi {
         return null;
     }//join
     public List<Course> getCourseList(User user) {
-        return courseRepository.findAllByUser(user);
+        //return courseRepository.findAllByUser(user);
+        return null;
     }//join
     public MarksList getMarksOfCourse(String courseName){
         return null;
