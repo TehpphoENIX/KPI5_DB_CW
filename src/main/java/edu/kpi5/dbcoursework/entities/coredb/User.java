@@ -8,10 +8,11 @@ import java.util.Objects;
 @Table(name = "USER")
 public class User {
 
-    @Id
+    /*@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id;*/
 
+    @Id
     @OneToOne (mappedBy = "login")
     private String login;
 
@@ -27,10 +28,10 @@ public class User {
         this.accessLevel = accesslevel;
     }
 
-    public Long getId() {
+    /*public Long getId() {
 
         return id;
-    }
+    }*/
 
     public String getLogin() {
 
@@ -42,10 +43,10 @@ public class User {
         return accessLevel;
     }
 
-    public void setId(Long id) {
+    /*public void setId(Long id) {
 
         this.id = id;
-    }
+    }*/
 
     public void setLogin(String login) {
 
@@ -60,8 +61,8 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
+                /*"id=" + id +*/
+                ", login/id='" + login + '\'' +
                 ", accessLevel=" + accessLevel +
                 '}';
     }
@@ -77,13 +78,13 @@ public class User {
 
         User user = (User) o;
 
-        return login.equals(user.login)
-                && id.equals(user.id);
+        return login.equals(user.login);
+                /*&& id.equals(user.id);*/
     }
 
     @Override
     public int hashCode() {
 
-        return id != null ? id.hashCode() : 0;
+        return login != null ? login.hashCode() : 0;
     }
 }
