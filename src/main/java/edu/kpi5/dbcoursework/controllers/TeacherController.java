@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 @Controller
+@RequestMapping("teacher")
 public class TeacherController {
     @Resource(name = "sessionScopedBean")
     HttpSessionBean httpSessionBean;
@@ -78,18 +79,21 @@ public class TeacherController {
         return "redirect:/courses";
     }
     @GetMapping("courses/{course}")
-    public Course getCourse(@PathVariable(value = "course") String courseName) {
+    public String getCourse(@PathVariable(value = "course") String courseName, Model model) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
-        return handle.getCourse(courseName);
+        model.addAttribute("course", handle.getCourse(courseName));
+        return "course";
     }
     @GetMapping("courses/{course}/students")
-    public ArrayList<Student> getCourseStudents(@PathVariable(value = "course") String courseName) {
+    public String getCourseStudents(@PathVariable(value = "course") String courseName, Model model) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
-        return handle.getCourseStudents(courseName);
+        model.addAttribute("course-students", handle.getCourseStudents(courseName));
+        return "course-students";
     }
     @GetMapping("courses")
-    public ArrayList<Course> getCourseList() {
+    public String getCourseList(Model model) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
-        return handle.getCourseList();
+        model.addAttribute("courses", handle.getCourseList());
+        return "courses";
     }
 }

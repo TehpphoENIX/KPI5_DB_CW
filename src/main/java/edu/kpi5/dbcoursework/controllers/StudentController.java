@@ -16,6 +16,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 @Controller
+@RequestMapping(path="student")
 public class StudentController {
     @Resource(name = "sessionScopedBean")
     HttpSessionBean httpSessionBean;
