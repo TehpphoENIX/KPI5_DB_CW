@@ -1,8 +1,7 @@
 package edu.kpi5.dbcoursework.controllers;
 
-import edu.kpi5.dbcoursework.beans.HttpSessionBean;
-import edu.kpi5.dbcoursework.entities.Course;
-import edu.kpi5.dbcoursework.entities.Student;
+import edu.kpi5.dbcoursework.utility.HttpSessionBean;
+import edu.kpi5.dbcoursework.entities.coredb.Student;
 import edu.kpi5.dbcoursework.utility.MarksList;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Controller;

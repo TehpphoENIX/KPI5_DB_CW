@@ -1,4 +1,4 @@
-package edu.kpi5.dbcoursework.entities;
+package edu.kpi5.dbcoursework.entities.coredb;
 
 import java.util.Objects;
 

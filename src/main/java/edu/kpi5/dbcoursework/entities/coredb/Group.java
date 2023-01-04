@@ -1,8 +1,7 @@
-package edu.kpi5.dbcoursework.entities;
+package edu.kpi5.dbcoursework.entities.coredb;
 
 import jakarta.persistence.*;
 
-import java.util.Objects;
 import java.util.Set;
 
 @Entity

@@ -1,7 +1,6 @@
-package edu.kpi5.dbcoursework.dbaccess.repositories;
+package edu.kpi5.dbcoursework.dbaccess.coredb;
 
-import edu.kpi5.dbcoursework.entities.Course;
-import edu.kpi5.dbcoursework.entities.Group;
+import edu.kpi5.dbcoursework.entities.coredb.Group;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,16 +1,11 @@
 package edu.kpi5.dbcoursework.controllers;
 
-import edu.kpi5.dbcoursework.beans.HttpSessionBean;
-import edu.kpi5.dbcoursework.entities.Course;
+import edu.kpi5.dbcoursework.utility.HttpSessionBean;
 import edu.kpi5.dbcoursework.utility.MarksList;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
 
 @Controller
 @RequestMapping(path="student")

@@ -1,15 +1,12 @@
 package edu.kpi5.dbcoursework.controllers;
 
-import edu.kpi5.dbcoursework.beans.HttpSessionBean;
-import edu.kpi5.dbcoursework.entities.User;
+import edu.kpi5.dbcoursework.utility.HttpSessionBean;
 import edu.kpi5.dbcoursework.utility.Security;
 import edu.kpi5.dbcoursework.utility.UserForm;
-import io.netty.util.internal.StringUtil;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.util.StringUtils;
 
 /**
  * This is default web controller

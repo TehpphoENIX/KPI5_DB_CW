@@ -1,11 +1,8 @@
 package edu.kpi5.dbcoursework.dbaccess;
 
-import edu.kpi5.dbcoursework.dbaccess.repositories.*;
-import edu.kpi5.dbcoursework.entities.*;
+import edu.kpi5.dbcoursework.dbaccess.coredb.*;
+import edu.kpi5.dbcoursework.entities.coredb.*;
 import edu.kpi5.dbcoursework.utility.MarksList;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
-import org.springframework.web.context.annotation.SessionScope;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,26 +59,25 @@ public class DBApi {
     }
     public List<Student> getCourseStudents(String courseName) {
         return null;
-    }//join
+    }//join ToDo
     public List<Course> getCourseList(User user) {
-        //return courseRepository.findAllByUser(user);
-        return null;
-    }//join
+        return courseRepository.findAllByUser(user);
+    }//join ToDo
     public MarksList getMarksOfCourse(String courseName){
         return null;
-    }//Mongodb
+    }//Mongodb ToDo
     public MarksList getMarksOfCourse(String courseName, String studentName){
         return null;
-    }//Mongodb
+    }//Mongodb ToDo
     public int setMarks(String courseName, MarksList marksList){
         return 0;
-    }//Mongodb
+    }//Mongodb ToDo
     public int setExam(String courseName, MarksList marksList){
         return 0;
-    }//Mongodb
+    }//Mongodb ToDo
     public int setSocialWork(String courseName, MarksList marksList){
         return 0;
-    }//Mongodb
+    }//Mongodb ToDo
 
     public boolean addGroup(String groupName) {
         return false;
@@ -132,14 +128,17 @@ public class DBApi {
         return 0;
     }
     public List<Student> getKickList() {
-        return studentRepository.getKickList();
+        //return studentRepository.getKickList();
+        return null;
     }
     public List<Student> getScholarshipList(boolean increased) {
         if(increased){
-            return studentRepository.getIncreasedScholarshipList();
+            //return studentRepository.getIncreasedScholarshipList();
+            return null;
         }else
         {
-            return studentRepository.getScholarshipList();
+            //return studentRepository.getScholarshipList();
+            return null;
         }
     }
     public List<Student> getAllStudents() {
