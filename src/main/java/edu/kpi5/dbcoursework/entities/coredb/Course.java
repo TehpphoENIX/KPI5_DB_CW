@@ -7,17 +7,26 @@ import java.util.*;
 @Entity
 @Table(name="COURSE")
 public class Course {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
 	@Column(name="course_name", length=50, nullable=false, unique=false)
 	private String name;
+
 	@ManyToMany
 	@JoinTable(name = "student_course",
 			joinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"),
 			inverseJoinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id")
 	)
 	private Set<Student> students = new HashSet<>();
+
+	@ManyToMany
+	@JoinTable(name = "teacher_course",
+		joinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"),
+		inverseJoinColumns = @JoinColumn(name = "teacher_id", referencedColumnName = "id"))
+	private Set<Teacher> teachers = new HashSet<>();
 
 	//private ArrayList<AbstractMap.SimpleEntry<String, ArrayList
 	//		<AbstractMap.SimpleEntry<String, Float>>>> field;

@@ -7,28 +7,40 @@ import java.util.Set;
 @Entity
 @Table(name = "FGROUP")
 public class Group {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
 	@Column(name = "group_name", length = 50, nullable = false)
 	private String name;
+
 	@Column(name = "group_year", nullable = false)
 	private Integer yearCreated;
+
 	@Column(name = "group_spec", nullable = false)
 	private Short speciality;
+
+	@ManyToOne
+	@JoinColumn(name="group_department")
+	private Department department;
+
 	@OneToMany(mappedBy = "group")
 	private Set<Student> Students;
 
 	public Group() {
 	}
 
-	public Group(String name, Integer yearCreated, Short speciality) {
+	public Group(String name, Integer yearCreated,
+	             Short speciality, Department department) {
 
 		this.name = name;
 
 		this.yearCreated = yearCreated;
 
 		this.speciality = speciality;
+
+		this.department = department;
 	}
 
 	public String getName() {
@@ -46,6 +58,11 @@ public class Group {
 		return speciality;
 	}
 
+	public Department getDepartment() {
+
+		return department;
+	}
+
 	public void setName(String name) {
 
 		this.name = name;
@@ -61,6 +78,11 @@ public class Group {
 		this.speciality = speciality;
 	}
 
+	public void setDepartment(Department department) {
+
+		this.department = department;
+	}
+
 	@Override
 	public String toString() {
 
@@ -68,6 +90,7 @@ public class Group {
 				"name='" + name + '\'' +
 				", yearCreated=" + yearCreated +
 				", speciality=" + speciality +
+				", department=" + department.getName() +
 				'}';
 	}
 
