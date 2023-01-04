@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class StudentController {
     @Resource(name = "sessionScopedBean")
     HttpSessionBean httpSessionBean;
-    @GetMapping(path="menu")
+    @GetMapping(path="/menu")
     public String menu(Model model){
         model.addAttribute("name",httpSessionBean.getAppHandle().getUser().getLogin());
         return "student-menu";
@@ -29,7 +29,7 @@ public class StudentController {
 //    public String marksSummary() {
 //        return "list";
 //    }
-    @GetMapping(path="courses")
+    @GetMapping(path="/courses")
     public String GetMyCourses() {
         return "course-list";
     }
@@ -39,13 +39,13 @@ public class StudentController {
         model.addAttribute("marks", handle.GetMarksOfCourse(course));
         return "marks-list";
     }
-    @GetMapping(path="courses/{course}/RSO")
+    @GetMapping(path="/courses/{course}/RSO")
     public String GetRSOOfCourse(Model model, @PathVariable(value = "course") Long course) {
         StudentHandle handle = (StudentHandle) httpSessionBean.getAppHandle();
         model.addAttribute("RSO", handle.GetRSOOfCourse(course));
         return "RSO";
     }
-    @GetMapping(path="scholarship")
+    @GetMapping(path="/scholarship")
     public String CheckScholarship(Model model) {
         StudentHandle handle = (StudentHandle) httpSessionBean.getAppHandle();
         model.addAttribute("scholarship", handle.CheckScholarship());
