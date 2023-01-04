@@ -2,10 +2,13 @@ package edu.kpi5.dbcoursework.controllers;
 
 import edu.kpi5.dbcoursework.beans.HttpSessionBean;
 import edu.kpi5.dbcoursework.entities.Course;
+import edu.kpi5.dbcoursework.userhandles.StudentHandle;
 import edu.kpi5.dbcoursework.utility.MarksList;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.lang.reflect.InvocationHandler;
@@ -17,7 +20,7 @@ import java.util.ArrayList;
 public class StudentController {
     @Resource(name = "sessionScopedBean")
     HttpSessionBean httpSessionBean;
-    @RequestMapping(path="menu")
+    @GetMapping(path="/menu")
     public String menu(Model model){
         model.addAttribute("name",httpSessionBean.getAppHandle().getUser().getLogin());
         return "student-menu";
@@ -26,20 +29,26 @@ public class StudentController {
 //    public String marksSummary() {
 //        return "list";
 //    }
-    @RequestMapping(path="courses")
+    @GetMapping(path="/courses")
     public String GetMyCourses() {
         return "course-list";
     }
-    @RequestMapping(path="courses/{course}/marks")
-    public String GetMarksOfCourse() {
+    @GetMapping(path="courses/{course}/marks")
+    public String GetMarksOfCourse(Model model, @PathVariable(value = "course") Long course) {
+        StudentHandle handle = (StudentHandle) httpSessionBean.getAppHandle();
+        model.addAttribute("marks", handle.GetMarksOfCourse(course));
         return "marks-list";
     }
-    @RequestMapping(path="courses/{course}/RSO")
-    public MarksList GetRSOOfCourse(String courseName) {
-        return null;
+    @GetMapping(path="/courses/{course}/RSO")
+    public String GetRSOOfCourse(Model model, @PathVariable(value = "course") Long course) {
+        StudentHandle handle = (StudentHandle) httpSessionBean.getAppHandle();
+        model.addAttribute("RSO", handle.GetRSOOfCourse(course));
+        return "RSO";
     }
-    @RequestMapping(path="scholarship")
-    public int CheckScholarship() {
-        return 0;
+    @GetMapping(path="/scholarship")
+    public String CheckScholarship(Model model) {
+        StudentHandle handle = (StudentHandle) httpSessionBean.getAppHandle();
+        model.addAttribute("scholarship", handle.CheckScholarship());
+        return "scholarship";
     }
 }

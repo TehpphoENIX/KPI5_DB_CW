@@ -7,8 +7,6 @@ public class User {
     private String login;
     private AccessLevel accessLevel;
 
-    private AccessLevel accessLevel;
-
     public User() {}
 
     public User(String login, AccessLevel accesslevel) {

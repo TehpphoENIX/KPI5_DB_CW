@@ -19,11 +19,11 @@ public class StudentHandle extends Handle{
         return null;
     }
 
-    public MarksList GetMarksOfCourse(String courseName) {
+    public MarksList GetMarksOfCourse(Long courseId) {
         return null;
     }
 
-    public MarksList GetRSOOfCourse(String courseName) {
+    public MarksList GetRSOOfCourse(Long courseId) {
         return null;
     }
 
