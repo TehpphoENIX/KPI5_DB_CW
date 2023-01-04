@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>MyApp</title>
+</head>
+<body>
+<h1>Студенти курсу:</h1>
+<div th:each="el:${course-students}">
+  <button th:text="${el.name} ${el.surname}"/>
+</div>
+</body>
+</html>
