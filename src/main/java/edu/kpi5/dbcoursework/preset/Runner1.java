@@ -5,6 +5,7 @@ import edu.kpi5.dbcoursework.dbaccess.coredb.GroupRepository;
 import edu.kpi5.dbcoursework.dbaccess.coredb.StudentRepository;
 import edu.kpi5.dbcoursework.dbaccess.marksdb.MarksListRepository;
 import edu.kpi5.dbcoursework.entities.coredb.Course;
+import edu.kpi5.dbcoursework.entities.coredb.Department;
 import edu.kpi5.dbcoursework.entities.coredb.Group;
 import edu.kpi5.dbcoursework.entities.coredb.Student;
 import edu.kpi5.dbcoursework.entities.marksdb.MarksList;
@@ -31,8 +32,9 @@ public class Runner1 implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception{
         System.out.println("runner 1");
-        Group da01 = new Group("DA-01",2020,(short)122);
-        Student name = new Student("Name","Surname",da01,1,(short)1,1.0f,false);
+        Department d = new Department("d");
+        Group da01 = new Group("DA-01",2020,(short)122,);
+        Student name = new Student("","A","Surname",da01,1,(short)1,1.0f,false);
         Course spring = new Course("Spring");
         MarksList marks = new MarksList("test",new ArrayList<>());
         marks.getField().add(new MarksList.Mark("mark2",2));

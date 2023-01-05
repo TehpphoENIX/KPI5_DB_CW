@@ -6,14 +6,15 @@ import jakarta.persistence.*;
 @Table(name = "STUDENT_COURSE_MARKS")
 public class StudentCourseMarks {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @ManyToOne
     @JoinColumn(name="student_id")
     private Student student;
 
+    @Id
     @ManyToOne
     @JoinColumn(name="course_id")
     private Course course;
+
+    @Column(name = "total_points")
+    private Integer totalPoints;
 }
