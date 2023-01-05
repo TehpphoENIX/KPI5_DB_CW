@@ -22,6 +22,7 @@ public class Course {
 	)
 	private Set<Student> students = new HashSet<>();
 
+
 	@ManyToMany
 	@JoinTable(name = "teacher_course",
 		joinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"),
@@ -66,11 +67,11 @@ public class Course {
 		this.id = id;
 	}
 
-	public Set<Student> getStudents() {
+	public Set<StudentCourseMarks> getStudents() {
 		return students;
 	}
 
-	public void setStudents(Set<Student> students) {
+	public void setStudents(Set<StudentCourseMarks> students) {
 		this.students = students;
 	}
 

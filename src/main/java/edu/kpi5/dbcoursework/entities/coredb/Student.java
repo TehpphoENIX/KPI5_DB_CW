@@ -39,8 +39,9 @@ public class Student {
 	@Column(name = "student_sw")
 	private Boolean socialWork;
 
-	@ManyToMany(mappedBy = "students")
-	private Set<Course> courses = new HashSet<>();
+	@OneToMany(mappedBy = "student")
+	private Set<StudentCourseMarks> courses = new HashSet<>();
+
 
 	public Student() {
 	}
@@ -95,6 +96,7 @@ public class Student {
 
 		return socialWork;
 	}
+
 	public Set<Course> getCourses() {
 
 		return courses;
@@ -137,6 +139,7 @@ public class Student {
 
 		this.socialWork = socialWork;
 	}
+
 	public void setCourses(Set<Course> courses) {
 
 		this.courses = courses;
