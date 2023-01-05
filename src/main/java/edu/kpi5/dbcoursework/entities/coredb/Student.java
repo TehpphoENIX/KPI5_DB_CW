@@ -26,8 +26,8 @@ public class Student {
 	private Float averageMark;
 	@Column(name = "student_sw")
 	private Boolean socialWork;
-	@ManyToMany(mappedBy = "students")
-	private Set<Course> courses = new HashSet<>();
+	@OneToMany(mappedBy = "student")
+	private Set<StudentCourseMarks> courses = new HashSet<>();
 
 	public Student() {
 	}
@@ -67,7 +67,7 @@ public class Student {
 	public Boolean getSocialWork() {
 		return socialWork;
 	}
-	public Set<Course> getCourses() {
+	public Set<StudentCourseMarks> getCourses() {
 		return courses;
 	}
 
@@ -95,7 +95,7 @@ public class Student {
 	public void setSocialWork(Boolean socialWork) {
 		this.socialWork = socialWork;
 	}
-	public void setCourses(Set<Course> courses) {
+	public void setCourses(Set<StudentCourseMarks> courses) {
 		this.courses = courses;
 	}
 
