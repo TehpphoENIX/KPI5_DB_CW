@@ -22,7 +22,7 @@ public interface StudentRepository extends CrudRepository<Student,Long> {
     List<Student> getScholarshipList();
     @Query(
             value = """
-                    SELECT s.name, s.s_id
+                    SELECT s.*
                     FROM students s, (
                         SELECT s.s_id AS i, COUNT(m.mark) AS c
                     FROM students s
