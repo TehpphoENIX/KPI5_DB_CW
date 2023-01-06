@@ -1,4 +1,4 @@
-package edu.kpi5.dbcoursework.entities;
+package edu.kpi5.dbcoursework.entities.coredb;
 
 public enum AccessLevel {
     none,

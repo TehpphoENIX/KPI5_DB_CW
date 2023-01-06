@@ -1,6 +1,6 @@
 package edu.kpi5.dbcoursework.controllers;
 
-import edu.kpi5.dbcoursework.beans.HttpSessionBean;
+import edu.kpi5.dbcoursework.utility.HttpSessionBean;
 import edu.kpi5.dbcoursework.dbaccess.repositories.CourseRepository;
 import edu.kpi5.dbcoursework.dbaccess.repositories.GroupRepository;
 import edu.kpi5.dbcoursework.dbaccess.repositories.StudentRepository;

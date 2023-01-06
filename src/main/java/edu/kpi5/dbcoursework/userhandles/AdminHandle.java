@@ -1,7 +1,7 @@
 package edu.kpi5.dbcoursework.userhandles;
 
 import edu.kpi5.dbcoursework.dbaccess.DBApi;
-import edu.kpi5.dbcoursework.entities.*;
+import edu.kpi5.dbcoursework.entities.coredb.*;
 import org.springframework.data.util.Pair;
 
 import java.util.ArrayList;
