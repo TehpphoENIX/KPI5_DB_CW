@@ -10,9 +10,15 @@ import java.util.List;
 public interface StudentRepository extends CrudRepository<Student,Long> {
     //wrong query
     @Query(
-            value = "" +
-                    "SELECT * " +
-                    "FROM USERS u",
+            value = """
+                    SELECT s.*
+                    FROM STUDENT s, (
+                       SELECT s.id AS i, COUNT(m.total_points) AS c
+                    	FROM STUDENT s
+                       	JOIN STUDENT_COURSE_MARKS m ON m.student_id = s.id
+                       	WHERE m.total_points <= 2
+                       	GROUP BY s.id) all_bad_marks
+                       WHERE all_bad_marks.c > 2 AND all_bad_marks.i = s.id;""",
             nativeQuery = true)
     List<Student> getKickList();
     @Query(
