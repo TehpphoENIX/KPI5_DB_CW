@@ -1,6 +1,6 @@
 package edu.kpi5.dbcoursework.controllers;
 
-import edu.kpi5.dbcoursework.beans.HttpSessionBean;
+import edu.kpi5.dbcoursework.utility.HttpSessionBean;
 import edu.kpi5.dbcoursework.entities.Course;
 import edu.kpi5.dbcoursework.userhandles.StudentHandle;
 import edu.kpi5.dbcoursework.utility.MarksList;
