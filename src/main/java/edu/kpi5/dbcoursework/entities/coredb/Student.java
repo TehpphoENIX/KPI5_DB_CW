@@ -97,11 +97,6 @@ public class Student {
 		return socialWork;
 	}
 
-	public Set<Course> getCourses() {
-
-		return courses;
-	}
-
 	public void setId(Long id) {
 
 		this.id = id;
@@ -138,11 +133,6 @@ public class Student {
 	public void setSocialWork(Boolean socialWork) {
 
 		this.socialWork = socialWork;
-	}
-
-	public void setCourses(Set<Course> courses) {
-
-		this.courses = courses;
 	}
 
 	@Override

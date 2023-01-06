@@ -33,7 +33,7 @@ public class Runner1 implements CommandLineRunner {
     public void run(String... args) throws Exception{
         System.out.println("runner 1");
         Department d = new Department("d");
-        Group da01 = new Group("DA-01",2020,(short)122,);
+        Group da01 = new Group("DA-01",2020,(short)122,d);
         Student name = new Student("","A","Surname",da01,1,(short)1,1.0f,false);
         Course spring = new Course("Spring");
         MarksList marks = new MarksList("test",new ArrayList<>());

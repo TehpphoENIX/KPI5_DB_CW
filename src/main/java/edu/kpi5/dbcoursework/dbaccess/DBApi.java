@@ -57,8 +57,8 @@ public class DBApi {
     public List<Course> getCourse(String courseName) {
         return courseRepository.findByName(courseName);
     }
-    public List<Student> getCourseStudents(String courseName) {
-        return null;
+    public List<Student> getCourseStudents(Course course) {
+        return courseRepository.getStudentsByCourse(course.getId());
     }//join ToDo
     public List<Course> getCourseList(User user) {
         return courseRepository.findAllByUser(user);
