@@ -13,7 +13,8 @@ public class User {
     private Long id;*/
 
     @Id
-    @OneToOne (mappedBy = "login")
+    @Column(name = "login", length = 25, nullable = false)
+    //@OneToOne (mappedBy = "login")
     private String login;
 
     @Column(name = "access_level", length = 8, nullable = false)

@@ -1,9 +1,10 @@
 package edu.kpi5.dbcoursework.entities.coredb;
 
 import jakarta.persistence.*;
+import org.springframework.data.mongodb.repository.CountQuery;
 
 @Entity
-@Table(name = "STUDENT_COURSE_MARKS")
+@Table(name = "student_course_marks")
 public class StudentCourseMarks {
     @Id
     @ManyToOne
@@ -17,4 +18,7 @@ public class StudentCourseMarks {
 
     @Column(name = "total_points")
     private Integer totalPoints;
+
+    @Column(name = "social_work")
+    private Integer socialWork;
 }

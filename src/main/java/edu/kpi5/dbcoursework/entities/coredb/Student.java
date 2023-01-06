@@ -13,7 +13,7 @@ public class Student {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@OneToOne
+	//@OneToOne
 	@JoinColumn(name = "student_login")
 	private String login;
 

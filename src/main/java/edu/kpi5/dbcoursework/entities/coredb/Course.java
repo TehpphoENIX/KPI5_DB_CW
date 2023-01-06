@@ -7,53 +7,27 @@ import java.util.*;
 @Entity
 @Table(name="COURSE")
 public class Course {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
 	@Column(name="course_name", length=50, nullable=false, unique=false)
 	private String name;
-
-	@ManyToMany
-	@JoinTable(name = "student_course",
-			joinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"),
-			inverseJoinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id")
-	)
-	private Set<Student> students = new HashSet<>();
-
-
+	@OneToMany(mappedBy = "course")
+	private Set<StudentCourseMarks> marks;
 	@ManyToMany
 	@JoinTable(name = "teacher_course",
 		joinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"),
 		inverseJoinColumns = @JoinColumn(name = "teacher_id", referencedColumnName = "id"))
 	private Set<Teacher> teachers = new HashSet<>();
-
-	//private ArrayList<AbstractMap.SimpleEntry<String, ArrayList
-	//		<AbstractMap.SimpleEntry<String, Float>>>> field;
-
 	public Course() {
 	}
-
 	public Course(String name) {
 		this.name = name;
 	}
-
-//	public Course(String name, ArrayList<AbstractMap.SimpleEntry<String,
-//			ArrayList<AbstractMap.SimpleEntry<String, Float>>>> field) {
-//		this.name = name;
-//
-//	//	this.field = field;
-//	}
 	public String getName() {
 
 		return name;
 	}
-
-	//public ArrayList<AbstractMap.SimpleEntry<String,
-	//		ArrayList<AbstractMap.SimpleEntry<String, Float>>>> getField() {
-	//	return field;
-	//}
 	public void setName(String name) {
 
 		this.name = name;
@@ -67,18 +41,21 @@ public class Course {
 		this.id = id;
 	}
 
-	public Set<StudentCourseMarks> getStudents() {
-		return students;
+	public Set<StudentCourseMarks> getMarks() {
+		return marks;
 	}
 
-	public void setStudents(Set<StudentCourseMarks> students) {
-		this.students = students;
+	public void setMarks(Set<StudentCourseMarks> marks) {
+		this.marks = marks;
 	}
 
-	//public void setField(ArrayList<AbstractMap.SimpleEntry<String,
-	//		ArrayList<AbstractMap.SimpleEntry<String, Float>>>> field) {
-	//	this.field = field;
-	//}
+	public Set<Teacher> getTeachers() {
+		return teachers;
+	}
+
+	public void setTeachers(Set<Teacher> teachers) {
+		this.teachers = teachers;
+	}
 
 	@Override
 	public String toString() {
@@ -88,7 +65,6 @@ public class Course {
 				//", field=" + field +
 				'}';
 	}
-
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)

@@ -3,7 +3,7 @@ package edu.kpi5.dbcoursework.entities.coredb;
 import jakarta.persistence.*;
 
 import java.util.Set;
-
+@Entity
 public class Department {
 
 	@Id

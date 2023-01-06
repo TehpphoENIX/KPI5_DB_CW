@@ -16,7 +16,7 @@ public class Teacher {
 	@GeneratedValue(strategy =  GenerationType.IDENTITY)
 	private Long id;
 
-	@OneToOne
+	//@OneToOne
 	@JoinColumn(name = "teacher_login")
 	private String login;
 

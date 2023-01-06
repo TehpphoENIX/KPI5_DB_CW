@@ -3,6 +3,8 @@ package edu.kpi5.dbcoursework.dbaccess;
 import edu.kpi5.dbcoursework.dbaccess.coredb.*;
 import edu.kpi5.dbcoursework.entities.coredb.*;
 import edu.kpi5.dbcoursework.utility.MarksList;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.context.annotation.SessionScope;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +30,8 @@ public class DBApi {
         this.userRepository = userRepository;
     }
 
-    //@Bean
-    //@SessionScope
+    @Bean
+    @SessionScope
     public DBApi dbApiBean(CourseRepository courseRepository,
                            GroupRepository groupRepository,
                            StudentRepository studentRepository,
@@ -42,27 +44,43 @@ public class DBApi {
                 userRepository);
     }
 
-    //create new course with "courseName" and add students from "groups" to it.
-    //
-    public boolean addCourse(String courseName, ArrayList<String> groups){
-        return false;
+
+    public void addCourse(String courseName){
+        courseRepository.save(new Course(courseName));
     }
-    public boolean editCourse(String courseName, String newCourseName) {
-        return false;
+    public void editCourse(Course course) {
+        courseRepository.save(course);
     }
-    public boolean removeCourse(Long courseID) {
+    public void removeCourse(Long courseID) {
         courseRepository.deleteById(courseID);
-        return false;
     }
-    public List<Course> getCourse(String courseName) {
-        return courseRepository.findByName(courseName);
+    public Course getCourse(Long courseId) {
+        var out = courseRepository.findById(courseId);
+        if(out.isPresent()){
+            return out.get();
+        }else{
+            return null;
+        }
     }
     public List<Student> getCourseStudents(Course course) {
         return courseRepository.getStudentsByCourse(course.getId());
-    }//join ToDo
+    }
     public List<Course> getCourseList(User user) {
-        return courseRepository.findAllByUser(user);
-    }//join ToDo
+        switch (user.getAccessLevel()){
+            case student -> {
+                return courseRepository.findAllByStudentLogin(user.getLogin());
+            }
+            case teacher -> {
+                return courseRepository.findAllByTeacherLogin(user.getLogin());
+            }
+            case admin -> {
+                return courseRepository.findAll();
+            }
+            default -> {
+                return null;
+            }
+        }
+    }
     public MarksList getMarksOfCourse(String courseName){
         return null;
     }//Mongodb ToDo
@@ -78,22 +96,33 @@ public class DBApi {
     public int setSocialWork(String courseName, MarksList marksList){
         return 0;
     }//Mongodb ToDo
-
-    public boolean addGroup(String groupName) {
-        return false;
+    public void addGroup(String groupName, Integer groupYear, Short groupSpec, Department department) {
+        Group group = new Group(groupName, groupYear, groupSpec, department);
+        groupRepository.save(group);
     }
-    public boolean editGroup(String groupName) {
-        return false;
+    public void editGroup(Group group) {
+        groupRepository.save(group);
     }
-    public boolean addStudentsToGroup(String groupName, List<String> Students){
-        return false;
+    public boolean addStudentsToGroup(Long groupId, List<Student> students){
+        var optionalGroup = groupRepository.findById(groupId);
+        if(optionalGroup.isPresent()){
+            optionalGroup.get().getStudents().addAll(students);
+            groupRepository.save(optionalGroup.get());
+            return false;
+        }else{
+            return true;
+        }
     }
-    public boolean removeGroup(Long groupID) {
+    public void removeGroup(Long groupID) {
         groupRepository.deleteById(groupID);
-        return false;
     }
-    public List<Group> getGroup(String groupName) {
-        return groupRepository.findByName(groupName);
+    public Group getGroup(Long groupID) {
+        var out = groupRepository.findById(groupID);
+        if(out.isPresent()){
+            return out.get();
+        }else{
+            return null;
+        }
     }
     public List<Group> getGroupList() {
         return groupRepository.findAll();
@@ -101,14 +130,13 @@ public class DBApi {
 
     public boolean createUser(String userName, AccessLevel level, String password) {
         return false;
-    }//Neo4j
+    }//Neo4j todo
     public boolean editUser(String userName, AccessLevel level, String password) {
         return false;
-    }//Neo4j
-    public int removeUsers(List<String> userNames) {
+    }//Neo4j todo
+    public void removeUsers(List<String> userNames) {
         userRepository.deleteAllById(userNames);
-        return 0;
-    }
+    }//Neo4j todo
     public User getUser(String userName) {
         var out = userRepository.findById(userName);
         if(out.isPresent()){
@@ -116,21 +144,21 @@ public class DBApi {
         }else{
             return null;
         }
-    }
+    }//Neo4j todo
     public User loginToUser(String userName, String password) {
         return null;
-    }//Neo4j method
+    }//Neo4j todo
     public List<User> getUserList() {
         return userRepository.findAll();
-    }
+    }//Neo4j todo
 
     public int applyScholarship(List<Student> listOfStudents, boolean increased) {
         return 0;
-    }
+    }//todo
     public List<Student> getKickList() {
         //return studentRepository.getKickList();
         return null;
-    }
+    }//todo
     public List<Student> getScholarshipList(boolean increased) {
         if(increased){
             //return studentRepository.getIncreasedScholarshipList();
@@ -140,7 +168,7 @@ public class DBApi {
             //return studentRepository.getScholarshipList();
             return null;
         }
-    }
+    }//todo
     public List<Student> getAllStudents() {
         return studentRepository.findAll();
     }

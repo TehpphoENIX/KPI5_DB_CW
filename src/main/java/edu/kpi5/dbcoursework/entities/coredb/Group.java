@@ -43,44 +43,52 @@ public class Group {
 		this.department = department;
 	}
 
-	public String getName() {
+	public Long getId() {
+		return id;
+	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getName() {
 		return name;
 	}
 
-	public Integer getYearCreated() {
-
-		return yearCreated;
-	}
-
-	public Short getSpeciality() {
-
-		return speciality;
-	}
-
-	public Department getDepartment() {
-
-		return department;
-	}
-
 	public void setName(String name) {
-
 		this.name = name;
 	}
 
-	public void setYearCreated(Integer yearCreated) {
+	public Integer getYearCreated() {
+		return yearCreated;
+	}
 
+	public void setYearCreated(Integer yearCreated) {
 		this.yearCreated = yearCreated;
 	}
 
-	public void setSpeciality(Short speciality) {
+	public Short getSpeciality() {
+		return speciality;
+	}
 
+	public void setSpeciality(Short speciality) {
 		this.speciality = speciality;
 	}
 
-	public void setDepartment(Department department) {
+	public Department getDepartment() {
+		return department;
+	}
 
+	public void setDepartment(Department department) {
 		this.department = department;
+	}
+
+	public Set<Student> getStudents() {
+		return Students;
+	}
+
+	public void setStudents(Set<Student> students) {
+		Students = students;
 	}
 
 	@Override
