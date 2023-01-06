@@ -81,10 +81,10 @@ public class DBApi {
             }
         }
     }
-    public MarksList getMarksOfCourse(String courseName){
+    public MarksList getMarksOfCourse(Long courseId){
         return null;
     }//Mongodb ToDo
-    public MarksList getMarksOfCourse(String courseName, String studentName){
+    public MarksList getMarksOfCourse(Long courseId, Long studentId){
         return null;
     }//Mongodb ToDo
     public int setMarks(String courseName, MarksList marksList){
