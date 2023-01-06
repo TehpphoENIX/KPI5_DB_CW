@@ -41,4 +41,8 @@ public class MarksList {
     public void setField(ArrayList<Mark> field) {
         this.field = field;
     }
+
+    public static String calcId(Long courseId, Long studentId){
+        return courseId + "_" + studentId;
+    }
 }

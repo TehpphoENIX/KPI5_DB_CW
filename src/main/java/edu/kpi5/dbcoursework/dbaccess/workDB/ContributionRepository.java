@@ -1,4 +1,4 @@
-package edu.kpi5.dbcoursework.dbaccess.repositories.workDB;
+package edu.kpi5.dbcoursework.dbaccess.workDB;
 
 import edu.kpi5.dbcoursework.entities.workDB.RedisEntity;
 import org.springframework.data.repository.CrudRepository;

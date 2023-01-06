@@ -55,37 +55,27 @@ public class AdminHandle extends TeacherHandle{
     public ArrayList<User> getUserList(DBApi object) {
         return new ArrayList<>(object.getUserList());
     }
-    public void addGroup(String groupName, DBApi object) {
+    public void addGroup(String groupName, Integer groupYear, Short groupSpec, Department department, DBApi object) {
+            object.addGroup(groupName, groupYear, groupSpec, department);
+    }
+    public void editGroup(Group group, DBApi object) {
         try{
-            object.addGroup(groupName);
+            object.editGroup(group);
         }catch (Exception e){
 
         }
     }
-    public void editGroup(String groupName, DBApi object) {
-        try{
-            object.editGroup(groupName);
-        }catch (Exception e){
 
-        }
+    public void addStudentsToGroup(Long groupId, ArrayList<Student> students, DBApi object){
+        object.addStudentsToGroup(groupId,students);
     }
 
-    public boolean addStudentsToGroup(String groupName, ArrayList<Student> students, DBApi object){
-        var studentNames = new ArrayList<String>();
-        for(var a : students)
-            studentNames.add(a.getLogin());
-        if(object.addStudentsToGroup(groupName, studentNames)) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean removeGroup(Long groupId, DBApi object){
+    public void removeGroup(Long groupId, DBApi object){
         object.removeGroup(groupId);
     }
 
-    public Group getGroup(String groupName, DBApi object){
-        return object.getGroup(groupName);
+    public Group getGroup(Long groupId, DBApi object){
+        return object.getGroup(groupId);
     }
 
     public ArrayList<Group> getGroupList(DBApi object){

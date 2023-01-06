@@ -1,12 +1,8 @@
 package edu.kpi5.dbcoursework.controllers;
 
+import edu.kpi5.dbcoursework.dbaccess.DBApi;
 import edu.kpi5.dbcoursework.utility.HttpSessionBean;
-import edu.kpi5.dbcoursework.dbaccess.repositories.CourseRepository;
-import edu.kpi5.dbcoursework.dbaccess.repositories.GroupRepository;
-import edu.kpi5.dbcoursework.dbaccess.repositories.StudentRepository;
-import edu.kpi5.dbcoursework.entities.Course;
-import edu.kpi5.dbcoursework.entities.Student;
-import edu.kpi5.dbcoursework.userhandles.StudentHandle;
+import edu.kpi5.dbcoursework.entities.coredb.*;
 import edu.kpi5.dbcoursework.userhandles.TeacherHandle;
 import edu.kpi5.dbcoursework.utility.MarksList;
 import jakarta.annotation.Resource;
@@ -14,15 +10,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("teacher")
 public class TeacherController {
     @Resource(name = "sessionScopedBean")
     HttpSessionBean httpSessionBean;
+
+    @Resource(name = "dbApiBean")
+    DBApi dbApi;
 
     @GetMapping("/menu")
     public String menu(Model model){
@@ -33,13 +30,13 @@ public class TeacherController {
     public String setAttestation(@PathVariable(value = "course") String courseName, @RequestParam MarksList marksList) {
 
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
-        handle.setAttestation(courseName, marksList);
+        handle.setAttestation(courseName, marksList, dbApi);
         return "redirect:/courses/{course}";
     }
     @PostMapping("/courses/{course}/mark/set")
-    public String setMark(@PathVariable(value = "course") String courseName, @RequestParam Student student,@RequestParam int mark) {
+    public String setMark(@PathVariable(value = "course") String courseName, @RequestParam Student student, @RequestParam int mark) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
-        handle.setMark(courseName, student, mark);
+        handle.setMark(courseName, student, mark, dbApi);
         return "redirect:/courses/{course}";
     }
     @PostMapping("/courses/{course}/marks/set")
@@ -81,13 +78,13 @@ public class TeacherController {
     @GetMapping("/courses/{course}")
     public String getCourse(@PathVariable(value = "course") String courseName, Model model) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
-        model.addAttribute("course", handle.getCourse(courseName));
+        model.addAttribute("course", handle.getCourse(courseName, dbApi));
         return "course";
     }
     @GetMapping("/courses/{course}/students")
     public String getCourseStudents(@PathVariable(value = "course") String courseName, Model model) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
-        model.addAttribute("course-students", handle.getCourseStudents(courseName));
+        model.addAttribute("course-students", handle.getCourseStudents(courseName, dbApi));
         return "course-students";
     }
     @GetMapping("/courses")

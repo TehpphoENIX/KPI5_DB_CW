@@ -1,8 +1,10 @@
 package edu.kpi5.dbcoursework.dbaccess;
 
 import edu.kpi5.dbcoursework.dbaccess.coredb.*;
+import edu.kpi5.dbcoursework.dbaccess.marksdb.MarksListRepository;
 import edu.kpi5.dbcoursework.entities.coredb.*;
-import edu.kpi5.dbcoursework.utility.MarksList;
+import edu.kpi5.dbcoursework.entities.marksdb.MarksList;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.context.annotation.SessionScope;
 
@@ -11,37 +13,27 @@ import java.util.List;
 
 //@Component
 public class DBApi {
-
+    //MySQL
+    @Autowired
     private CourseRepository courseRepository;
+    @Autowired
     private GroupRepository groupRepository;
+    @Autowired
     private StudentRepository studentRepository;
+    @Autowired
     private TeacherRepository teacherRepository;
+    @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private SCMRepository scmRepository;
+    //MongoDB
+    @Autowired
+    private MarksListRepository marksListRepository;
     //@Autowired
-    public DBApi(CourseRepository courseRepository,
-                 GroupRepository groupRepository,
-                 StudentRepository studentRepository,
-                 TeacherRepository teacherRepository,
-                 UserRepository userRepository) {
-        this.courseRepository = courseRepository;
-        this.groupRepository = groupRepository;
-        this.studentRepository = studentRepository;
-        this.teacherRepository = teacherRepository;
-        this.userRepository = userRepository;
-    }
-
     @Bean
     @SessionScope
-    public DBApi dbApiBean(CourseRepository courseRepository,
-                           GroupRepository groupRepository,
-                           StudentRepository studentRepository,
-                           TeacherRepository teacherRepository,
-                           UserRepository userRepository){
-        return new DBApi(courseRepository,
-                groupRepository,
-                studentRepository,
-                teacherRepository,
-                userRepository);
+    public DBApi dbApiBean(){
+        return new DBApi();
     }
 
 
@@ -81,12 +73,30 @@ public class DBApi {
             }
         }
     }
-    public MarksList getMarksOfCourse(Long courseId){
-        return null;
-    }//Mongodb ToDo
+    public List<MarksList> getMarksOfCourse(Long courseId){
+        List<StudentCourseMarks> markslists = scmRepository.findByCourseId(courseId);
+        ArrayList<MarksList> matrix = new ArrayList<>();
+        for (var item :
+                markslists) {
+            var out = marksListRepository.findById(
+                    MarksList.calcId(
+                            item.getCourse().getId(),
+                            item.getStudent().getId()
+                    )
+            );
+            if(out.isPresent())
+                matrix.add(out.get());
+        }
+        return matrix;
+    }
     public MarksList getMarksOfCourse(Long courseId, Long studentId){
-        return null;
-    }//Mongodb ToDo
+        var out = marksListRepository.findById(MarksList.calcId(courseId,studentId));
+        if(out.isPresent()){
+            return out.get();
+        }else {
+            return null;
+        }
+    }
     public int setMarks(String courseName, MarksList marksList){
         return 0;
     }//Mongodb ToDo
@@ -152,23 +162,24 @@ public class DBApi {
         return userRepository.findAll();
     }//Neo4j todo
 
-    public int applyScholarship(List<Student> listOfStudents, boolean increased) {
-        return 0;
-    }//todo
+    public void applyScholarship(List<Student> listOfStudents, boolean increased) {
+        for (Student student:
+             listOfStudents) {
+            student.setScholarship((increased)? 2 : 1);
+        }
+        studentRepository.saveAll(listOfStudents);
+    }
     public List<Student> getKickList() {
-        //return studentRepository.getKickList();
-        return null;
+        return studentRepository.getKickList();
     }//todo
     public List<Student> getScholarshipList(boolean increased) {
         if(increased){
-            //return studentRepository.getIncreasedScholarshipList();
-            return null;
+            return studentRepository.getIncreasedScholarshipList();
         }else
         {
-            //return studentRepository.getScholarshipList();
-            return null;
+            return studentRepository.getScholarshipList();
         }
-    }//todo
+    }
     public List<Student> getAllStudents() {
         return studentRepository.findAll();
     }

@@ -1,9 +1,9 @@
 package edu.kpi5.dbcoursework.userhandles;
 
-import edu.kpi5.dbcoursework.entities.Course;
-import edu.kpi5.dbcoursework.entities.Student;
-import edu.kpi5.dbcoursework.entities.User;
-import edu.kpi5.dbcoursework.utility.MarksList;
+import edu.kpi5.dbcoursework.entities.coredb.Course;
+import edu.kpi5.dbcoursework.entities.coredb.Student;
+import edu.kpi5.dbcoursework.entities.coredb.User;
+import edu.kpi5.dbcoursework.entities.marksdb.MarksList;
 import edu.kpi5.dbcoursework.dbaccess.DBApi;
 
 import java.io.File;
@@ -16,24 +16,30 @@ public class StudentHandle extends Handle{
         super(user);
     }
 
-    public ArrayList<AbstractMap.SimpleEntry<String, MarksList>> marksSummary(DBApi object) {
+    public List<MarksList> marksSummary(DBApi object) {
         ArrayList<AbstractMap.SimpleEntry<String, MarksList>> marks = new ArrayList<>();
         for(var course : object.getCourseList(this.getUser())){
             marks.add(new AbstractMap.SimpleEntry(course.getName(),this.getMarksOfCourse(course.getName(),object)));
         }
         return marks;
-    }
+    }//todo
 
     public ArrayList<Course> getMyCourses(DBApi object) {
         return new ArrayList<Course>(object.getCourseList(getUser()));
     }
 
-    public MarksList getMarksOfCourse(String courseName, DBApi object) {
-        return object.getMarksOfCourse(courseName, getLogin());
+    public MarksList getMarksOfCourse(Long courseId, Long StudentId, DBApi object) {
+        return object.getMarksOfCourse(courseId, StudentId);
     }
 
+    /**
+     * THIS FUNCTION IS NOT REALISED
+     * @param courseName
+     * @param object
+     * @return
+     */
     public MarksList getRSOOfCourse(String courseName, DBApi object) {
-        return object.getMarksOfCourse(courseName); //трохи не розумію, що саме є рсо
+        return null; //трохи не розумію, що саме є рсо
                                                     //тому потім поправлю
     }
 

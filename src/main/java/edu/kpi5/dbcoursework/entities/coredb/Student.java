@@ -40,8 +40,10 @@ public class Student {
 	private Boolean socialWork;
 
 	@OneToMany(mappedBy = "student")
-	private Set<StudentCourseMarks> courses = new HashSet<>();
+	private Set<StudentCourseMarks> marks = new HashSet<>();
 
+	@Column(name = "scholarship")
+	private Integer scholarship;
 
 	public Student() {
 	}
@@ -133,6 +135,22 @@ public class Student {
 	public void setSocialWork(Boolean socialWork) {
 
 		this.socialWork = socialWork;
+	}
+
+	public Integer getScholarship() {
+		return scholarship;
+	}
+
+	public void setScholarship(Integer scholarship) {
+		this.scholarship = scholarship;
+	}
+
+	public Set<StudentCourseMarks> getMarks() {
+		return marks;
+	}
+
+	public void setMarks(Set<StudentCourseMarks> marks) {
+		this.marks = marks;
 	}
 
 	@Override
