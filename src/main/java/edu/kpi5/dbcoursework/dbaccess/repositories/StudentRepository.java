@@ -15,13 +15,64 @@ public interface StudentRepository extends CrudRepository<Student,Long> {
                     "FROM USERS u",
             nativeQuery = true)
     List<Student> getKickList();
-    //wrong query
     @Query(
-            value = "SELECT * FROM USERS u",
+            value = """
+                    SELECT s.*
+                    FROM STUDENT s
+                        LEFT JOIN(
+                        SELECT s.id AS i, COUNT(m.total_points) AS c
+                        FROM STUDENT s
+                            JOIN STUDENT_COURSE_MARKS m ON m.student_id = s.id
+                            GROUP BY s.id) all_marks
+                        ON all_marks.i = s.id
+                        LEFT JOIN (
+                            SELECT s.id AS i, COUNT(m.total_points) AS c
+                            FROM STUDENT s
+                            JOIN STUDENT_COURSE_MARKS m ON m.student_id = s.id
+                            WHERE m.total_points = 5 OR m.total_points = 4
+                            GROUP BY s.id) all_good_marks
+                        ON  all_good_marks.i = s.id
+                        LEFT JOIN (
+                            SELECT s.id AS i, COUNT(m.total_points) AS c
+                            FROM STUDENT s
+                            JOIN STUDENT_COURSE_MARKS m ON m.student_id = s.id
+                            WHERE m.total_points = 3
+                            GROUP BY s.id) all_marks3
+                        ON  all_marks3.i = s.id
+                        LEFT JOIN (
+                            SELECT s.id AS i, COUNT(m.total_points) AS c
+                            FROM STUDENT s
+                            JOIN STUDENT_COURSE_MARKS m ON m.student_id = s.id
+                            WHERE m.total_points = 5
+                            GROUP BY s.id) all_marks5
+                        ON  all_marks5.i = s.id
+                       LEFT JOIN (
+                            SELECT s.id AS i, COUNT(CASE WHEN m.social_work THEN 1 END) AS c
+                            FROM STUDENT s
+                            JOIN STUDENT_COURSE_MARKS m ON m.student_id = s.id
+                            GROUP BY s.id) sw
+                        ON  sw.i = s.id
+                        WHERE (all_marks.c = all_good_marks.c AND all_marks5.c != all_good_marks.c) OR
+                        (
+                        all_marks.c = (all_good_marks.c + 1) AND
+                        all_marks3.c = 1 AND sw.c >=1);""",
             nativeQuery = true)
     List<Student> getScholarshipList();
     @Query(
-            value = "SELECT * FROM USERS u",
+            value = """
+                    SELECT s.*
+                    	FROM STUDENT s, (
+                        SELECT s.id AS i, COUNT(m.total_points) AS c
+                    		FROM STUDENT s
+                        	JOIN STUDENT_COURSE_MARKS m ON m.student_id = s.id
+                        	GROUP BY s.id) all_marks,
+                        (
+                        SELECT s.id AS i, COUNT(m.total_points) AS c
+                    		FROM STUDENT s
+                        	JOIN STUDENT_COURSE_MARKS m ON m.student_id = s.id
+                        	WHERE m.total_points = 5
+                        	GROUP BY s.id) all_good_marks
+                        WHERE all_marks.c = all_good_marks.c AND all_marks.i = s.id AND all_marks.i = all_good_marks.i;""",
             nativeQuery = true)
     List<Student> getIncreasedScholarshipList();
     List<Student> findAll();
