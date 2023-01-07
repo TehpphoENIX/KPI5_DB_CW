@@ -2,8 +2,6 @@ package edu.kpi5.dbcoursework.dbaccess.coredb;
 
 import edu.kpi5.dbcoursework.entities.coredb.Course;
 import edu.kpi5.dbcoursework.entities.coredb.Student;
-import edu.kpi5.dbcoursework.entities.coredb.User;
-import org.hibernate.annotations.Parameter;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

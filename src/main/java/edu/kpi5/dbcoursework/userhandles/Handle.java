@@ -1,7 +1,6 @@
 package edu.kpi5.dbcoursework.userhandles;
 
-import edu.kpi5.dbcoursework.entities.coredb.User;
-import edu.kpi5.dbcoursework.entities.coredb.AccessLevel;
+import edu.kpi5.dbcoursework.entities.userdb.User;
 
 public class Handle {
     private User user;

@@ -1,6 +1,7 @@
 package edu.kpi5.dbcoursework.userhandles;
 
-import edu.kpi5.dbcoursework.entities.coredb.User;
+
+import edu.kpi5.dbcoursework.entities.userdb.User;
 
 public class HandleFactory {
     public StudentHandle createStudentHandle(User user){
