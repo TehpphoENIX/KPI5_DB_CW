@@ -4,9 +4,8 @@ import edu.kpi5.dbcoursework.dbaccess.DBApi;
 import edu.kpi5.dbcoursework.entities.coredb.Course;
 import edu.kpi5.dbcoursework.entities.coredb.Student;
 import edu.kpi5.dbcoursework.entities.coredb.User;
-import edu.kpi5.dbcoursework.utility.MarksList;
+import edu.kpi5.dbcoursework.entities.marksdb.MarksList;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
 
 public class TeacherHandle extends Handle {
@@ -14,25 +13,26 @@ public class TeacherHandle extends Handle {
         super(user);
     }
 
-    public void setAttestation(String courseName, MarksList marksList, DBApi object) {
-        //потрібно знати за яким правилом виставлятиметься атестація, наприклад якщо більше 20 балів
-        //але за що? ключ в марксЛісті містить тільки назву роботи, тому ми будемо тільки враховуючи її
-        // виставляти атестацію ?
-        for(var pair : marksList.getList()){//отримуємо список пар учень - оцінка
-            if(pair.getValue() > 20){
-                object.setAttestation(courseName,pair.getKey());//треба додати метод до BDApi для виставлення атестації учню за ім'ям
-            }
-        }
-    }
+    //UNREALIZED
+//    public void setAttestation(String courseName, MarksList marksList, DBApi object) {
+//        //потрібно знати за яким правилом виставлятиметься атестація, наприклад якщо більше 20 балів
+//        //але за що? ключ в марксЛісті містить тільки назву роботи, тому ми будемо тільки враховуючи її
+//        // виставляти атестацію ?
+//        for(var pair : marksList.getList()){//отримуємо список пар учень - оцінка
+//            if(pair.getValue() > 20){
+//                object.setAttestation(courseName,pair.getKey());//треба додати метод до BDApi для виставлення атестації учню за ім'ям
+//            }
+//        }
+//    }
 
     public void setMark(String courseName, Student Student, int mark, DBApi object) {
         try{
             //переписати, бо непевний чи правильно розташував ключі
-            object.setMarks(courseName, new MarksList(courseName, new AbstractMap.SimpleEntry<String, Float>(Student.getName(),Float.valueOf(mark))));
+            object.setMarks(courseName, null);
         }catch (Exception e){
             //error handling
         }
-    }
+    }//todo
 
     public void setMarks(String courseName, MarksList marksList, DBApi object) {
         try{
@@ -60,15 +60,15 @@ public class TeacherHandle extends Handle {
 
     public void addCourse(String courseName, ArrayList<String> groups,DBApi object) {
         try{
-            object.addCourse(courseName,groups);
+            object.addCourse(courseName);
         }catch (Exception e){
             //error handling
         }
-    }
+    }//todo
 
-    public void editCourse(String courseName, String newCourseName, DBApi object) {
+    public void editCourse(Course course, DBApi object) {
         try{
-            object.editCourse(courseName,newCourseName);
+            object.editCourse(course);
         }catch (Exception e){
             //error handling
         }
@@ -88,8 +88,8 @@ public class TeacherHandle extends Handle {
         return object.getCourse(courseId);
     }
 
-    public ArrayList<Student> getCourseStudents(String courseName, DBApi object) {
-        return new ArrayList<>(object.getCourseStudents(courseName));
+    public ArrayList<Student> getCourseStudents(Course course, DBApi object) {
+        return new ArrayList<>(object.getCourseStudents(course));
     }
 
     public ArrayList<Course> getCourseList(DBApi object) {
