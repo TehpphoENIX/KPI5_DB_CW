@@ -69,14 +69,19 @@ public class UserController {
 
     /**
      * Redirects to an appropriate menu
-     * @param name
-     * @return
+     * @param name -- user login
+     * @return -- redirect to menu
      */
     @GetMapping(path="/user/{name}")
     public String forwardMenuRequest(@PathVariable String name){
 
         return "redirect:/student/menu";
     }//todo
+
+    /**
+     * Deletes user handle and redirects to home page
+     * @return redirect to home
+     */
     @GetMapping(path="/exit")
     public String exit() {
         httpSessionBean.setAppHandle(null);
