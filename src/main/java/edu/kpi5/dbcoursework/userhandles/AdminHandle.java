@@ -5,7 +5,6 @@ import edu.kpi5.dbcoursework.entities.coredb.*;
 import org.springframework.data.util.Pair;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class AdminHandle extends TeacherHandle{

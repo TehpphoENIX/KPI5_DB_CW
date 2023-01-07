@@ -1,6 +1,7 @@
 package edu.kpi5.dbcoursework.dbaccess;
 
 import edu.kpi5.dbcoursework.dbaccess.coredb.*;
+import edu.kpi5.dbcoursework.dbaccess.coredb.*;
 import edu.kpi5.dbcoursework.dbaccess.marksdb.MarksListRepository;
 import edu.kpi5.dbcoursework.entities.coredb.*;
 import edu.kpi5.dbcoursework.entities.marksdb.MarksList;
@@ -96,6 +97,23 @@ public class DBApi {
         }else {
             return null;
         }
+    }
+
+    public List<MarksList> getMarksOfStudent(Long studentId){
+        List<StudentCourseMarks> markslists = scmRepository.findByStudentId(studentId);
+        ArrayList<MarksList> matrix = new ArrayList<>();
+        for (var item :
+                markslists) {
+            var out = marksListRepository.findById(
+                    MarksList.calcId(
+                            item.getCourse().getId(),
+                            item.getStudent().getId()
+                    )
+            );
+            if(out.isPresent())
+                matrix.add(out.get());
+        }
+        return matrix;
     }
     public int setMarks(String courseName, MarksList marksList){
         return 0;

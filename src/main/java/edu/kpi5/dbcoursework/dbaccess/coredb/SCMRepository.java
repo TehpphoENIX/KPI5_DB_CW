@@ -17,4 +17,14 @@ public interface SCMRepository extends CrudRepository<StudentCourseMarks, Studen
                     """
     )
     List<StudentCourseMarks> findByCourseId(Long courseId);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    SELECT *
+                    FROM student_course_marks scm
+                    WHERE scm.student_id = ?0;
+                    """
+    )
+    List<StudentCourseMarks> findByStudentId(Long courseId);
 }

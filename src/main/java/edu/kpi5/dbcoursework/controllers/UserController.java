@@ -35,7 +35,7 @@ public class UserController {
     }
 
     /**
-     * Login GET mapping. Shows login screen. Supplies form memory to fill.
+     * Login GET mapping. Shows login screen. Supplies form to fill.
      * @param model -- new model
      * @return view
      */
