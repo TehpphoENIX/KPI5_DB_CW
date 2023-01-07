@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>MyApp</title>
+</head>
+<body>
+<div>
+  <h1 th:text="Delete course ${course-id} ?" />
+  <form th:action="/courses/delete" method="post">
+    <input type="hidden" name="course-id" th:value="${course-id}" />
+    <button type="submit"> Видалити </button>
+  </form>
+</div>
+
+<form th:action=@{/exit}>
+  <p><input type="submit" value="Exit" /></p>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MyApp</title>
+</head>
+<body>
+<div>
+    <h1 th:text="Add exam" />
+
+    <input type="text" name="CourseName" th:value="$course-students.name" placeholder="Введіть назву курсу">
+    <div th:each="mark: ${course-students.marks}}">
+        <p th:text="Студент ${mark.student.name} ${mark.student.surname} Наявність соц роботи ${mark.socialWork}"/>
+    </div>
+    <form th:action="/courses/{course}/mark/set" method="post">
+        <input type="hidden" name="studentID" th:value="${course-id}" />
+        <div th:each="mark: ${marksList}">
+            //TODO
+        </div>
+        <button type="submit"> Додати </button>
+    </form>
+
+
+
+
+</div>
+
+<form th:action=@{/exit}>
+    <p><input type="submit" value="Exit" /></p>
+</form>
+
+</body>
+</html>

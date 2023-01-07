@@ -115,13 +115,13 @@ public class DBApi {
         }
         return matrix;
     }
-    public int setMarks(String courseName, MarksList marksList){
+    public int setMarks(Long courseId, MarksList marksList){
         return 0;
     }//Mongodb ToDo
-    public int setExam(String courseName, MarksList marksList){
+    public int setExam(Long courseId, MarksList marksList){
         return 0;
     }//Mongodb ToDo
-    public int setSocialWork(String courseName, MarksList marksList){
+    public int setSocialWork(Long courseId, Long studentId){
         return 0;
     }//Mongodb ToDo
     public void addGroup(String groupName, Integer groupYear, Short groupSpec, Department department) {

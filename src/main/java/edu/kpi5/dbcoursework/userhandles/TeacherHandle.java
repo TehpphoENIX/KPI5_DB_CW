@@ -25,34 +25,34 @@ public class TeacherHandle extends Handle {
 //        }
 //    }
 
-    public void setMark(String courseName, Student Student, int mark, DBApi object) {
+    public void setMark(Long courseId, Student Student, int mark, DBApi object) {
         try{
             //переписати, бо непевний чи правильно розташував ключі
-            object.setMarks(courseName, null);
+            object.setMarks(courseId, null);
         }catch (Exception e){
             //error handling
         }
     }//todo
 
-    public void setMarks(String courseName, MarksList marksList, DBApi object) {
+    public void setMarks(Long courseId, MarksList marksList, DBApi object) {
         try{
-            object.setMarks(courseName, marksList);
+            object.setMarks(courseId, marksList);
         }catch (Exception e){
             //error handling
         }
     }
 
-    public void setSocialWork(String courseName, MarksList marksList, DBApi object) {
+    public void setSocialWork(Long courseId, Long studentId, DBApi object) {
         try{
-            object.setSocialWork(courseName, marksList);
+            object.setSocialWork(courseId, studentId);
         }catch (Exception e){
             //error handling
         }
     }
 
-    public void setExam(String courseName, MarksList marksList, DBApi object) {
+    public void setExam(Long courseId, MarksList marksList, DBApi object) {
         try{
-            object.setExam(courseName, marksList);
+            object.setExam(courseId, marksList);
         }catch (Exception e){
             //error handling
         }
