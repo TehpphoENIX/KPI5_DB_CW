@@ -1,5 +1,6 @@
 package edu.kpi5.dbcoursework.userhandles;
 
+
 import edu.kpi5.dbcoursework.entities.coredb.*;
 import edu.kpi5.dbcoursework.entities.marksdb.MarksList;
 import edu.kpi5.dbcoursework.dbaccess.DBApi;
@@ -26,11 +27,12 @@ public class StudentHandle extends Handle{
         return object.getMarksOfCourse(courseId, StudentId);
     }
 
+    // THIS FUNCTION IS NOT REALISED
 
-    public MarksList getRSOOfCourse(String courseName, DBApi object) {
-        return null; //трохи не розумію, що саме є рсо
-                                                    //тому потім поправлю
-    }
+//    public MarksList getRSOOfCourse(String courseName, DBApi object) {
+//        return null; //трохи не розумію, що саме є рсо
+//                                                    //тому потім поправлю
+//    }
 
     public int CheckScholarship(DBApi object) {
 //        for(var student : object.getScholarshipList(false)){

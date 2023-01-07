@@ -17,7 +17,7 @@ public class AdminHandle extends TeacherHandle{
         ArrayList<String> userCredits = new ArrayList<>();
         var kickedList = object.getKickList();
         for(var a : kickedList) {
-            userCredits.add(a.getName());//брав пошук по імені, але можливо треба по чомусь іншому
+            userCredits.add(a.getName());//todo брав пошук по імені, але можливо треба по чомусь іншому
         }
         if(deleteAcounts){
             object.removeUsers(userCredits);
@@ -46,7 +46,7 @@ public class AdminHandle extends TeacherHandle{
         return false;
     }
     public ArrayList<Pair<String, ArrayList<Pair<Float, Float>>>> getTeachersContribution() {
-        // для чого використовується ця функція ?
+        // todo для чого використовується ця функція ?
         return null;
     }
     public User getUser(String userName, DBApi object) {
