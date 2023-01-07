@@ -1,19 +1,22 @@
 package edu.kpi5.dbcoursework.dbaccess;
 
 import edu.kpi5.dbcoursework.dbaccess.coredb.*;
-import edu.kpi5.dbcoursework.dbaccess.coredb.*;
 import edu.kpi5.dbcoursework.dbaccess.marksdb.MarksListRepository;
+import edu.kpi5.dbcoursework.dbaccess.userdb.UserRepository;
 import edu.kpi5.dbcoursework.entities.coredb.*;
 import edu.kpi5.dbcoursework.entities.marksdb.MarksList;
+import edu.kpi5.dbcoursework.entities.userdb.AccessLevel;
+import edu.kpi5.dbcoursework.entities.userdb.AccessLevelEnum;
 import edu.kpi5.dbcoursework.entities.userdb.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
 import java.util.ArrayList;
 import java.util.List;
 
-//@Component
+@Component
 public class DBApi {
     //MySQL
     @Autowired
@@ -78,11 +81,11 @@ public class DBApi {
 
     /**
      * get course of the database
-     * @param course -- course to search in
+     * @param courseId -- course to search in
      * @return list of students
      */
-    public List<Student> getCourseStudents(Course course) {
-        return courseRepository.getStudentsByCourse(course.getId());
+    public List<Student> getCourseStudents(Long courseId) {
+        return courseRepository.getStudentsByCourse(courseId);
     }
 
     /**
@@ -91,19 +94,15 @@ public class DBApi {
      * @return list of courses
      */
     public List<Course> getCourseList(User user) {
-        switch (user.getAccessLevel()){
-            case student -> {
-                return courseRepository.findAllByStudentLogin(user.getLogin());
-            }
-            case teacher -> {
-                return courseRepository.findAllByTeacherLogin(user.getLogin());
-            }
-            case admin -> {
-                return courseRepository.findAll();
-            }
-            default -> {
-                return null;
-            }
+        if(user.getAccessLevel().contains(new AccessLevel(AccessLevelEnum.admin.label))){
+            return courseRepository.findAll();
+        }else if(user.getAccessLevel().contains(new AccessLevel(AccessLevelEnum.teacher.label))){
+            return courseRepository.findAllByTeacherLogin(user.getLogin());
+        }else if(user.getAccessLevel().contains(new AccessLevel(AccessLevelEnum.student.label))){
+            return courseRepository.findAllByStudentLogin(user.getLogin());
+        }
+        else{
+            return null;
         }
     }
 
@@ -267,10 +266,10 @@ public class DBApi {
      * @param password
      * @return
      */
-    public boolean createUser(String userName, AccessLevel level, String password) {
+    public boolean createUser(String userName, AccessLevelEnum level, String password) {
         return false;
     }//Neo4j todo
-    public boolean editUser(String userName, AccessLevel level, String password) {
+    public boolean editUser(String userName, AccessLevelEnum level, String password) {
         return false;
     }//Neo4j todo
     public void removeUsers(List<String> userNames) {

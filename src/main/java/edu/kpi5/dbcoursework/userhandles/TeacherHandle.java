@@ -87,7 +87,7 @@ public class TeacherHandle extends Handle {
         return object.getCourse(courseId);
     }
 
-    public ArrayList<Student> getCourseStudents(Course course, DBApi object) {
+    public ArrayList<Student> getCourseStudents(Long course, DBApi object) {
         return new ArrayList<>(object.getCourseStudents(course));
     }
 

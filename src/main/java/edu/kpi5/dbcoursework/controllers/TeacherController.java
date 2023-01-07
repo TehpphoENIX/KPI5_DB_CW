@@ -76,39 +76,39 @@ public class TeacherController {
     @PostMapping("/courses/edit")
     public String editCourse(@RequestParam String courseName, @RequestParam String newCourseName) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
-        handle.editCourse(courseName, newCourseName);
+        handle.editCourse(null, dbApi);//todo add correct argument
         return "redirect:/courses/"+newCourseName;
     }
     @PostMapping("/courses/delete")
-    public String removeCourse(@RequestParam String courseName) {
+    public String removeCourse(@RequestParam Long courseId) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
-        handle.removeCourse(courseName, dbApi);
+        handle.removeCourse(courseId, dbApi);
         return "redirect:/courses";
     }
 
     /**
      * View information of a course
-     * @param courseName -- todo
+     * @param courseId -- todo
      * @param model -- model to output info about course
      * @return course view
      */
     @GetMapping("/courses/{course}")
-    public String getCourse(@PathVariable(value = "course") String courseName, Model model) {
+    public String getCourse(@PathVariable(value = "course") Long courseId, Model model) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
-        model.addAttribute("course", handle.getCourse(courseName, dbApi));
+        model.addAttribute("course", handle.getCourse(courseId, dbApi));
         return "course";
     }
 
     /**
      * View students of a course
-     * @param courseName -- todo
+     * @param courseId -- todo
      * @param model -- model to store students list
      * @return -- course students view
      */
     @GetMapping("/courses/{course}/students")
-    public String getCourseStudents(@PathVariable(value = "course") String courseName, Model model) {
+    public String getCourseStudents(@PathVariable(value = "course") Long courseId, Model model) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
-        model.addAttribute("course-students", handle.getCourseStudents(courseName, dbApi));
+        model.addAttribute("course-students", handle.getCourseStudents(courseId, dbApi));
         return "course-students";
     }
 
@@ -120,7 +120,7 @@ public class TeacherController {
     @GetMapping("/courses")
     public String getCourseList(Model model) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
-        model.addAttribute("courses", handle.getCourseList());
+        model.addAttribute("courses", handle.getCourseList(dbApi));
         return "courses";
     }
 }
