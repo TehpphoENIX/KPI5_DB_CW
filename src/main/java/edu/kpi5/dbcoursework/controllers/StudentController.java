@@ -30,7 +30,7 @@ public class StudentController {
     @GetMapping(path="courses/{course}/marks")
     public String GetMarksOfCourse(Model model, @PathVariable(value = "course") Long course) {
         StudentHandle handle = (StudentHandle) httpSessionBean.getAppHandle();
-        model.addAttribute("marks", handle.GetMarksOfCourse(course));
+        model.addAttribute("marks", handle.getMarksOfCourse(course));
         return "marks-list";
     }
 //    @GetMapping(path="/courses/{course}/RSO")

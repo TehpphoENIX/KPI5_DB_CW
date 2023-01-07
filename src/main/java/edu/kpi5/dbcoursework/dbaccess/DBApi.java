@@ -5,6 +5,7 @@ import edu.kpi5.dbcoursework.dbaccess.coredb.*;
 import edu.kpi5.dbcoursework.dbaccess.marksdb.MarksListRepository;
 import edu.kpi5.dbcoursework.entities.coredb.*;
 import edu.kpi5.dbcoursework.entities.marksdb.MarksList;
+import edu.kpi5.dbcoursework.entities.userdb.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.context.annotation.SessionScope;
