@@ -2,6 +2,8 @@ package edu.kpi5.dbcoursework.userhandles;
 
 import edu.kpi5.dbcoursework.dbaccess.DBApi;
 import edu.kpi5.dbcoursework.entities.coredb.*;
+import edu.kpi5.dbcoursework.entities.userdb.AccessLevelEnum;
+import edu.kpi5.dbcoursework.entities.userdb.User;
 import org.springframework.data.util.Pair;
 
 import java.util.ArrayList;
@@ -32,13 +34,13 @@ public class AdminHandle extends TeacherHandle{
     public ArrayList<Student> getScholarshipList(boolean increased, DBApi object) {
         return new ArrayList<>(object.getScholarshipList(increased));
     }
-    public boolean createUser(String userName, AccessLevel level, String password, DBApi object) {
+    public boolean createUser(String userName, AccessLevelEnum level, String password, DBApi object) {//todo (2 AccessLevel available)
         if(object.createUser(userName,level,password) == true){
             return true;
         }
         return false;
     }
-    public boolean editUser(String userName, AccessLevel level, String password, DBApi object) {
+    public boolean editUser(String userName, AccessLevelEnum level, String password, DBApi object) {//todo (2 AccessLevel available)
         if(object.editUser(userName,level,password) == true){
             return true;
         }

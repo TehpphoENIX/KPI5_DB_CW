@@ -1,5 +1,6 @@
 package edu.kpi5.dbcoursework.controllers;
 
+import edu.kpi5.dbcoursework.dbaccess.DBApi;
 import edu.kpi5.dbcoursework.utility.HttpSessionBean;
 import edu.kpi5.dbcoursework.userhandles.StudentHandle;
 import jakarta.annotation.Resource;
@@ -17,6 +18,8 @@ public class StudentController {
      */
     @Resource(name = "sessionScopedBean")
     HttpSessionBean httpSessionBean;
+    @Resource(name = "dbApiBean")
+    DBApi dbApi;
 
     /**
      * View student menu
@@ -51,7 +54,7 @@ public class StudentController {
     @GetMapping(path="courses/{course}/marks")
     public String GetMarksOfCourse(Model model, @PathVariable(value = "course") Long course) {
         StudentHandle handle = (StudentHandle) httpSessionBean.getAppHandle();
-        model.addAttribute("marks", handle.GetMarksOfCourse(course));
+        model.addAttribute("marks", handle.getMarksOfCourse(course,0l,dbApi));//todo add correct arguments
         return "marks-list";
     }
 
@@ -71,7 +74,7 @@ public class StudentController {
     @GetMapping(path="/scholarship")
     public String CheckScholarship(Model model) {
         StudentHandle handle = (StudentHandle) httpSessionBean.getAppHandle();
-        model.addAttribute("scholarship", handle.CheckScholarship());
+        model.addAttribute("scholarship", handle.CheckScholarship(dbApi));
         return "scholarship";
     }
 }

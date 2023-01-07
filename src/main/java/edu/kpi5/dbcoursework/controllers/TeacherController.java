@@ -59,19 +59,21 @@ public class TeacherController {
     public String setMarks(@PathVariable(value = "course") Long courseId,  @RequestParam MarksList marksList) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
         handle.setMarks(courseId, marksList, dbApi);
-        return "redirect:/courses/{course}";
+
     }
     @PostMapping("/courses/{course}/social_work/set")
     public String setSocialWork(@PathVariable(value = "course") Long courseId, @RequestParam Long studentID, @RequestParam Boolean isSocialWork) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
+
         handle.setSocialWork(courseId, studentID, dbApi);
-        return "redirect:/courses/{course}";
+
     }
     @PostMapping("/courses/{course}/exam/set")
     public String setExam(@PathVariable(value = "course")  Long courseId,@RequestParam MarksList marksList) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
+
         handle.setExam(courseId, marksList, dbApi);
-        return "redirect:/courses/{course}";
+
     }
     @PostMapping("/courses/add")
     public String addCourse(@RequestParam String courseName, @RequestParam ArrayList<String> groups) {
@@ -82,6 +84,7 @@ public class TeacherController {
     @PostMapping("/courses/{course}/edit")
     public String editCourse(@PathVariable(value = "course") @RequestParam long CourseId, @RequestParam String CourseName) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
+
         Course newCourse = new Course(CourseName);
         newCourse.setId(CourseId);
 
@@ -93,6 +96,7 @@ public class TeacherController {
 
         handle.editCourse(newCourse, dbApi);
         return "redirect:/courses/"+newCourse;
+
     }
     @PostMapping("/courses/delete")
     public String removeCourse(@RequestParam Long courseId) {
