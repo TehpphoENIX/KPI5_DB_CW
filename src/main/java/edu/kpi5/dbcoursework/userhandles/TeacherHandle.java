@@ -1,8 +1,7 @@
 package edu.kpi5.dbcoursework.userhandles;
 
 import edu.kpi5.dbcoursework.dbaccess.DBApi;
-import edu.kpi5.dbcoursework.entities.coredb.Course;
-import edu.kpi5.dbcoursework.entities.coredb.Student;
+import edu.kpi5.dbcoursework.entities.coredb.*;
 import edu.kpi5.dbcoursework.entities.marksdb.MarksList;
 import edu.kpi5.dbcoursework.entities.userdb.User;
 

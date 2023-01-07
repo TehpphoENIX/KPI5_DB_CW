@@ -1,7 +1,7 @@
 package edu.kpi5.dbcoursework.userhandles;
 
-import edu.kpi5.dbcoursework.entities.coredb.Course;
-import edu.kpi5.dbcoursework.entities.coredb.Student;
+
+import edu.kpi5.dbcoursework.entities.coredb.*;
 import edu.kpi5.dbcoursework.entities.marksdb.MarksList;
 import edu.kpi5.dbcoursework.dbaccess.DBApi;
 import edu.kpi5.dbcoursework.entities.userdb.User;
@@ -16,15 +16,11 @@ public class StudentHandle extends Handle{
     }
 
     public List<MarksList> marksSummary(Student student, DBApi object) {
-        List<> marks = new ArrayList<>();
-        for(var course : object.getCourseList(this.getUser())){
-            marks.add(new AbstractMap.SimpleEntry(course.getName(),this.getMarksOfCourse(course.getName(),object)));
-        }
-        return marks;
-    }//todo
+        return object.getMarksOfStudent(student.getId());
+    }
 
     public ArrayList<Course> getMyCourses(DBApi object) {
-        return new ArrayList<Course>(object.getCourseList(getUser()));
+        return new ArrayList<Course>(object.getCourseList(this.getUser()));
     }
 
     public MarksList getMarksOfCourse(Long courseId, Long StudentId, DBApi object) {

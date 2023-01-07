@@ -1,6 +1,7 @@
 package edu.kpi5.dbcoursework.utility;
 
 import edu.kpi5.dbcoursework.dbaccess.DBApi;
+import edu.kpi5.dbcoursework.entities.userdb.User;
 import edu.kpi5.dbcoursework.userhandles.Handle;
 import edu.kpi5.dbcoursework.userhandles.HandleFactory;
 
