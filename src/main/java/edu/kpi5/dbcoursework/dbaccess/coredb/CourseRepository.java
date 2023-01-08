@@ -11,7 +11,6 @@ import java.util.List;
 @Repository
 public interface CourseRepository extends CrudRepository<Course, Long> {
     public List<Course> findAll();
-    public List<Course> findByName(String name);
     @Query(
             nativeQuery = true,
             value = "SELECT *" +
