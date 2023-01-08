@@ -59,6 +59,7 @@ public class TeacherController {
     public String setMarks(@PathVariable(value = "course") Long courseId,  @RequestParam MarksList marksList) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
         handle.setMarks(courseId, marksList, dbApi);
+
         return "redirect:/courses/{course}";
     }
     @PostMapping("/courses/{course}/social_work/set")
@@ -66,6 +67,7 @@ public class TeacherController {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
 
         handle.setSocialWork(courseId, studentID, dbApi);
+
         return "redirect:/courses/{course}";
     }
     @PostMapping("/courses/{course}/exam/set")
@@ -73,6 +75,7 @@ public class TeacherController {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
 
         handle.setExam(courseId, marksList, dbApi);
+
         return "redirect:/courses/{course}";
     }
     @PostMapping("/courses/add")
