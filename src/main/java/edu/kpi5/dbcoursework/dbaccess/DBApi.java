@@ -164,31 +164,29 @@ public class DBApi {
         }
         return matrix;
     }
-
     /**
      * insert new marks into course
      * @param courseName -- todo change to id
      * @param marksList -- todo change
      */
-    public int setMarks(String courseName, MarksList marksList){
+    public int setMarks(Long courseId, MarksList marksList){
         return 0;
     }//Mongodb ToDo
-
-    /**
+     /**
      * insert new exam marks into course
      * @param courseName -- todo change to id
      * @param marksList -- todo change
      */
-    public int setExam(String courseName, MarksList marksList){
+    public int setExam(Long courseId, MarksList marksList){
         return 0;
     }//Mongodb ToDo
-
-    /**
+     /**
      * insert social work into course
      * @param courseName -- todo change to id
      * @param marksList -- todo change
      */
-    public int setSocialWork(String courseName, MarksList marksList){
+    public int setSocialWork(Long courseId, Long studentId){
+
         return 0;
     }//Mongodb ToDo
 

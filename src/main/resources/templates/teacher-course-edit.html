@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MyApp</title>
+</head>
+<body>
+<div>
+    <h1 th:text="Edit course: ${course-students.name}" />
+    <form th:action="/courses/${course}/edit" method="post">
+        <input type="text" name="CourseName" th:value="$course-students.name" placeholder="Введіть назву курсу">
+        <div th:each="mark: ${course-students.marks}}">
+            //TODO
+        </div>
+        <div th:each="teacher: ${course-students.teachers}}">
+            //TODO
+        </div>
+        <button type="submit"> Зберегти </button>
+    </form>
+</div>
+
+<form th:action=@{/exit}>
+    <p><input type="submit" value="Exit" /></p>
+</form>
+
+</body>
+</html>

@@ -11,6 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Controller
 @RequestMapping("teacher")
@@ -44,28 +47,33 @@ public class TeacherController {
 //    }
 
     @PostMapping("/courses/{course}/mark/set")
-    public String setMark(@PathVariable(value = "course") String courseName, @RequestParam Student student, @RequestParam int mark) {
+    public String setMark(@PathVariable(value = "course") Long courseId, @RequestParam Long studentID, @RequestParam int mark) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
-        handle.setMark(courseName, student, mark, dbApi);
+        handle.setMark(courseId,
+                       handle.getCourseStudents(handle.getCourse(courseId,dbApi), dbApi).
+                               stream().filter(x->x.getId()==studentID).findFirst().get(),
+                       mark, dbApi);
         return "redirect:/courses/{course}";
     }
     @PostMapping("/courses/{course}/marks/set")
-    public String setMarks(@PathVariable(value = "course") String courseName,  @RequestParam MarksList marksList) {
+    public String setMarks(@PathVariable(value = "course") Long courseId,  @RequestParam MarksList marksList) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
-        handle.setMarks(courseName, marksList, dbApi);
-        return "redirect:/courses/{course}";
+        handle.setMarks(courseId, marksList, dbApi);
+
     }
     @PostMapping("/courses/{course}/social_work/set")
-    public String setSocialWork(@PathVariable(value = "course") String courseName,@RequestParam MarksList marksList) {
+    public String setSocialWork(@PathVariable(value = "course") Long courseId, @RequestParam Long studentID, @RequestParam Boolean isSocialWork) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
-        handle.setSocialWork(courseName, marksList, dbApi);
-        return "redirect:/courses/{course}";
+
+        handle.setSocialWork(courseId, studentID, dbApi);
+
     }
     @PostMapping("/courses/{course}/exam/set")
-    public String setExam(@PathVariable(value = "course") String courseName,@RequestParam MarksList marksList) {
+    public String setExam(@PathVariable(value = "course")  Long courseId,@RequestParam MarksList marksList) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
-        handle.setExam(courseName, marksList, dbApi);
-        return "redirect:/courses/{course}";
+
+        handle.setExam(courseId, marksList, dbApi);
+
     }
     @PostMapping("/courses/add")
     public String addCourse(@RequestParam String courseName, @RequestParam ArrayList<String> groups) {
@@ -73,11 +81,22 @@ public class TeacherController {
         handle.addCourse(courseName, groups, dbApi);
         return "redirect:/courses/"+courseName;
     }
-    @PostMapping("/courses/edit")
-    public String editCourse(@RequestParam String courseName, @RequestParam String newCourseName) {
+    @PostMapping("/courses/{course}/edit")
+    public String editCourse(@PathVariable(value = "course") @RequestParam long CourseId, @RequestParam String CourseName) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
-        handle.editCourse(null, dbApi);//todo add correct argument
-        return "redirect:/courses/"+newCourseName;
+
+        Course newCourse = new Course(CourseName);
+        newCourse.setId(CourseId);
+
+        //TODO якось зробити ввід цього з форми html
+        Set<StudentCourseMarks> marks = handle.getCourse(CourseId, dbApi).getMarks();
+        newCourse.setMarks(marks);
+        Set<Teacher> teachers = handle.getCourse(CourseId, dbApi).getTeachers();
+        newCourse.setTeachers(teachers);
+
+        handle.editCourse(newCourse, dbApi);
+        return "redirect:/courses/"+newCourse;
+
     }
     @PostMapping("/courses/delete")
     public String removeCourse(@RequestParam Long courseId) {
@@ -88,7 +107,7 @@ public class TeacherController {
 
     /**
      * View information of a course
-     * @param courseId -- todo
+     * @param courseId -- Course ID
      * @param model -- model to output info about course
      * @return course view
      */
@@ -101,14 +120,14 @@ public class TeacherController {
 
     /**
      * View students of a course
-     * @param courseId -- todo
+     * @param courseId -- Course ID
      * @param model -- model to store students list
      * @return -- course students view
      */
     @GetMapping("/courses/{course}/students")
     public String getCourseStudents(@PathVariable(value = "course") Long courseId, Model model) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
-        model.addAttribute("course-students", handle.getCourseStudents(courseId, dbApi));
+        model.addAttribute("course-students", handle.getCourseStudents(handle.getCourse(courseId, dbApi), dbApi));
         return "course-students";
     }
 
@@ -122,5 +141,37 @@ public class TeacherController {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
         model.addAttribute("courses", handle.getCourseList(dbApi));
         return "courses";
+    }
+
+    @GetMapping("/courses/{course}/edit")
+    public String getCourseEdit(@PathVariable(value = "course") Long courseId, Model model) {
+        TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
+        model.addAttribute("course-students", handle.getCourse(courseId, dbApi));
+        return "teacher-course-edit";
+    }
+
+    @GetMapping("/courses/{course}/delete")
+    public String getCourseDeleteConfirm(@PathVariable(value = "course") Long courseId, Model model) {
+        model.addAttribute("course-id", courseId);
+        return "teacher-course-delete";
+    }
+
+    @GetMapping("/courses/{course}/add-marks")
+    public String getCourseAddMArks(@PathVariable(value = "course") Long courseId, Model model) {
+        TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
+        model.addAttribute("course", handle.getCourse(courseId, dbApi));
+        return "teacher-add-marks";
+    }
+
+    @GetMapping("/courses/{course}/add-social-work")
+    public String getCourseAddSocialWork(@PathVariable(value = "course") Long courseId, Model model) {
+        model.addAttribute("course-id", courseId);
+        return "teacher-add-social-work";
+    }
+
+    @GetMapping("/courses/{course}/add-exam")
+    public String getCourseAddExam(@PathVariable(value = "course") Long courseId, Model model) {
+        model.addAttribute("course-id", courseId);
+        return "teacher-add-exam";
     }
 }
