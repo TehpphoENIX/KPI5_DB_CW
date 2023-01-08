@@ -50,7 +50,7 @@ public class TeacherController {
     public String setMark(@PathVariable(value = "course") Long courseId, @RequestParam Long studentID, @RequestParam int mark) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
         handle.setMark(courseId,
-                       handle.getCourseStudents(handle.getCourse(courseId,dbApi), dbApi).
+                       handle.getCourseStudents(courseId, dbApi).
                                stream().filter(x->x.getId()==studentID).findFirst().get(),
                        mark, dbApi);
         return "redirect:/courses/{course}";
@@ -59,21 +59,21 @@ public class TeacherController {
     public String setMarks(@PathVariable(value = "course") Long courseId,  @RequestParam MarksList marksList) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
         handle.setMarks(courseId, marksList, dbApi);
-
+        return "redirect:/courses/{course}";
     }
     @PostMapping("/courses/{course}/social_work/set")
     public String setSocialWork(@PathVariable(value = "course") Long courseId, @RequestParam Long studentID, @RequestParam Boolean isSocialWork) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
 
         handle.setSocialWork(courseId, studentID, dbApi);
-
+        return "redirect:/courses/{course}";
     }
     @PostMapping("/courses/{course}/exam/set")
     public String setExam(@PathVariable(value = "course")  Long courseId,@RequestParam MarksList marksList) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
 
         handle.setExam(courseId, marksList, dbApi);
-
+        return "redirect:/courses/{course}";
     }
     @PostMapping("/courses/add")
     public String addCourse(@RequestParam String courseName, @RequestParam ArrayList<String> groups) {
@@ -127,7 +127,7 @@ public class TeacherController {
     @GetMapping("/courses/{course}/students")
     public String getCourseStudents(@PathVariable(value = "course") Long courseId, Model model) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
-        model.addAttribute("course-students", handle.getCourseStudents(handle.getCourse(courseId, dbApi), dbApi));
+        model.addAttribute("course-students", handle.getCourseStudents(courseId, dbApi));
         return "course-students";
     }
 
