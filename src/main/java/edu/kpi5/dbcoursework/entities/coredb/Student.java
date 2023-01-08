@@ -180,8 +180,7 @@ public class Student {
 
 		Student student = (Student) o;
 
-		return login.equals(student.login)
-				&& id.equals(student.id);
+		return id.equals(student.id);
 	}
 
 	@Override

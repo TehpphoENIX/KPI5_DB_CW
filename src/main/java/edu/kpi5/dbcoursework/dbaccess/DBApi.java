@@ -2,7 +2,9 @@ package edu.kpi5.dbcoursework.dbaccess;
 
 import edu.kpi5.dbcoursework.dbaccess.coredb.*;
 import edu.kpi5.dbcoursework.dbaccess.marksdb.MarksListRepository;
+import edu.kpi5.dbcoursework.dbaccess.userdb.AccessLevelRepository;
 import edu.kpi5.dbcoursework.dbaccess.userdb.UserRepository;
+import edu.kpi5.dbcoursework.dbaccess.workDB.ContributionRepository;
 import edu.kpi5.dbcoursework.entities.coredb.*;
 import edu.kpi5.dbcoursework.entities.marksdb.MarksList;
 import edu.kpi5.dbcoursework.entities.userdb.AccessLevel;
@@ -14,7 +16,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class DBApi {
@@ -28,13 +32,22 @@ public class DBApi {
     @Autowired
     private TeacherRepository teacherRepository;
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
     private SCMRepository scmRepository;
+
     //MongoDB
     @Autowired
     private MarksListRepository marksListRepository;
-    //@Autowired
+
+    //Neo4j
+    @Autowired
+    AccessLevelRepository accessLevelRepository;
+    @Autowired
+    UserRepository userRepository;
+
+    //Redis
+    @Autowired
+    ContributionRepository contributionRepository;
+
     @Bean
     @SessionScope
     public DBApi dbApiBean(){
@@ -111,7 +124,7 @@ public class DBApi {
      * @param courseId -- course id
      * @return list of marks
      */
-    public List<MarksList> getMarksOfCourse(Long courseId){
+    public List<StudentCourseMarks> getMarksOfCourse(Long courseId){
         List<StudentCourseMarks> markslists = scmRepository.findByCourseId(courseId);
         ArrayList<MarksList> matrix = new ArrayList<>();
         for (var item :
@@ -123,9 +136,9 @@ public class DBApi {
                     )
             );
             if(out.isPresent())
-                matrix.add(out.get());
+                item.setMarksList(out.get());
         }
-        return matrix;
+        return markslists;
     }
 
     /**
@@ -148,9 +161,8 @@ public class DBApi {
      * @param studentId -- student id
      * @return list of marks of that student
      */
-    public List<MarksList> getMarksOfStudent(Long studentId){
+    public List<StudentCourseMarks> getMarksOfStudent(Long studentId){
         List<StudentCourseMarks> markslists = scmRepository.findByStudentId(studentId);
-        ArrayList<MarksList> matrix = new ArrayList<>();
         for (var item :
                 markslists) {
             var out = marksListRepository.findById(
@@ -159,22 +171,36 @@ public class DBApi {
                             item.getStudent().getId()
                     )
             );
-            if(out.isPresent())
-                matrix.add(out.get());
+            if(out.isPresent()){
+                item.setMarksList(out.get());
+            }
         }
-        return matrix;
+        return markslists;
     }
     /**
      * insert new marks into course
-     * @param courseName -- todo change to id
-     * @param marksList -- todo change
+     * @param courseId -- course Id
+     * @param markName -- mark name
+     * @param marksOfStudents -- marks of students in a map (key corresponds to student id, value is his mark)
      */
-    public int setMarks(Long courseId, MarksList marksList){
-        return 0;
+    public int setMarks(Long courseId, String markName, Map<Long, Integer> marksOfStudents){
+        int succesful = 0;
+        for (Map.Entry<Long,Integer> item :
+                marksOfStudents.entrySet()) {
+            var outMongo = marksListRepository.findById(MarksList.calcId(courseId,item.getKey()));
+            var outSQL = scmRepository.findByStudentIdAndCourseId(item.getKey(),courseId);
+            if(outMongo.isPresent()){
+                outMongo.get().getField().add(new MarksList.Mark(markName, item.getValue()));
+                marksListRepository.save(outMongo.get());
+
+                succesful++;
+            }
+        }
+        return succesful;
     }//Mongodb ToDo
      /**
      * insert new exam marks into course
-     * @param courseName -- todo change to id
+     * @param courseId -- todo change to id
      * @param marksList -- todo change
      */
     public int setExam(Long courseId, MarksList marksList){
@@ -182,8 +208,8 @@ public class DBApi {
     }//Mongodb ToDo
      /**
      * insert social work into course
-     * @param courseName -- todo change to id
-     * @param marksList -- todo change
+     * @param courseId -- todo change to id
+     * @param  -- todo change
      */
     public int setSocialWork(Long courseId, Long studentId){
 

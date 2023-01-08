@@ -27,7 +27,7 @@ public class TeacherHandle extends Handle {
     public void setMark(Long courseId, Student Student, int mark, DBApi object) {
         try{
             //переписати, бо непевний чи правильно розташував ключі
-            object.setMarks(courseId, null);
+            object.setMarks(courseId, "",null);
         }catch (Exception e){
             //error handling
         }
@@ -35,11 +35,11 @@ public class TeacherHandle extends Handle {
 
     public void setMarks(Long courseId, MarksList marksList, DBApi object) {
         try{
-            object.setMarks(courseId, marksList);
+            object.setMarks(courseId,"", null);
         }catch (Exception e){
             //error handling
         }
-    }
+    }//todo
 
     public void setSocialWork(Long courseId, Long studentId, DBApi object) {
         try{

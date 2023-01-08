@@ -6,25 +6,21 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface SCMRepository extends CrudRepository<StudentCourseMarks, StudentCourseMarksId> {
-    @Query(
-            nativeQuery = true,
-            value = """
-                    SELECT *
-                    FROM student_course_marks scm
-                    WHERE scm.course_id = ?0;
-                    """
-    )
+
     List<StudentCourseMarks> findByCourseId(Long courseId);
+
+    List<StudentCourseMarks> findByStudentId(Long studentId);
 
     @Query(
             nativeQuery = true,
             value = """
                     SELECT *
                     FROM student_course_marks scm
-                    WHERE scm.student_id = ?0;
+                    WHERE scm.student_id = ?1 AND scm.course_id = ?2
                     """
     )
-    List<StudentCourseMarks> findByStudentId(Long courseId);
+    Optional<StudentCourseMarks> findByStudentIdAndCourseId(Long studentId, Long courseId);
 }

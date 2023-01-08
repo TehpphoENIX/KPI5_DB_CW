@@ -1,11 +1,16 @@
 package edu.kpi5.dbcoursework.entities.coredb;
 
+import edu.kpi5.dbcoursework.entities.marksdb.MarksList;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.mongodb.repository.CountQuery;
 
 @Entity
 @Table(name = "student_course_marks")
 @IdClass(StudentCourseMarksId.class)
+@Getter
+@Setter
 public class StudentCourseMarks {
 
     @Id
@@ -24,35 +29,24 @@ public class StudentCourseMarks {
     @Column(name = "social_work")
     private Integer socialWork;
 
-    public Student getStudent() {
-        return student;
+    @Transient
+    private MarksList marksList;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        StudentCourseMarks that = (StudentCourseMarks) o;
+
+        if (!student.equals(that.student)) return false;
+        return course.equals(that.course);
     }
 
-    public void setStudent(Student student) {
-        this.student = student;
-    }
-
-    public Course getCourse() {
-        return course;
-    }
-
-    public void setCourse(Course course) {
-        this.course = course;
-    }
-
-    public Integer getTotalPoints() {
-        return totalPoints;
-    }
-
-    public void setTotalPoints(Integer totalPoints) {
-        this.totalPoints = totalPoints;
-    }
-
-    public Integer getSocialWork() {
-        return socialWork;
-    }
-
-    public void setSocialWork(Integer socialWork) {
-        this.socialWork = socialWork;
+    @Override
+    public int hashCode() {
+        int result = student.hashCode();
+        result = 31 * result + course.hashCode();
+        return result;
     }
 }

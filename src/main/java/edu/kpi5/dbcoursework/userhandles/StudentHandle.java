@@ -15,7 +15,7 @@ public class StudentHandle extends Handle{
         super(user);
     }
 
-    public List<MarksList> marksSummary(Student student, DBApi object) {
+    public List<StudentCourseMarks> marksSummary(Student student, DBApi object) {
         return object.getMarksOfStudent(student.getId());
     }
 
