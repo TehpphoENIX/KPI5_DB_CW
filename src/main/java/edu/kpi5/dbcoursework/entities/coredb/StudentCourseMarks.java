@@ -32,6 +32,13 @@ public class StudentCourseMarks {
     @Transient
     private MarksList marksList;
 
+    public StudentCourseMarks() {
+    }
+
+    public StudentCourseMarks(Student student, Course course){
+        this.student = student;
+        this.course = course;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

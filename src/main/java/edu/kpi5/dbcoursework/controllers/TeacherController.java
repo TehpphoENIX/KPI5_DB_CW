@@ -50,16 +50,16 @@ public class TeacherController {
     @PostMapping("/courses/{course}/mark/set")
     public String setMark(@PathVariable(value = "course") Long courseId, @RequestParam Long studentID, @RequestParam int mark) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
-        handle.setMark(courseId,
-                       handle.getCourseStudents(courseId, dbApi).
-                               stream().filter(x->x.getId()==studentID).findFirst().get(),
-                       mark, dbApi);
+//        handle.setMark(courseId,
+//                       handle.getCourseStudents(courseId, dbApi).
+//                               stream().filter(x->x.getId()==studentID).findFirst().get(),
+//                       mark, dbApi);
         return "redirect:/courses/{course}";
     }
     @PostMapping("/courses/{course}/marks/set")
     public String setMarks(@PathVariable(value = "course") Long courseId,  @RequestParam MarksList marksList) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
-        handle.setMarks(courseId, marksList, dbApi);
+//        handle.setMarks(courseId, marksList, dbApi);
 
         return "redirect:/courses/{course}";
     }
@@ -75,14 +75,14 @@ public class TeacherController {
     public String setExam(@PathVariable(value = "course")  Long courseId,@RequestParam MarksList marksList) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
 
-        handle.setExam(courseId, marksList, dbApi);
+//        handle.setExam(courseId, marksList, dbApi);
 
         return "redirect:/courses/{course}";
     }
     @PostMapping("/courses/add")
     public String addCourse(@RequestParam String courseName, @RequestParam ArrayList<String> groups) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
-        handle.addCourse(courseName, groups, dbApi);
+//        handle.addCourse(courseName, groups, dbApi);
         return "redirect:/courses/"+courseName;
     }
     @PostMapping("/courses/{course}/edit")

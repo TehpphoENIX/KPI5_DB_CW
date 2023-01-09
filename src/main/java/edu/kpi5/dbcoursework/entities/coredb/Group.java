@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -29,8 +30,8 @@ public class Group {
 	@JoinColumn(name="group_department")
 	private Department department;
 
-	@OneToMany(mappedBy = "group")
-	private Set<Student> Students;
+	@OneToMany(mappedBy = "group", fetch = FetchType.EAGER)
+	private Set<Student> students = new HashSet<>();
 
 	public Group() {
 	}

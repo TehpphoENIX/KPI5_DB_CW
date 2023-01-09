@@ -13,29 +13,29 @@ public interface CourseRepository extends CrudRepository<Course, Long> {
     public List<Course> findAll();
     @Query(
             nativeQuery = true,
-            value = "SELECT *" +
-                    "FROM course AS c" +
-                    "JOIN student_course_marks scm ON scm.course_id = c.id" +
-                    "JOIN student s ON s.id = scm.student_id" +
-                    "WHERE s.login = :login"
+            value = "SELECT c.* " +
+                    "FROM course AS c " +
+                    "JOIN student_course_marks scm ON scm.course_id = c.id " +
+                    "JOIN student s ON s.id = scm.student_id " +
+                    "WHERE s.student_login = :login"
     )
     public List<Course> findAllByStudentLogin(@Param("login") String login);
     @Query(
             nativeQuery = true,
-            value = "SELECT *" +
-                    "FROM course AS c" +
-                    "JOIN teacher_course tc ON tc.course_id = c.id" +
-                    "JOIN teacher t ON t.id = tc.teacher_id" +
-                    "WHERE s.login = :login"
+            value = "SELECT c.*" +
+                    "FROM course AS c " +
+                    "JOIN teacher_course tc ON tc.course_id = c.id " +
+                    "JOIN teacher t ON t.id = tc.teacher_id " +
+                    "WHERE t.teacher_login = :login"
     )
     public List<Course> findAllByTeacherLogin(@Param("login") String login);
     @Query(
             nativeQuery = true,
-            value = "SELECT *" +
-                    "FROM course as c" +
-                    "JOIN student_course_marks scm ON scm.course_id = c.id" +
-                    "JOIN student s ON s.id = scm.student_id" +
-                    "WHERE c.id=:courseId"
+            value = "SELECT s.* " +
+                    "FROM course as c " +
+                    "JOIN student_course_marks scm ON scm.course_id = c.id " +
+                    "JOIN student s ON s.id = scm.student_id " +
+                    "WHERE c.id = :courseId"
     )
     public List<Student> getStudentsByCourse(@Param("courseId") Long courseId);
 }

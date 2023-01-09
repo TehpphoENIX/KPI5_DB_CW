@@ -13,12 +13,13 @@ import edu.kpi5.dbcoursework.entities.userdb.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.annotation.SessionScope;
 
 import java.util.*;
 
-@Component
-@SessionScope
+@Service
 public class DBApi {
     //MySQL
     @Autowired
@@ -74,7 +75,9 @@ public class DBApi {
         StudentCourseMarks studentCourseMarks = new StudentCourseMarks();
         studentCourseMarks.setCourse(course);
         studentCourseMarks.setStudent(student);
+        MarksList marksList = new MarksList(MarksList.calcId(courseId,studentId));
         scmRepository.save(studentCourseMarks);
+        marksListRepository.save(marksList);
     }
 
     /**
@@ -86,14 +89,19 @@ public class DBApi {
         Course course = courseRepository.findById(courseId).get();
         Group group = groupRepository.findById(groupId).get();
         ArrayList<StudentCourseMarks> listOfSCMs = new ArrayList<>();
+        ArrayList<MarksList> marksLists = new ArrayList<>();
         for (Student student :
                 group.getStudents()) {
             StudentCourseMarks scm = new StudentCourseMarks();
             scm.setStudent(student);
             scm.setCourse(course);
             listOfSCMs.add(scm);
+
+            MarksList marksList = new MarksList(MarksList.calcId(courseId,student.getId()));
+            marksLists.add(marksList);
         }
         scmRepository.saveAll(listOfSCMs);
+        marksListRepository.saveAll(marksLists);
     }
 
     /**
@@ -105,7 +113,7 @@ public class DBApi {
         Course course = courseRepository.findById(courseId).get();
         Teacher teacher =teacherRepository.findById(teacherId).get();
         course.getTeachers().add(teacher);
-        //teacher.getCourses().add(course);
+        teacher.getCourses().add(course);
         courseRepository.save(course);
         teacherRepository.save(teacher);
     }
@@ -291,10 +299,12 @@ public class DBApi {
      * @param groupYear
      * @param groupSpec
      * @param department
+     * @return id of new group
      */
-    public void addGroup(String groupName, Integer groupYear, Short groupSpec, Department department) {
+    public Long addGroup(String groupName, Integer groupYear, Short groupSpec, Department department) {
         Group group = new Group(groupName, groupYear, groupSpec, department);
         groupRepository.save(group);
+        return group.getId();
     }
 
     /**
@@ -352,10 +362,11 @@ public class DBApi {
         return groupRepository.findAll();
     }
 
-    public void createTeacher(String login, String password,String name, String surname, Department department){
+    public Long createTeacher(String login, String password,String name, String surname, Department department){
         createUser(login,AccessLevelEnum.teacher,password);
         Teacher teacher = new Teacher(login,name,surname,department);
         teacherRepository.save(teacher);
+        return teacher.getId();
     }
     /**
      * create user
@@ -365,7 +376,7 @@ public class DBApi {
      * @return
      */
     public void createUser(String userName, AccessLevelEnum level, String password) {
-        User user = new User(userName, password,  new HashSet<>());
+        User user = new User(userName, password);
         var out = accessLevelRepository.findById(level.label).get();
         user.getAccessLevels().add(out);
         userRepository.save(user);

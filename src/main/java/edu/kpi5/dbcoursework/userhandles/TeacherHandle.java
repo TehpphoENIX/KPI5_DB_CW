@@ -12,6 +12,11 @@ import java.util.Map;
 
 public class TeacherHandle extends Handle {
     private Teacher teacher;
+
+    public TeacherHandle(User user) {
+        super(user);
+    }
+
     public TeacherHandle(User user, DBApi object) {
         super(user);
         teacher = object.getTeacher(user.getLogin());

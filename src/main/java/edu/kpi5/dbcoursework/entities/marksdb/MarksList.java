@@ -45,6 +45,10 @@ public class MarksList {
     public MarksList() {
     }
 
+    public MarksList(String id) {
+        this.id = id;
+    }
+
     public MarksList(String id, ArrayList<Mark> field) {
         this.id = id;
         this.field = field;

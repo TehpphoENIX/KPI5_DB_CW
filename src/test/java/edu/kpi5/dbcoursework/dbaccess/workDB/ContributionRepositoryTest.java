@@ -1,10 +1,12 @@
 package edu.kpi5.dbcoursework.dbaccess.workDB;
 
 import edu.kpi5.dbcoursework.entities.workDB.RedisEntity;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.connection.RedisServerCommands;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.util.Pair;
 
@@ -16,6 +18,13 @@ class ContributionRepositoryTest {
 
     @Autowired
     ContributionRepository underTest;
+    @Autowired
+    RedisServerCommands redisServerCommands;
+
+    @AfterEach
+    public void clean(){
+        redisServerCommands.flushDb();
+    }
 
     @Test
     public void structureTest(){

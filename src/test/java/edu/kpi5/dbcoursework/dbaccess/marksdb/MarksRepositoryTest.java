@@ -4,10 +4,13 @@ import edu.kpi5.dbcoursework.dbaccess.marksdb.MarksListRepository;
 import edu.kpi5.dbcoursework.entities.coredb.*;
 import edu.kpi5.dbcoursework.entities.marksdb.MarksList;
 import edu.kpi5.dbcoursework.entities.marksdb.MarksList.Mark;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
 import java.util.ArrayList;
 
@@ -20,6 +23,8 @@ public class MarksRepositoryTest {
     private MarksListRepository underTest;
     @Autowired
     private MarksListRepository marksListRepository;
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     private final ArrayList<MarksList> marksList = new ArrayList<>();
     private final ArrayList<Mark> marks1 = new ArrayList<>();
@@ -37,6 +42,11 @@ public class MarksRepositoryTest {
         marksList.add(new MarksList("History", marks2));
 
         marksListRepository.saveAll(marksList);
+    }
+
+    @AfterEach
+    void clean() {
+        mongoTemplate.dropCollection(MarksList.class);
     }
 
     @Test

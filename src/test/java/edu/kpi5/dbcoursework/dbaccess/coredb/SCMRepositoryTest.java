@@ -1,6 +1,7 @@
 package edu.kpi5.dbcoursework.dbaccess.coredb;
 
 import edu.kpi5.dbcoursework.entities.coredb.*;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +40,8 @@ class SCMRepositoryTest {
     void given() {
         Department d = new Department("d");
         Group g = new Group("g",1,(short)1,d);
-        studentlist.add(new Student("login","A","",g,1,(short)0,0.0f,false));
-        studentlist.add(new Student("login","A","",g,1,(short)0,0.0f,false));
+        studentlist.add(new Student("A","A","",g,1,(short)0,0.0f,false));
+        studentlist.add(new Student("B","B","",g,1,(short)0,0.0f,false));
         courselist.add(new Course("C"));
         courselist.add(new Course("D"));
         scm = new StudentCourseMarks();
@@ -55,6 +56,15 @@ class SCMRepositoryTest {
         studentRepository.saveAll(studentlist);
         courseRepository.saveAll(courselist);
         scmRepository.save(scm);
+    }
+
+    @AfterEach
+    public void clean(){
+        underTest.deleteAll();
+        studentRepository.deleteAll();
+        courseRepository.deleteAll();
+        groupRepository.deleteAll();
+        departmentRepository.deleteAll();
     }
 
     @Test

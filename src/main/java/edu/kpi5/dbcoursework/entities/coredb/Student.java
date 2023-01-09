@@ -18,7 +18,7 @@ public class Student {
 	private Long id;
 
 	//@OneToOne
-	@JoinColumn(name = "student_login")
+	@Column(name = "student_login", unique = true)
 	private String login;
 
 	@Column(name = "student_name", length = 50, nullable = false)
@@ -43,7 +43,7 @@ public class Student {
 	@Column(name = "student_sw")
 	private Boolean socialWork;
 
-	@OneToMany(mappedBy = "student")
+	@OneToMany(mappedBy = "student", fetch = FetchType.EAGER)
 	private Set<StudentCourseMarks> marks = new HashSet<>();
 
 	@Column(name = "scholarship")

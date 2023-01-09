@@ -143,6 +143,13 @@ public class StudentRepositoryTest {
         SCMRepo.saveAll(scmList);
     }
 
+    @AfterAll
+    public void clean(){
+        SCMRepo.deleteAll();
+        underTest.deleteAll();
+        courseRepository.deleteAll();
+    }
+
 
     @Test
     void sameEntitiesCount() {

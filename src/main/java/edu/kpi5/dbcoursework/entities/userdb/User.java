@@ -26,13 +26,11 @@ public class User {
 
     public User() {}
 
-    public User(String login, String password, Set<AccessLevel> accessLevels) {
+    public User(String login, String password) {
 
         this.login = login;
 
         this.password = password;
-
-        this.accessLevels = accessLevels;
     }
 
     @Override
