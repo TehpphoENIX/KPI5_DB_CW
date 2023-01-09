@@ -11,11 +11,11 @@ public class Security {
     public static Handle authorize(DBApi api, String login, String password){
         User user = api.loginToUser(login, password);
         if(user != null){
-            if(user.getAccessLevel().contains(new AccessLevel(AccessLevelEnum.admin.label))){
+            if(user.getAccessLevels().contains(new AccessLevel(AccessLevelEnum.admin.label))){
                 return new HandleFactory().createAdminHandle(user);
-            }else if(user.getAccessLevel().contains(new AccessLevel(AccessLevelEnum.teacher.label))){
+            }else if(user.getAccessLevels().contains(new AccessLevel(AccessLevelEnum.teacher.label))){
                 return new HandleFactory().createTeacherHandle(user);
-            }else if(user.getAccessLevel().contains(new AccessLevel(AccessLevelEnum.student.label))){
+            }else if(user.getAccessLevels().contains(new AccessLevel(AccessLevelEnum.student.label))){
                 return new HandleFactory().createStudentHandle(user);
             }
         }

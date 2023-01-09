@@ -1,11 +1,15 @@
 package edu.kpi5.dbcoursework.entities.userdb;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 
 import java.util.Objects;
 
 @Node("AccessLevel")
+@Getter
+@Setter
 public class AccessLevel {
 
 	@Id
@@ -15,16 +19,6 @@ public class AccessLevel {
 	}
 
 	public AccessLevel(String name) {
-
-		this.name = name;
-	}
-
-	public String getName() {
-
-		return name;
-	}
-
-	public void setName(String name) {
 
 		this.name = name;
 	}

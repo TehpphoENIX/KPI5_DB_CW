@@ -1,5 +1,7 @@
 package edu.kpi5.dbcoursework.entities.userdb;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Property;
@@ -9,6 +11,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Node("User")
+@Getter
+@Setter
 public class User {
 
     @Id
@@ -27,36 +31,6 @@ public class User {
         this.login = login;
 
         this.password = password;
-
-        this.accessLevels = accessLevels;
-    }
-
-    public String getLogin() {
-
-        return login;
-    }
-
-    public String getPassword() {
-
-        return password;
-    }
-
-    public Set<AccessLevel> getAccessLevel() {
-
-        return accessLevels;
-    }
-
-    public void setLogin(String login) {
-
-        this.login = login;
-    }
-
-    public void setPassword(String password) {
-
-        this.password = password;
-    }
-
-    public void setAccessLevel(Set<AccessLevel> accessLevels) {
 
         this.accessLevels = accessLevels;
     }

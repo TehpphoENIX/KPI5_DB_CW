@@ -1,12 +1,16 @@
 package edu.kpi5.dbcoursework.entities.coredb;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "STUDENT")
+@Getter
+@Setter
 public class Student {
 
 	@Id
@@ -59,98 +63,6 @@ public class Student {
 		this.numberOfExams = numberOfExams;
 		this.averageMark = averageMark;
 		this.socialWork = socialWork;
-	}
-
-	public Long getId() {
-
-		return id;
-	}
-
-	public String getLogin() {
-
-		return login;
-	}
-	public String getName() {
-
-		return name;
-	}
-	public String getSurname() {
-
-		return surname;
-	}
-	public Group getGroup() {
-
-		return group;
-	}
-	public Integer getHostel() {
-
-		return hostel;
-	}
-	public Short getNumberOfExams() {
-
-		return numberOfExams;
-	}
-	public Float getAverageMark() {
-
-		return averageMark;
-	}
-	public Boolean getSocialWork() {
-
-		return socialWork;
-	}
-
-	public void setId(Long id) {
-
-		this.id = id;
-	}
-
-	public void setLogin(String login) {
-
-		this.login = login;
-	}
-	public void setName(String name) {
-
-		this.name = name;
-	}
-	public void setSurname(String surname) {
-
-		this.surname = surname;
-	}
-	public void setGroup(Group group) {
-
-		this.group = group;
-	}
-	public void setHostel(Integer hostel) {
-
-		this.hostel = hostel;
-	}
-	public void setNumberOfExams(Short numberOfExams) {
-
-		this.numberOfExams = numberOfExams;
-	}
-	public void setAverageMark(Float averageMark) {
-
-		this.averageMark = averageMark;
-	}
-	public void setSocialWork(Boolean socialWork) {
-
-		this.socialWork = socialWork;
-	}
-
-	public Integer getScholarship() {
-		return scholarship;
-	}
-
-	public void setScholarship(Integer scholarship) {
-		this.scholarship = scholarship;
-	}
-
-	public Set<StudentCourseMarks> getMarks() {
-		return marks;
-	}
-
-	public void setMarks(Set<StudentCourseMarks> marks) {
-		this.marks = marks;
 	}
 
 	@Override

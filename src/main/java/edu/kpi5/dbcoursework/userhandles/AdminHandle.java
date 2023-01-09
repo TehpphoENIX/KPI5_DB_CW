@@ -34,18 +34,15 @@ public class AdminHandle extends TeacherHandle{
     public ArrayList<Student> getScholarshipList(boolean increased, DBApi object) {
         return new ArrayList<>(object.getScholarshipList(increased));
     }
-    public boolean createUser(String userName, AccessLevelEnum level, String password, DBApi object) {//todo (2 AccessLevel available)
-        if(object.createUser(userName,level,password) == true){
-            return true;
-        }
-        return false;
+    public void createUser(String userName, AccessLevelEnum level, String password, DBApi object) {
+        object.createUser(userName,level,password);
     }
-    public boolean editUser(String userName, AccessLevelEnum level, String password, DBApi object) {//todo (2 AccessLevel available)
-        if(object.editUser(userName,level,password) == true){
-            return true;
-        }
-        return false;
-    }
+//    public boolean editUser(String userName, AccessLevelEnum level, String password, DBApi object) {
+//        if(object.editUser(userName,level,password) == true){
+//            return true;
+//        }
+//        return false;
+//    }
     public ArrayList<Pair<String, ArrayList<Pair<Float, Float>>>> getTeachersContribution() {
         // todo для чого використовується ця функція ?
         return null;

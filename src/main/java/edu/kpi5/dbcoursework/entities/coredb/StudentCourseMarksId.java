@@ -3,9 +3,12 @@ package edu.kpi5.dbcoursework.entities.coredb;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
-
+@Getter
+@Setter
 public class StudentCourseMarksId implements Serializable {
     private Student student;
     private Course course;
@@ -15,22 +18,6 @@ public class StudentCourseMarksId implements Serializable {
 
     public StudentCourseMarksId(Student student, Course course) {
         this.student = student;
-        this.course = course;
-    }
-
-    public Student getStudent() {
-        return student;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
-    }
-
-    public Course getCourse() {
-        return course;
-    }
-
-    public void setCourse(Course course) {
         this.course = course;
     }
 

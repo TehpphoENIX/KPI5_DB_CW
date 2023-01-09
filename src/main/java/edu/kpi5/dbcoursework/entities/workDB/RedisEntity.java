@@ -5,11 +5,15 @@ import java.time.LocalDate;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.util.Pair;
 
 @RedisHash("RedisEntity")
+@Getter
+@Setter
 public class RedisEntity implements Serializable {
 
     @Id
@@ -24,19 +28,18 @@ public class RedisEntity implements Serializable {
     public RedisEntity() {
     }
 
-    public Long getId() {
-        return id;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        RedisEntity that = (RedisEntity) o;
+
+        return id.equals(that.id);
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public ArrayList<Pair<LocalDate,Integer>> getContribution() {
-        return contribution;
-    }
-
-    public void setContribution(ArrayList<Pair<LocalDate,Integer>> contribution) {
-        this.contribution = contribution;
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
 }

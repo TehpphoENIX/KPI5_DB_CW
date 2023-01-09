@@ -1,11 +1,15 @@
 package edu.kpi5.dbcoursework.entities.coredb;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Set;
 
 @Entity
 @Table(name = "FGROUP")
+@Getter
+@Setter
 public class Group {
 
 	@Id
@@ -41,54 +45,6 @@ public class Group {
 		this.speciality = speciality;
 
 		this.department = department;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Integer getYearCreated() {
-		return yearCreated;
-	}
-
-	public void setYearCreated(Integer yearCreated) {
-		this.yearCreated = yearCreated;
-	}
-
-	public Short getSpeciality() {
-		return speciality;
-	}
-
-	public void setSpeciality(Short speciality) {
-		this.speciality = speciality;
-	}
-
-	public Department getDepartment() {
-		return department;
-	}
-
-	public void setDepartment(Department department) {
-		this.department = department;
-	}
-
-	public Set<Student> getStudents() {
-		return Students;
-	}
-
-	public void setStudents(Set<Student> students) {
-		Students = students;
 	}
 
 	@Override

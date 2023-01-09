@@ -5,6 +5,7 @@ import edu.kpi5.dbcoursework.utility.HttpSessionBean;
 import edu.kpi5.dbcoursework.utility.Security;
 import edu.kpi5.dbcoursework.utility.UserForm;
 import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class UserController {
      */
     @Resource(name = "sessionScopedBean")
     HttpSessionBean httpSessionBean;
-    @Resource(name = "dbApiBean")
+    @Autowired
     DBApi dbApi;
 
     /**

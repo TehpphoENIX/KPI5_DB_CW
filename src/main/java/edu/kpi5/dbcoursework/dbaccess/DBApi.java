@@ -15,12 +15,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
+@SessionScope
 public class DBApi {
     //MySQL
     @Autowired
@@ -48,11 +46,11 @@ public class DBApi {
     @Autowired
     ContributionRepository contributionRepository;
 
-    @Bean
-    @SessionScope
-    public DBApi dbApiBean(){
-        return new DBApi();
-    }
+//    @Bean
+//    @SessionScope
+//    public DBApi dbApiBean(){
+//        return new DBApi();
+//    }
 
     /**
      * add new course to the database
@@ -60,6 +58,53 @@ public class DBApi {
      */
     public void addCourse(String courseName){
         courseRepository.save(new Course(courseName));
+    }
+
+    /**
+     * add 1 student to the course
+     * @param courseId
+     * @param studentId
+     */
+    public void addStudentToCourse(Long courseId, Long studentId){
+        Course course = courseRepository.findById(courseId).get();
+        Student student = studentRepository.findById(studentId).get();
+        StudentCourseMarks studentCourseMarks = new StudentCourseMarks();
+        studentCourseMarks.setCourse(course);
+        studentCourseMarks.setStudent(student);
+        scmRepository.save(studentCourseMarks);
+    }
+
+    /**
+     * add full group to the course
+     * @param courseId
+     * @param groupId
+     */
+    public void addStudentsToCourse(Long courseId, Long groupId){
+        Course course = courseRepository.findById(courseId).get();
+        Group group = groupRepository.findById(groupId).get();
+        ArrayList<StudentCourseMarks> listOfSCMs = new ArrayList<>();
+        for (Student student :
+                group.getStudents()) {
+            StudentCourseMarks scm = new StudentCourseMarks();
+            scm.setStudent(student);
+            scm.setCourse(course);
+            listOfSCMs.add(scm);
+        }
+        scmRepository.saveAll(listOfSCMs);
+    }
+
+    /**
+     * add single teacher to a course
+     * @param courseId
+     * @param teacherId
+     */
+    public void addTeacherToCourse(Long courseId, Long teacherId){
+        Course course = courseRepository.findById(courseId).get();
+        Teacher teacher =teacherRepository.findById(teacherId).get();
+        course.getTeachers().add(teacher);
+        //teacher.getCourses().add(course);
+        courseRepository.save(course);
+        teacherRepository.save(teacher);
     }
 
     /**
@@ -107,11 +152,11 @@ public class DBApi {
      * @return list of courses
      */
     public List<Course> getCourseList(User user) {
-        if(user.getAccessLevel().contains(new AccessLevel(AccessLevelEnum.admin.label))){
+        if(user.getAccessLevels().contains(new AccessLevel(AccessLevelEnum.admin.label))){
             return courseRepository.findAll();
-        }else if(user.getAccessLevel().contains(new AccessLevel(AccessLevelEnum.teacher.label))){
+        }else if(user.getAccessLevels().contains(new AccessLevel(AccessLevelEnum.teacher.label))){
             return courseRepository.findAllByTeacherLogin(user.getLogin());
-        }else if(user.getAccessLevel().contains(new AccessLevel(AccessLevelEnum.student.label))){
+        }else if(user.getAccessLevels().contains(new AccessLevel(AccessLevelEnum.student.label))){
             return courseRepository.findAllByStudentLogin(user.getLogin());
         }
         else{
@@ -223,16 +268,18 @@ public class DBApi {
 //    }
      /**
      * insert social work into course
-     * @param courseId -- todo change to id
-     * @param studentId -- todo change
+     * @param courseId
+     * @param studentId
      */
     public int setSocialWork(Long courseId, Long studentId){
         var outSQL = scmRepository.findByStudentIdAndCourseId(studentId,courseId);
         if(outSQL.isPresent()){
             outSQL.get().setSocialWork(1);
             scmRepository.save(outSQL.get());
+            return 0;
+        }else {
+            return 1;
         }
-        return 0;
     }
 
     /**
@@ -302,6 +349,11 @@ public class DBApi {
         return groupRepository.findAll();
     }
 
+    public void createTeacher(String login, String password,String name, String surname, Department department){
+        createUser(login,AccessLevelEnum.teacher,password);
+        Teacher teacher = new Teacher(login,name,surname,department);
+        teacherRepository.save(teacher);
+    }
     /**
      * create user
      * @param userName
@@ -309,15 +361,15 @@ public class DBApi {
      * @param password
      * @return
      */
-    public boolean createUser(String userName, AccessLevelEnum level, String password) {
-        return false;
-    }//Neo4j todo
-    public boolean editUser(String userName, AccessLevelEnum level, String password) {
-        return false;
-    }//Neo4j todo
+    public void createUser(String userName, AccessLevelEnum level, String password) {
+        User user = new User(userName, password,  new HashSet<>());
+        var out = accessLevelRepository.findById(level.label).get();
+        user.getAccessLevels().add(out);
+        userRepository.save(user);
+    }
     public void removeUsers(List<String> userNames) {
         userRepository.deleteAllById(userNames);
-    }//Neo4j todo
+    }
     public User getUser(String userName) {
         var out = userRepository.findById(userName);
         if(out.isPresent()){
@@ -325,13 +377,18 @@ public class DBApi {
         }else{
             return null;
         }
-    }//Neo4j todo
+    }
     public User loginToUser(String userName, String password) {
-        return null;
-    }//Neo4j todo
+        var optionalUser = userRepository.findById(userName);
+        if(optionalUser.isPresent() && optionalUser.get().getPassword().equals(password)){
+            return optionalUser.get();
+        }else{
+            return null;
+        }
+    }
     public List<User> getUserList() {
         return userRepository.findAll();
-    }//Neo4j todo
+    }
 
     public void applyScholarship(List<Student> listOfStudents, boolean increased) {
         for (Student student:

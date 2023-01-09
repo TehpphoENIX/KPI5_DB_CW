@@ -4,6 +4,7 @@ import edu.kpi5.dbcoursework.dbaccess.DBApi;
 import edu.kpi5.dbcoursework.utility.HttpSessionBean;
 import edu.kpi5.dbcoursework.userhandles.StudentHandle;
 import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +19,7 @@ public class StudentController {
      */
     @Resource(name = "sessionScopedBean")
     HttpSessionBean httpSessionBean;
-    @Resource(name = "dbApiBean")
+    @Autowired
     DBApi dbApi;
 
     /**
