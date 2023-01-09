@@ -29,6 +29,10 @@ public class TeacherHandle extends Handle {
 //        }
 //    }
 
+    public final Teacher getTeacher(){
+        return teacher;
+    }
+
     public void setMark(Long courseId, String markName, Long studentId, int mark, DBApi object) {
         //переписати, бо непевний чи правильно розташував ключі
         object.setMarks(courseId, markName,null);
@@ -66,8 +70,12 @@ public class TeacherHandle extends Handle {
         return object.getCourse(courseId);
     }
 
-    public List<Student> getCourseStudents(Long course, DBApi object) {
-        return object.getCourseStudents(course);
+    public List<StudentCourseMarks> getMarksOfCourse(Long courseId, DBApi object){
+        return object.getMarksOfCourse(courseId);
+    }
+
+    public List<Student> getCourseStudents(Long courseId, DBApi object) {
+        return object.getCourseStudents(courseId);
     }
 
     public List<Course> getCourseList(DBApi object) {

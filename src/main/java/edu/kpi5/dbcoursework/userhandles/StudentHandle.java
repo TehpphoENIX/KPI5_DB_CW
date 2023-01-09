@@ -17,6 +17,10 @@ public class StudentHandle extends Handle{
         student = object.getStudent(user.getLogin());
     }
 
+    public final Student getStudent(){
+        return student;
+    }
+
     public List<StudentCourseMarks> marksSummary(DBApi object) {
         return object.getMarksOfStudent(student.getId());
     }
