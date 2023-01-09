@@ -1,4 +1,4 @@
-package edu.kpi5.dbcoursework.dbaccess.coredb;
+package edu.kpi5.dbcoursework.dbaccess.marksdb;
 
 import edu.kpi5.dbcoursework.dbaccess.marksdb.MarksListRepository;
 import edu.kpi5.dbcoursework.entities.coredb.*;
@@ -7,11 +7,13 @@ import edu.kpi5.dbcoursework.entities.marksdb.MarksList.Mark;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest
 public class MarksRepositoryTest {
 
     @Autowired
@@ -39,18 +41,18 @@ public class MarksRepositoryTest {
 
     @Test
     void sameEntitiesCount() {
-        assertEquals(underTest.count(), marksList.size());
+        assertEquals(marksList.size(), underTest.count());
     }
 
     @Test
     void findByCourseId() {
         var received = underTest.findById("Mathematica").get();
         assertNotNull(received);
-        assertIterableEquals(received.getField(), marksList.get(0).getField());
+        assertEquals(received, marksList.get(0));
 
         var received2 = underTest.findById("History").get();
         assertNotNull(received2);
-        assertIterableEquals(received2.getField(), marksList.get(1).getField());
+        assertEquals(received2, marksList.get(1));
 
     }
 

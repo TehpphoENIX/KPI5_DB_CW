@@ -189,32 +189,51 @@ public class DBApi {
                 marksOfStudents.entrySet()) {
             var outMongo = marksListRepository.findById(MarksList.calcId(courseId,item.getKey()));
             var outSQL = scmRepository.findByStudentIdAndCourseId(item.getKey(),courseId);
-            if(outMongo.isPresent()){
+            if(outMongo.isPresent() && outSQL.isPresent()){
                 outMongo.get().getField().add(new MarksList.Mark(markName, item.getValue()));
+                outSQL.get().setTotalPoints(MarksList.getTotal(outMongo.get()));
+                scmRepository.save(outSQL.get());
                 marksListRepository.save(outMongo.get());
-
                 succesful++;
             }
         }
         return succesful;
-    }//Mongodb ToDo
-     /**
-     * insert new exam marks into course
-     * @param courseId -- todo change to id
-     * @param marksList -- todo change
-     */
-    public int setExam(Long courseId, MarksList marksList){
-        return 0;
-    }//Mongodb ToDo
+    }
+    //NOT REALIZED
+//    /**
+//     * insert new marks into courseinsert new exam marks into course@param courseId -- course Id
+//     * @param courseId -- course id
+//     * @param marksOfStudents -- marks of students in a map (key corresponds to student id, value is his mark)
+//     */
+//    public int setExam(Long courseId, Map<Long, Integer> marksOfStudents){
+//        int succesful = 0;
+//        for (Map.Entry<Long,Integer> item :
+//                marksOfStudents.entrySet()) {
+//            var outMongo = marksListRepository.findById(MarksList.calcId(courseId,item.getKey()));
+//            var outSQL = scmRepository.findByStudentIdAndCourseId(item.getKey(),courseId);
+//            if(outMongo.isPresent() && outSQL.isPresent()){
+//                outMongo.get().setExam(item.getValue());
+//                outSQL.get().setTotalPoints();
+//                scmRepository.save(outSQL.get());
+//                marksListRepository.save(outMongo.get());
+//                succesful++;
+//            }
+//        }
+//        return succesful;
+//    }
      /**
      * insert social work into course
      * @param courseId -- todo change to id
-     * @param  -- todo change
+     * @param studentId -- todo change
      */
     public int setSocialWork(Long courseId, Long studentId){
-
+        var outSQL = scmRepository.findByStudentIdAndCourseId(studentId,courseId);
+        if(outSQL.isPresent()){
+            outSQL.get().setSocialWork(1);
+            scmRepository.save(outSQL.get());
+        }
         return 0;
-    }//Mongodb ToDo
+    }
 
     /**
      * Create new group
@@ -323,7 +342,7 @@ public class DBApi {
     }
     public List<Student> getKickList() {
         return studentRepository.getKickList();
-    }//todo
+    }
     public List<Student> getScholarshipList(boolean increased) {
         if(increased){
             return studentRepository.getIncreasedScholarshipList();

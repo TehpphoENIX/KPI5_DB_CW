@@ -1,6 +1,7 @@
 package edu.kpi5.dbcoursework.dbaccess.marksdb;
 
 import edu.kpi5.dbcoursework.entities.marksdb.MarksList;
+import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 

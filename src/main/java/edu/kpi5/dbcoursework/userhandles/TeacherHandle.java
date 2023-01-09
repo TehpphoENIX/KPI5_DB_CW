@@ -51,7 +51,7 @@ public class TeacherHandle extends Handle {
 
     public void setExam(Long courseId, MarksList marksList, DBApi object) {
         try{
-            object.setExam(courseId, marksList);
+            object.setMarks(courseId, "EXAM", null);//todo
         }catch (Exception e){
             //error handling
         }

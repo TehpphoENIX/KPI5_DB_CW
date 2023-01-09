@@ -24,7 +24,7 @@ public class StudentCourseMarks {
     private Course course;
 
     @Column(name = "total_points")
-    private Integer totalPoints;
+    private Double totalPoints;
 
     @Column(name = "social_work")
     private Integer socialWork;
