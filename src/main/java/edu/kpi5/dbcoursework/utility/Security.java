@@ -14,9 +14,9 @@ public class Security {
             if(user.getAccessLevels().contains(new AccessLevel(AccessLevelEnum.admin.label))){
                 return new HandleFactory().createAdminHandle(user);
             }else if(user.getAccessLevels().contains(new AccessLevel(AccessLevelEnum.teacher.label))){
-                return new HandleFactory().createTeacherHandle(user);
+                return new HandleFactory().createTeacherHandle(user, api);
             }else if(user.getAccessLevels().contains(new AccessLevel(AccessLevelEnum.student.label))){
-                return new HandleFactory().createStudentHandle(user);
+                return new HandleFactory().createStudentHandle(user, api);
             }
         }
         return null;
