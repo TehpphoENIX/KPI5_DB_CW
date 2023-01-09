@@ -4,12 +4,17 @@ import edu.kpi5.dbcoursework.dbaccess.DBApi;
 import edu.kpi5.dbcoursework.entities.coredb.*;
 import edu.kpi5.dbcoursework.entities.marksdb.MarksList;
 import edu.kpi5.dbcoursework.entities.userdb.User;
+import lombok.extern.java.Log;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class TeacherHandle extends Handle {
-    public TeacherHandle(User user) {
+    private Teacher teacher;
+    public TeacherHandle(User user, DBApi object) {
         super(user);
+        teacher = object.getTeacher(user.getLogin());
     }
 
     //UNREALIZED
@@ -24,74 +29,48 @@ public class TeacherHandle extends Handle {
 //        }
 //    }
 
-    public void setMark(Long courseId, Student Student, int mark, DBApi object) {
-        try{
-            //переписати, бо непевний чи правильно розташував ключі
-            object.setMarks(courseId, "",null);
-        }catch (Exception e){
-            //error handling
-        }
+    public void setMark(Long courseId, String markName, Long studentId, int mark, DBApi object) {
+        //переписати, бо непевний чи правильно розташував ключі
+        object.setMarks(courseId, markName,null);
     }//todo
 
-    public void setMarks(Long courseId, MarksList marksList, DBApi object) {
-        try{
-            object.setMarks(courseId,"", null);
-        }catch (Exception e){
-            //error handling
-        }
-    }//todo
+    public void setMarks(Long courseId, String markName, Map<Long, Integer> marksList, DBApi object) {
+        object.setMarks(courseId,markName, marksList);
+    }
 
     public void setSocialWork(Long courseId, Long studentId, DBApi object) {
-        try{
-            object.setSocialWork(courseId, studentId);
-        }catch (Exception e){
-            //error handling
-        }
+        object.setSocialWork(courseId, studentId);
     }
 
-    public void setExam(Long courseId, MarksList marksList, DBApi object) {
-        try{
-            object.setMarks(courseId, "EXAM", null);//todo
-        }catch (Exception e){
-            //error handling
-        }
+    public void setExam(Long courseId, Map<Long, Integer> marksList, DBApi object) {
+        object.setMarks(courseId, "EXAM", marksList);
     }
 
-    public void addCourse(String courseName, ArrayList<String> groups,DBApi object) {
-        try{
-            object.addCourse(courseName);
-        }catch (Exception e){
-            //error handling
+    public void addCourse(String courseName, ArrayList<Long> groups,DBApi object) {
+        Long courseId = object.addCourse(courseName);
+        for (long id :
+                groups) {
+            object.addStudentsToCourse(courseId, id);
         }
-    }//todo
+    }
 
     public void editCourse(Course course, DBApi object) {
-        try{
-            object.editCourse(course);
-        }catch (Exception e){
-            //error handling
-        }
+        object.editCourse(course);
     }
 
-    public void removeCourse(Long courseID, DBApi object) {
-        //в класі курсу немає courseID
-        //навіщо повертати булл ?
-        try{
-            object.removeCourse(courseID);
-        }catch (Exception e){
-            //error handling
-        }
+    public void removeCourse(Long courseId, DBApi object) {
+        object.removeCourse(courseId);
     }
 
     public Course getCourse(Long courseId, DBApi object) {
         return object.getCourse(courseId);
     }
 
-    public ArrayList<Student> getCourseStudents(Long course, DBApi object) {
-        return new ArrayList<>(object.getCourseStudents(course));
+    public List<Student> getCourseStudents(Long course, DBApi object) {
+        return object.getCourseStudents(course);
     }
 
-    public ArrayList<Course> getCourseList(DBApi object) {
-        return new ArrayList<>(object.getCourseList(super.getUser()));
+    public List<Course> getCourseList(DBApi object) {
+        return object.getCourseList(super.getUser());
     }
 }

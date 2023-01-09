@@ -55,9 +55,12 @@ public class DBApi {
     /**
      * add new course to the database
      * @param courseName -- new course name
+     * @return course id
      */
-    public void addCourse(String courseName){
-        courseRepository.save(new Course(courseName));
+    public long addCourse(String courseName){
+        Course course = new Course(courseName);
+        courseRepository.save(course);
+        return course.getId();
     }
 
     /**
@@ -386,6 +389,13 @@ public class DBApi {
             return null;
         }
     }
+    public Student getStudent(String login){
+        return studentRepository.findByLogin(login).get();
+    }
+    public Teacher getTeacher(String login){
+        return teacherRepository.findByLogin(login).get();
+    }
+
     public List<User> getUserList() {
         return userRepository.findAll();
     }

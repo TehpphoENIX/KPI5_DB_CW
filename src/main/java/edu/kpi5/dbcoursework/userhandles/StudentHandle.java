@@ -11,20 +11,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentHandle extends Handle{
-    public StudentHandle(User user) {
+    private Student student;
+    public StudentHandle(User user, DBApi object) {
         super(user);
+        student = object.getStudent(user.getLogin());
     }
 
-    public List<StudentCourseMarks> marksSummary(Student student, DBApi object) {
+    public List<StudentCourseMarks> marksSummary(DBApi object) {
         return object.getMarksOfStudent(student.getId());
     }
 
-    public ArrayList<Course> getMyCourses(DBApi object) {
-        return new ArrayList<Course>(object.getCourseList(this.getUser()));
+    public List<Course> getMyCourses(DBApi object) {
+        return object.getCourseList(this.getUser());
     }
 
-    public MarksList getMarksOfCourse(Long courseId, Long StudentId, DBApi object) {
-        return object.getMarksOfCourse(courseId, StudentId);
+    public MarksList getMarksOfCourse(Long courseId, DBApi object) {
+        return object.getMarksOfCourse(courseId, student.getId());
     }
 
     // THIS FUNCTION IS NOT REALISED

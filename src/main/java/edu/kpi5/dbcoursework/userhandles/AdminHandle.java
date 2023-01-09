@@ -25,14 +25,14 @@ public class AdminHandle extends TeacherHandle{
         }
         return new ArrayList<>(kickedList);
     }
-    public void removeUsers(ArrayList<String> userNames, DBApi object) {
+    public void removeUsers(List<String> userNames, DBApi object) {
         object.removeUsers(userNames);
     }
-    public void applyScholarship(ArrayList<Student> listOfStudents, boolean increased, DBApi object) {
+    public void applyScholarship(List<Student> listOfStudents, boolean increased, DBApi object) {
         object.applyScholarship(listOfStudents, increased);
     }
-    public ArrayList<Student> getScholarshipList(boolean increased, DBApi object) {
-        return new ArrayList<>(object.getScholarshipList(increased));
+    public List<Student> getScholarshipList(boolean increased, DBApi object) {
+        return object.getScholarshipList(increased);
     }
     public void createUser(String userName, AccessLevelEnum level, String password, DBApi object) {
         object.createUser(userName,level,password);

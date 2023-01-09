@@ -6,6 +6,8 @@ import edu.kpi5.dbcoursework.dbaccess.userdb.AccessLevelRepository;
 import edu.kpi5.dbcoursework.dbaccess.userdb.UserRepository;
 import edu.kpi5.dbcoursework.dbaccess.workDB.ContributionRepository;
 import edu.kpi5.dbcoursework.entities.coredb.Course;
+import edu.kpi5.dbcoursework.entities.coredb.Department;
+import edu.kpi5.dbcoursework.entities.coredb.Group;
 import edu.kpi5.dbcoursework.entities.coredb.Student;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -15,11 +17,12 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class DBApiTest {
 
     //MySQL
@@ -85,6 +88,13 @@ class DBApiTest {
 
     @Test
     void addStudentsToCourse() {
+        Group group = new Group("group",0,(short)0,null);
+        ArrayList<Student> students = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            Student student = new Student();
+            student.setGroup(group);
+            students.add(student);
+        }
     }
 
     @Test
