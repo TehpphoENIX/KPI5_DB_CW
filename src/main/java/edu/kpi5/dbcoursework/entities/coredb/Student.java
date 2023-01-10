@@ -40,7 +40,7 @@ public class Student {
 	@Transient
 	private Float averageMark;
 
-	@OneToMany(mappedBy = "student", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "student", fetch = FetchType.EAGER)
 	private Set<StudentCourseMarks> marks = new HashSet<>();
 
 	@Column(name = "scholarship")

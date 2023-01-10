@@ -145,8 +145,9 @@ public class StudentRepositoryTest {
     @AfterEach
     public void clean(){
         SCMRepo.deleteAll();
-        underTest.deleteAll();
         courseRepository.deleteAll();
+        underTest.deleteAll();
+
     }
 
 

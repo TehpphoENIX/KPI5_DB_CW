@@ -5,7 +5,7 @@
     <title>MyApp</title>
 </head>
 <body>
-    <h1>Student List:</h1>
+    <h1>Kick List:</h1>
     <p th:text="${status}" />
 
     <table>
@@ -19,22 +19,16 @@
         </thead>
         <tbody>
         <tr th:each="student : ${list}">
-            <td>
-                <a th:text="${student.id}" th:href="@{students/{id}(id=${student.id})}"
-            </td>
+            <td th:text="${student.id}"/>
             <td th:text="${student.name}"/>
             <td th:text="${student.surname}"/>
-            <td th:text="${student.group}"/>
+            <td th:text="${student.group.name}"/>
         </tr>
         </tbody>
 
     </table>
 
-    <form th:action="@{students/add}">
-        <p><input type="submit" value="Add Student" /></p>
-    </form>
-
-    <form th:action=@{../users}>
+    <form th:action=@{/admin/menu}>
         <p><input type="submit" value="Back" /></p>
     </form>
 </body>

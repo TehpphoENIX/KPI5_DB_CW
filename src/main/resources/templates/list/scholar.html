@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MyApp</title>
+</head>
+<body>
+    <h1>Scholarship List:</h1>
+    <p th:text="${status}" />
+    <h2>Usual:</h2>
+    <table>
+        <thead>
+        <tr>
+            <th> id </th>
+            <th> name </th>
+            <th> surname </th>
+            <th> group </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="student : ${list1}">
+            <td th:text="${student.id}"/>
+            <td th:text="${student.name}"/>
+            <td th:text="${student.surname}"/>
+            <td th:text="${student.group.name}"/>
+        </tr>
+        </tbody>
+
+    </table>
+    <h2>Increased:</h2>
+    <table>
+        <thead>
+        <tr>
+            <th> id </th>
+            <th> name </th>
+            <th> surname </th>
+            <th> group </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="student : ${list2}">
+            <td th:text="${student.id}"/>
+            <td th:text="${student.name}"/>
+            <td th:text="${student.surname}"/>
+            <td th:text="${student.group.name}"/>
+        </tr>
+        </tbody>
+
+    </table>
+
+    <form th:action=@{scholarship} method="post">
+        <p><input type="submit" value="Apply" /></p>
+    </form>
+    <form th:action=@{/admin}>
+        <p><input type="submit" value="Back" /></p>
+    </form>
+</body>
+</html>

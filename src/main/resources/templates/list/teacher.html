@@ -20,11 +20,11 @@
         <tbody>
         <tr th:each="teacher : ${list}">
             <td>
-                <a th:text="${teacher.id}" th:href="@{students/{id}(id=${student.id})}"
+                <a th:text="${teacher.id}" th:href="@{teachers/{id}(id=${teacher.id})}"/>
             </td>
             <td th:text="${teacher.name}"/>
             <td th:text="${teacher.surname}"/>
-            <td th:text="${teacher.department}"/>
+            <td th:text="${teacher.department.name}"/>
         </tr>
         </tbody>
 

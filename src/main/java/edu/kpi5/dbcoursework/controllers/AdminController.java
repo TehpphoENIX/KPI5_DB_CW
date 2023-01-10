@@ -218,10 +218,10 @@ public class AdminController {
         return "list/scholar";
     }
     @PostMapping("scholarship")
-    public String applyScholarship(@ModelAttribute(name = "list1")List<Student> list1, @ModelAttribute List<Student> list2){
+    public String applyScholarship(){
         AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
-        handle.applyScholarship(list1,false,dbApi);
-        handle.applyScholarship(list2,true,dbApi);
+        handle.applyScholarship(handle.getScholarshipList(false,dbApi),false,dbApi);
+        handle.applyScholarship(handle.getScholarshipList(true,dbApi),true,dbApi);
         return "redirect:/admin";
     }
 }

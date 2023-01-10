@@ -29,7 +29,6 @@ class CourseRepositoryTest {
         underTest.deleteAll();
         studentRep.deleteAll();
         teacherRep.deleteAll();
-
     }
 
     @Test
