@@ -25,26 +25,23 @@ class CourseRepositoryTest {
 
     @AfterEach
     public void clean() {
+        SCMRepo.deleteAll();
         underTest.deleteAll();
         studentRep.deleteAll();
         teacherRep.deleteAll();
-        SCMRepo.deleteAll();
+
     }
 
     @Test
     void findAll() {
-
-        //given
         ArrayList<Course> courses = new ArrayList<>();
-
         for (int i = 0; i < 10; i++) {
             courses.add(new Course(String.valueOf(i)));
         }
-
         underTest.saveAll(courses);
-        //when
+
         var result = underTest.findAll();
-        //then
+
         assertIterableEquals(courses,result);
     }
 

@@ -34,7 +34,6 @@ public class TeacherController {
      */
     @GetMapping("/menu")
     public String menu(Model model){
-        model.addAttribute("name",httpSessionBean.getAppHandle().getUser().getLogin());
         return "teacher-menu";
     }
 

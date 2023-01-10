@@ -96,13 +96,13 @@ public class UserController {
         User user = httpSessionBean.getAppHandle().getUser();
 
         if(user.getAccessLevels().contains(new AccessLevel(AccessLevelEnum.admin.label))){
-            return "redirect:/student/menu";
+            return "redirect:/admin/menu?c=" + AdminController.Status.welcome;
         }else if(user.getAccessLevels().contains(new AccessLevel(AccessLevelEnum.teacher.label))){
-            return "redirect:/student/menu";
+            return "redirect:/teacher/menu";
         }else if(user.getAccessLevels().contains(new AccessLevel(AccessLevelEnum.student.label))){
             return "redirect:/student/menu";
         }
-        return "";
+        throw new IllegalStateException("user had accessLevel=none");
     }//todo
 
     /**

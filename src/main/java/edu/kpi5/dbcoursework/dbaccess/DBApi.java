@@ -417,10 +417,25 @@ public class DBApi {
     public Student getStudent(String login){
         return studentRepository.findByLogin(login).get();
     }
+    public Student getStudent(Long studentId){
+        var out = studentRepository.findById(studentId);
+        if(out.isPresent()){
+            return out.get();
+        }else{
+            return null;
+        }
+    }
     public Teacher getTeacher(String login){
         return teacherRepository.findByLogin(login).get();
     }
-
+    public Teacher getTeacher(Long teacherId){
+        var out = teacherRepository.findById(teacherId);
+        if(out.isPresent()){
+            return out.get();
+        }else{
+            return null;
+        }
+    }
     public List<User> getUserList() {
         return userRepository.findAll();
     }

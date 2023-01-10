@@ -86,6 +86,13 @@ public class AdminHandle extends TeacherHandle{
         return object.getAllTeachers();
     }
 
+    public Student getStudent(Long studentId, DBApi object){
+        return object.getStudent(studentId);
+    }
+    public Student getTeacher(Long teacherId, DBApi object){
+        return object.getStudent(teacherId);
+    }
+
     @Override
     protected void increment(DBApi dbApi){}
 }

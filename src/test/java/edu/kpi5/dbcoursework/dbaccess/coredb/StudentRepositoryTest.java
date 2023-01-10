@@ -174,7 +174,7 @@ public class StudentRepositoryTest {
         var received = underTest.getIncreasedScholarshipList();
         assertNotNull(received);
         assertTrue(received.size()==1);
-        assertEquals((long)3,received.get(0).getId());
+        assertEquals(student3.getId(),received.get(0).getId());
     }
     @Test
     void getScholarshipList() {

@@ -29,7 +29,6 @@ public class StudentController {
      */
     @GetMapping(path="/menu")
     public String menu(Model model){
-        model.addAttribute("name",httpSessionBean.getAppHandle().getUser().getLogin());
         return "student-menu";
     }
 
