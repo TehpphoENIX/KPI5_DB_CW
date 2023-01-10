@@ -2,14 +2,12 @@ package edu.kpi5.dbcoursework.dbaccess.coredb;
 
 import edu.kpi5.dbcoursework.entities.coredb.*;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,7 +23,7 @@ class CourseRepositoryTest {
     @Autowired
     private SCMRepository SCMRepo;
 
-    @AfterAll
+    @AfterEach
     public void clean() {
         underTest.deleteAll();
         studentRep.deleteAll();
@@ -66,7 +64,8 @@ class CourseRepositoryTest {
     void findAllByStudentLogin() {
 
         Student student = new Student("login", "name", "surname",
-                new Group(), 0, (short) 0, 0.0F, false);
+                new Group("group", 2000, (short)122, new Department("department")),
+                0, (short) 0, 0.0F, false);
 
         studentRep.save(student);
 
@@ -96,8 +95,9 @@ class CourseRepositoryTest {
 
         underTest.saveAll(courses);
 
-        Teacher teacher = new Teacher("login", "name", "surname", new Department());
-        teacher.setCourses((Set<Course>) courses);
+        Teacher teacher = new Teacher("login", "name", "surname", new Department("department"));
+        Set<Course> temp = new HashSet<>(courses);
+        teacher.setCourses(temp);
 
         teacherRep.save(teacher);
 
@@ -111,9 +111,11 @@ class CourseRepositoryTest {
 
         List<Student> students = new ArrayList<>();
         students.add(new Student("login1", "name1", "surname1",
-                new Group(), 0, (short) 0, 0.0F, false));
+                new Group("group", 2000, (short)122, new Department("department")),
+                0, (short) 0, 0.0F, false));
         students.add(new Student("login2", "name2", "surname2",
-                new Group(), 0, (short) 0, 0.0F, false));
+                new Group("group", 2000, (short)122, new Department("department")),
+                0, (short) 0, 0.0F, false));
 
         studentRep.saveAll(students);
 

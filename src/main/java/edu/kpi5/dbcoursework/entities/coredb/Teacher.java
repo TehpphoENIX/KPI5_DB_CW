@@ -30,7 +30,7 @@ public class Teacher {
 	@Column(name = "teacher_surname", length = 50, nullable = false)
 	private String surname;
 
-	@ManyToOne
+	@ManyToOne(cascade = {CascadeType.ALL})
 	@JoinColumn(name="teacher_department")
 	private Department department;
 

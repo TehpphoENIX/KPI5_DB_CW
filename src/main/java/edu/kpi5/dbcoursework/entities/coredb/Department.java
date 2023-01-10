@@ -17,7 +17,7 @@ public class Department {
 	@Column(name = "department_name", length = 50, nullable = false)
 	private String name;
 
-	@OneToMany(mappedBy = "department")
+	@OneToMany(mappedBy = "department", cascade = {CascadeType.ALL})
 	private Set<Group> groups;
 
 	@OneToMany(mappedBy = "department")
