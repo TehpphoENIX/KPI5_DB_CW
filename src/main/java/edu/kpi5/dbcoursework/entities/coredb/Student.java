@@ -34,14 +34,11 @@ public class Student {
 	@Column(name = "student_hostel", nullable = false)
 	private Integer hostel;
 
-	@Column(name = "student_noe")
+	@Transient
 	private Short numberOfExams;
 
-	@Column(name = "student_avg")
+	@Transient
 	private Float averageMark;
-
-	@Column(name = "student_sw")
-	private Boolean socialWork;
 
 	@OneToMany(mappedBy = "student", fetch = FetchType.EAGER)
 	private Set<StudentCourseMarks> marks = new HashSet<>();
@@ -53,16 +50,13 @@ public class Student {
 	}
 
 	public Student(String login, String name, String surname, Group group,
-	               Integer hostel, Short numberOfExams, Float averageMark,
-	               Boolean socialWork) {
+				   Integer hostel) {
 		this.login = login;
 		this.name = name;
 		this.surname = surname;
 		this.group = group;
 		this.hostel = hostel;
-		this.numberOfExams = numberOfExams;
 		this.averageMark = averageMark;
-		this.socialWork = socialWork;
 	}
 
 	@Override
@@ -77,7 +71,7 @@ public class Student {
 				", hostel=" + hostel +
 				", numberOfExams=" + numberOfExams +
 				", averageMark=" + averageMark +
-				", socialWork=" + socialWork +
+				//", socialWork=" + socialWork +
 				'}';
 	}
 

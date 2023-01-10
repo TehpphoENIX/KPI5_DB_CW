@@ -1,6 +1,10 @@
 package edu.kpi5.dbcoursework.controllers;
 
 import edu.kpi5.dbcoursework.dbaccess.DBApi;
+import edu.kpi5.dbcoursework.entities.userdb.AccessLevel;
+import edu.kpi5.dbcoursework.entities.userdb.AccessLevelEnum;
+import edu.kpi5.dbcoursework.entities.userdb.User;
+import edu.kpi5.dbcoursework.userhandles.HandleFactory;
 import edu.kpi5.dbcoursework.utility.HttpSessionBean;
 import edu.kpi5.dbcoursework.utility.Security;
 import edu.kpi5.dbcoursework.utility.UserForm;
@@ -17,6 +21,16 @@ import org.springframework.web.bind.annotation.*;
  */
 @Controller
 public class UserController {
+
+    enum ErrorCode{
+        authorizationFailed("authorization failed");
+
+        public String label;
+
+        ErrorCode(String label){
+            this.label = label;
+        }
+    }
     /**
      * Bean links
      */
@@ -44,8 +58,11 @@ public class UserController {
      * @return view
      */
     @GetMapping(path="/login")
-    public String loginForm(Model model){
+    public String loginForm(Model model, @RequestParam(name = "error", required = false) ErrorCode code){
         model.addAttribute("userform", new UserForm());
+        if(code != null){
+            model.addAttribute("error",code.label);
+        }
         return "login-screen";
     }
 
@@ -61,7 +78,7 @@ public class UserController {
         if(httpSessionBean.getAppHandle() == null)
         {
             model.addAttribute("error","authorization failed");
-            return "redirect:/login";
+            return "redirect:/login?error="+ErrorCode.authorizationFailed;
         }else{
             return "redirect:/user/"+httpSessionBean.getAppHandle().getUser().getLogin();
         }
@@ -76,7 +93,16 @@ public class UserController {
     @GetMapping(path="/user/{name}")
     public String forwardMenuRequest(@PathVariable String name){
 
-        return "redirect:/student/menu";
+        User user = httpSessionBean.getAppHandle().getUser();
+
+        if(user.getAccessLevels().contains(new AccessLevel(AccessLevelEnum.admin.label))){
+            return "redirect:/student/menu";
+        }else if(user.getAccessLevels().contains(new AccessLevel(AccessLevelEnum.teacher.label))){
+            return "redirect:/student/menu";
+        }else if(user.getAccessLevels().contains(new AccessLevel(AccessLevelEnum.student.label))){
+            return "redirect:/student/menu";
+        }
+        return "";
     }//todo
 
     /**

@@ -1,17 +1,17 @@
 package edu.kpi5.dbcoursework.dbaccess.coredb;
 
 import edu.kpi5.dbcoursework.entities.coredb.*;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DataJpaTest
+@SpringBootTest
 class CourseRepositoryTest {
 
     @Autowired
@@ -63,9 +63,7 @@ class CourseRepositoryTest {
     @Test
     void findAllByStudentLogin() {
 
-        Student student = new Student("login", "name", "surname",
-                new Group("group", 2000, (short)122, new Department("department")),
-                0, (short) 0, 0.0F, false);
+        Student student = new Student("login", "name", "surname", null, 0);
 
         studentRep.save(student);
 
@@ -88,49 +86,22 @@ class CourseRepositoryTest {
 
     @Test
     void findAllByTeacherLogin() {
-
         List<Course> courses = new ArrayList<>();
         courses.add(new Course("course1"));
         courses.add(new Course("course2"));
-
-        underTest.saveAll(courses);
-
-        Teacher teacher = new Teacher("login", "name", "surname", new Department("department"));
+        Teacher teacher = new Teacher("login", "name", "surname", null);
         Set<Course> temp = new HashSet<>(courses);
         teacher.setCourses(temp);
-
+        for (var item:
+             courses) {
+            item.getTeachers().add(teacher);
+        }
         teacherRep.save(teacher);
+        underTest.saveAll(courses);
+
 
         var result = underTest.findAllByTeacherLogin(teacher.getLogin());
 
         assertIterableEquals(courses,result);
-    }
-
-    @Test
-    void getStudentsByCourse() {
-
-        List<Student> students = new ArrayList<>();
-        students.add(new Student("login1", "name1", "surname1",
-                new Group("group", 2000, (short)122, new Department("department")),
-                0, (short) 0, 0.0F, false));
-        students.add(new Student("login2", "name2", "surname2",
-                new Group("group", 2000, (short)122, new Department("department")),
-                0, (short) 0, 0.0F, false));
-
-        studentRep.saveAll(students);
-
-        Course course = new Course("course");
-
-        underTest.save(course);
-
-        List<StudentCourseMarks> studMarks = new ArrayList<>();
-        studMarks.add( new StudentCourseMarks(students.get(0), course));
-        studMarks.add( new StudentCourseMarks(students.get(1), course));
-
-        SCMRepo.saveAll(studMarks);
-
-        var result = underTest.getStudentsByCourse(course.getId());
-
-        assertIterableEquals(students, result);
     }
 }

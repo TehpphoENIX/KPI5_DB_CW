@@ -17,6 +17,9 @@ public class Department {
 	@Column(name = "department_name", length = 50, nullable = false)
 	private String name;
 
+	@Column(name = "department_faculty", length = 50, nullable = false)
+	private String faculty;
+
 	@OneToMany(mappedBy = "department")
 	private Set<Group> groups;
 
@@ -26,9 +29,9 @@ public class Department {
 	public Department() {
 	}
 
-	public Department(String name) {
-
+	public Department(String name, String faculty) {
 		this.name = name;
+		this.faculty = faculty;
 	}
 
 	@Override

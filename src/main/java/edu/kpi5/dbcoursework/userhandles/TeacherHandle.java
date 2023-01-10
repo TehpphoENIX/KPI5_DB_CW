@@ -7,6 +7,7 @@ import edu.kpi5.dbcoursework.entities.userdb.User;
 import lombok.extern.java.Log;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,20 +40,22 @@ public class TeacherHandle extends Handle {
     }
 
     public void setMark(Long courseId, String markName, Long studentId, int mark, DBApi object) {
-        //переписати, бо непевний чи правильно розташував ключі
-        object.setMarks(courseId, markName,null);
-    }//todo
-
+        Map<Long,Integer> marksOfStudents = new HashMap<>();
+        marksOfStudents.put(studentId,mark);
+        object.setMarks(courseId, markName,marksOfStudents);
+        increment(object);
+    }
     public void setMarks(Long courseId, String markName, Map<Long, Integer> marksList, DBApi object) {
         object.setMarks(courseId,markName, marksList);
+        increment(object);
     }
-
     public void setSocialWork(Long courseId, Long studentId, DBApi object) {
         object.setSocialWork(courseId, studentId);
+        increment(object);
     }
-
     public void setExam(Long courseId, Map<Long, Integer> marksList, DBApi object) {
         object.setMarks(courseId, "EXAM", marksList);
+        increment(object);
     }
 
     public void addCourse(String courseName, ArrayList<Long> groups,DBApi object) {
@@ -85,5 +88,13 @@ public class TeacherHandle extends Handle {
 
     public List<Course> getCourseList(DBApi object) {
         return object.getCourseList(super.getUser());
+    }
+
+    public Teacher get(){
+        return teacher;
+    }
+
+    protected void increment(DBApi object){
+        object.incrementContribution(teacher.getId());
     }
 }

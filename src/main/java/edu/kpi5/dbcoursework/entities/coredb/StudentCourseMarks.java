@@ -24,10 +24,10 @@ public class StudentCourseMarks {
     private Course course;
 
     @Column(name = "total_points")
-    private Double totalPoints;
+    private Double totalPoints = 0.0;
 
     @Column(name = "social_work")
-    private Integer socialWork;
+    private Boolean socialWork = false;
 
     @Transient
     private MarksList marksList;

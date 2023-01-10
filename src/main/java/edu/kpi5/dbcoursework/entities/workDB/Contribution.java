@@ -2,8 +2,9 @@ package edu.kpi5.dbcoursework.entities.workDB;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,20 +13,24 @@ import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.util.Pair;
 
 @RedisHash("RedisEntity")
-@Getter
-@Setter
-public class RedisEntity implements Serializable {
+public class Contribution implements Serializable {
 
     @Id
+    @Getter
+    @Setter
     private Long id;
-    private ArrayList<Pair<LocalDate,Integer>> contribution;
 
-    public RedisEntity(Long id, ArrayList<Pair<LocalDate,Integer>> contribution) {
+    private Map<LocalDate,Integer> contribution = new HashMap<>();
+
+    public Contribution(Long id) {
         this.id = id;
-        this.contribution = contribution;
     }
 
-    public RedisEntity() {
+    public Contribution() {
+    }
+
+    public Map<LocalDate,Integer> get(){
+        return contribution;
     }
 
     @Override
@@ -33,7 +38,7 @@ public class RedisEntity implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        RedisEntity that = (RedisEntity) o;
+        Contribution that = (Contribution) o;
 
         return id.equals(that.id);
     }

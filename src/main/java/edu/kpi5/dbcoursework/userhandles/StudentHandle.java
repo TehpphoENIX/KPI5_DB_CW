@@ -5,6 +5,7 @@ import edu.kpi5.dbcoursework.entities.coredb.*;
 import edu.kpi5.dbcoursework.entities.marksdb.MarksList;
 import edu.kpi5.dbcoursework.dbaccess.DBApi;
 import edu.kpi5.dbcoursework.entities.userdb.User;
+import org.springframework.web.servlet.support.JstlUtils;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -40,15 +41,10 @@ public class StudentHandle extends Handle{
 //                                                    //тому потім поправлю
 //    }
 
-    public int CheckScholarship(DBApi object) {
-//        for(var student : object.getScholarshipList(false)){
-//            //можливо ліпше реалізувати пошук студента в DBApi, оскільки в цьому класі повинний
-//            //бути тільки один студент за раз
-//            if(student.getLogin() == this.getLogin()){
-//                return student.getScholarship();
-//                //також треба додати до класу студента стипендію з гетером і сетером
-//            }
-//        }
-        return 0;
-    }//todo
+//    public int CheckScholarship(DBApi object) {
+//        return student.getScholarship();
+//    }
+    public Student get(){
+        return student;
+    }
 }

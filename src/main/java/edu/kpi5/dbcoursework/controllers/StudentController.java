@@ -75,7 +75,7 @@ public class StudentController {
     @GetMapping(path="/scholarship")
     public String CheckScholarship(Model model) {
         StudentHandle handle = (StudentHandle) httpSessionBean.getAppHandle();
-        model.addAttribute("scholarship", handle.CheckScholarship(dbApi));
+        model.addAttribute("scholarship", null);
         return "scholarship";
     }
 }

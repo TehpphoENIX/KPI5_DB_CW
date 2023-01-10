@@ -10,13 +10,11 @@ import edu.kpi5.dbcoursework.entities.marksdb.MarksList;
 import edu.kpi5.dbcoursework.entities.userdb.AccessLevel;
 import edu.kpi5.dbcoursework.entities.userdb.AccessLevelEnum;
 import edu.kpi5.dbcoursework.entities.userdb.User;
+import edu.kpi5.dbcoursework.entities.workDB.Contribution;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.annotation.SessionScope;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -154,7 +152,7 @@ public class DBApi {
      * @return list of students
      */
     public List<Student> getCourseStudents(Long courseId) {
-        return courseRepository.getStudentsByCourse(courseId);
+        return studentRepository.findByCourse(courseId);
     }
 
     /**
@@ -285,7 +283,7 @@ public class DBApi {
     public int setSocialWork(Long courseId, Long studentId){
         var outSQL = scmRepository.findByStudentIdAndCourseId(studentId,courseId);
         if(outSQL.isPresent()){
-            outSQL.get().setSocialWork(1);
+            outSQL.get().setSocialWork(true);
             scmRepository.save(outSQL.get());
             return 0;
         }else {
@@ -324,8 +322,15 @@ public class DBApi {
     public boolean addStudentsToGroup(Long groupId, List<Student> students){
         var optionalGroup = groupRepository.findById(groupId);
         if(optionalGroup.isPresent()){
-            optionalGroup.get().getStudents().addAll(students);
-            groupRepository.save(optionalGroup.get());
+            //optionalGroup.get().getStudents().addAll(students);
+            //groupRepository.save(optionalGroup.get());
+            for (Student s:
+                    students) {
+                if(studentRepository.existsById(s.getId())){
+                    s.setGroup(optionalGroup.get());
+                }
+            }
+            studentRepository.saveAll(students);
             return false;
         }else{
             return true;
@@ -366,7 +371,16 @@ public class DBApi {
         createUser(login,AccessLevelEnum.teacher,password);
         Teacher teacher = new Teacher(login,name,surname,department);
         teacherRepository.save(teacher);
+        Contribution contribution = new Contribution(teacher.getId());
+        contributionRepository.save(contribution);
         return teacher.getId();
+    }
+
+    public Long createStudent(String login, String password,String name, String surname, Integer hostel, Group group){
+        createUser(login,AccessLevelEnum.student,password);
+        Student student = new Student(login,name,surname,group,hostel);
+        studentRepository.save(student);
+        return student.getId();
     }
     /**
      * create user
@@ -414,7 +428,9 @@ public class DBApi {
     public void applyScholarship(List<Student> listOfStudents, boolean increased) {
         for (Student student:
              listOfStudents) {
-            student.setScholarship((increased)? 2 : 1);
+            if(studentRepository.existsById(student.getId())){
+                student.setScholarship((increased)? 2 : 1);
+            }
         }
         studentRepository.saveAll(listOfStudents);
     }
@@ -432,8 +448,23 @@ public class DBApi {
     public List<Student> getAllStudents() {
         return studentRepository.findAll();
     }
-
     public List<Teacher> getAllTeachers() {
         return teacherRepository.findAll();
+    }
+
+    public Contribution getTeachersContribution(Long teacherId){
+        var out = contributionRepository.findById(teacherId);
+        if(out.isPresent()){
+            return out.get();
+        }else {
+            return null;
+        }
+    }
+
+    public void incrementContribution(Long teacherId){
+        Contribution contribution = contributionRepository.findById(teacherId).get();
+        Integer value = contribution.get().get(LocalDate.now());
+        contribution.get().put(LocalDate.now(), value + 1);
+        contributionRepository.save(contribution);
     }
 }

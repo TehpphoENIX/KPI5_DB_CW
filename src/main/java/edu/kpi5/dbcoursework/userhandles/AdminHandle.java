@@ -4,6 +4,7 @@ import edu.kpi5.dbcoursework.dbaccess.DBApi;
 import edu.kpi5.dbcoursework.entities.coredb.*;
 import edu.kpi5.dbcoursework.entities.userdb.AccessLevelEnum;
 import edu.kpi5.dbcoursework.entities.userdb.User;
+import edu.kpi5.dbcoursework.entities.workDB.Contribution;
 import org.springframework.data.util.Pair;
 
 import java.util.ArrayList;
@@ -14,16 +15,18 @@ public class AdminHandle extends TeacherHandle{
         super(user);
     }
 
-    public ArrayList<Student> kickStudents(boolean deleteAcounts, DBApi object)  {
-        ArrayList<String> userCredits = new ArrayList<>();
-        var kickedList = object.getKickList();
-        for(var a : kickedList) {
-            userCredits.add(a.getName());//todo брав пошук по імені, але можливо треба по чомусь іншому
-        }
+    public List<Student> kickStudents(boolean deleteAcounts, DBApi object)  {
+        List<Student> kickList = object.getKickList();
+
         if(deleteAcounts){
-            object.removeUsers(userCredits);
+            List<String> usersToDelete = new ArrayList<>();
+            for(var item : kickList) {
+                usersToDelete.add(item.getLogin());
+            }
+            object.removeUsers(usersToDelete);
         }
-        return new ArrayList<>(kickedList);
+
+        return kickList;
     }
     public void removeUsers(List<String> userNames, DBApi object) {
         object.removeUsers(userNames);
@@ -43,25 +46,20 @@ public class AdminHandle extends TeacherHandle{
 //        }
 //        return false;
 //    }
-    public ArrayList<Pair<String, ArrayList<Pair<Float, Float>>>> getTeachersContribution() {
-        // todo для чого використовується ця функція ?
-        return null;
+    public Contribution getTeachersContribution(Long teacherId, DBApi object) {
+        return object.getTeachersContribution(teacherId);
     }
     public User getUser(String userName, DBApi object) {
         return object.getUser(userName);
     }
-    public ArrayList<User> getUserList(DBApi object) {
-        return new ArrayList<>(object.getUserList());
+    public List<User> getUserList(DBApi object) {
+        return object.getUserList();
     }
     public void addGroup(String groupName, Integer groupYear, Short groupSpec, Department department, DBApi object) {
             object.addGroup(groupName, groupYear, groupSpec, department);
     }
     public void editGroup(Group group, DBApi object) {
-        try{
-            object.editGroup(group);
-        }catch (Exception e){
-
-        }
+        object.editGroup(group);
     }
 
     public void addStudentsToGroup(Long groupId, ArrayList<Student> students, DBApi object){
@@ -76,8 +74,8 @@ public class AdminHandle extends TeacherHandle{
         return object.getGroup(groupId);
     }
 
-    public ArrayList<Group> getGroupList(DBApi object){
-        return new ArrayList<>(object.getGroupList());
+    public List<Group> getGroupList(DBApi object){
+        return object.getGroupList();
     }
 
     public List<Student> getAllStudents(DBApi object){
@@ -87,4 +85,7 @@ public class AdminHandle extends TeacherHandle{
     public List<Teacher> getAllTeachers(DBApi object){
         return object.getAllTeachers();
     }
+
+    @Override
+    protected void increment(DBApi dbApi){}
 }

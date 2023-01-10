@@ -5,12 +5,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -38,10 +35,10 @@ class SCMRepositoryTest {
 
     @BeforeEach
     void given() {
-        Department d = new Department("d");
+        Department d = new Department("d", "f");
         Group g = new Group("g",1,(short)1,d);
-        studentlist.add(new Student("A","A","",g,1,(short)0,0.0f,false));
-        studentlist.add(new Student("B","B","",g,1,(short)0,0.0f,false));
+        studentlist.add(new Student("A","A","",g,1));
+        studentlist.add(new Student("B","B","",g,1));
         courselist.add(new Course("C"));
         courselist.add(new Course("D"));
         scm = new StudentCourseMarks();

@@ -1,18 +1,23 @@
 package edu.kpi5.dbcoursework.configuration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
+import org.springframework.data.redis.connection.RedisClusterConfiguration;
+import org.springframework.data.redis.connection.RedisSentinelConfiguration;
 import org.springframework.data.redis.connection.RedisServerCommands;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
+import org.springframework.test.context.TestPropertySource;
+import redis.clients.jedis.JedisPoolConfig;
 
 
 @Configuration
 @ComponentScan("edu.kpi5.dbcoursework")
 @EnableRedisRepositories(basePackages = "edu.kpi5.dbcoursework.dbaccess.workdb")
 @PropertySource("classpath:application.properties")
-public class RedisConfig {
+public class RedisTestConfig {
     @Value("${spring.redis.host}")
     private String redisHostName;
     @Value("${spring.redis.port}")

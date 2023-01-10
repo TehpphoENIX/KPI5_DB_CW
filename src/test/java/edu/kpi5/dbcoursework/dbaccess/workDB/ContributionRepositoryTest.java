@@ -1,19 +1,21 @@
 package edu.kpi5.dbcoursework.dbaccess.workDB;
 
-import edu.kpi5.dbcoursework.entities.workDB.RedisEntity;
+import edu.kpi5.dbcoursework.configuration.RedisTestConfig;
+import edu.kpi5.dbcoursework.entities.workDB.Contribution;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.connection.RedisServerCommands;
-import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.util.Pair;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-@SpringBootTest
+@SpringBootTest(classes = RedisTestConfig.class)
+@Import(RedisTestConfig.class)
 class ContributionRepositoryTest {
 
     @Autowired
@@ -28,15 +30,17 @@ class ContributionRepositoryTest {
 
     @Test
     public void structureTest(){
-        //given
+        Contribution redisEntity = new Contribution(1l);
+        redisEntity.get().put(LocalDate.of(2022,01,5),1);
+        redisEntity.get().put(LocalDate.of(2022,01,11),2);
+        redisEntity.get().put(LocalDate.of(2022,01,16),3);
 
-        RedisEntity redisEntity = new RedisEntity(1l,new ArrayList<>());
-        redisEntity.getContribution().add(Pair.of(LocalDate.now(),1));
-        redisEntity.getContribution().add(Pair.of(LocalDate.now(),2));
-        redisEntity.getContribution().add(Pair.of(LocalDate.now(),3));
         underTest.save(redisEntity);
-        //then
-        int i = 1;
-        i++;
+        Contribution recieved = underTest.findById(redisEntity.getId()).get();
+
+        for (var item :
+                redisEntity.get().entrySet()) {
+            assertEquals(item.getValue(),recieved.get().get(item.getKey()));
+        }
     }
 }
