@@ -9,5 +9,21 @@
 <!-- TODO тут треба якось вивести цю страшилку
 "ArrayList<AbstractMap.SimpleEntry<String, ArrayList <AbstractMap.SimpleEntry<String, Float>>>>"
 -->
+
+<button></button>
+
+<!-- TODO buttons to view students, add mark, add social work and add exam and list of all course marks
+-->
+<form th:action=@{/courses/{course}/edit}>
+  <p><input type="submit" value="Edit" /></p>
+</form>
+
+<form th:action=@{/courses/{course}/delete}>
+  <p><input type="submit" value="Delete" /></p>
+</form>
+
+<form th:action=@{/exit}>
+  <p><input type="submit" value="Exit" /></p>
+</form>
 </body>
 </html>

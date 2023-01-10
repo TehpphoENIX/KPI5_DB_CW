@@ -2,6 +2,7 @@ package edu.kpi5.dbcoursework.controllers;
 
 import edu.kpi5.dbcoursework.dbaccess.DBApi;
 import edu.kpi5.dbcoursework.entities.marksdb.MarksList;
+import edu.kpi5.dbcoursework.userhandles.StudentHandle;
 import edu.kpi5.dbcoursework.utility.HttpSessionBean;
 import edu.kpi5.dbcoursework.entities.coredb.*;
 import edu.kpi5.dbcoursework.userhandles.TeacherHandle;
@@ -177,5 +178,12 @@ public class TeacherController {
     public String getCourseAddExam(@PathVariable(value = "course") Long courseId, Model model) {
         model.addAttribute("course-id", courseId);
         return "teacher-add-exam";
+    }
+
+    @GetMapping(path="/about")
+    public String About(Model model) {
+        TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
+        model.addAttribute("teacher", handle.getTeacher());
+        return "teacher-about";
     }
 }
