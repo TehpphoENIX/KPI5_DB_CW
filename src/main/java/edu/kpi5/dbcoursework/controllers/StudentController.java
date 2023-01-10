@@ -45,6 +45,14 @@ public class StudentController {
         return "course-list";
     }
 
+    @GetMapping(path="/about")
+    public String About(Model model) {
+        StudentHandle handle = (StudentHandle) httpSessionBean.getAppHandle();
+        model.addAttribute("student", handle.getStudent());
+        return "student-about";
+    }
+
+
     /**
      * View student's marks of a course
      * @param model -- storage model
