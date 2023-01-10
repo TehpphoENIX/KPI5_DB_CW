@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MyApp</title>
+</head>
+<body>
+    <h1>Group List:</h1>
+    <p th:text="${status}" />
+
+    <table>
+        <thead>
+        <tr>
+            <th> id </th>
+            <th> Name </th>
+            <th> Speciality </th>
+            <th> YearOfCreation </th>
+            <th> Department </th>
+            <th> Faculty </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="group : ${list}">
+            <td>
+                <a th:href="@{groups/{id}(id=${group.id})}" th:text="${group.id}"> id </a>
+            </td>
+            <td th:text="${group.name}"/>
+            <td th:text="${group.yearCreated}"/>
+            <td th:text="${group.speciality}"/>
+            <td th:text="${group.department.name}"/>
+            <td th:text="${group.department.faculty}"/>
+        </tr>
+        </tbody>
+
+    </table>
+
+    <form th:action="@{groups/add}">
+        <p><input type="submit" value="Add Group" /></p>
+    </form>
+
+    <form th:action=@{menu}>
+        <p><input type="submit" value="Back" /></p>
+    </form>
+</body>
+</html>

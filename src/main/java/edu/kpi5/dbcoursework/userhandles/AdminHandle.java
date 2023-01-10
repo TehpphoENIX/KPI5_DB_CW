@@ -40,6 +40,12 @@ public class AdminHandle extends TeacherHandle{
     public void createUser(String userName, AccessLevelEnum level, String password, DBApi object) {
         object.createUser(userName,level,password);
     }
+    public void createStudent(String login, String password, String name, String surname, Integer hostel, Group group, DBApi object){
+        object.createStudent(login,password,name,surname,hostel,group);
+    }
+    public void createTeacher(String login, String password, String name, String surname, Long departmentId, DBApi object){
+        object.createTeacher(login,password,name,surname,departmentId);
+    }
 //    public boolean editUser(String userName, AccessLevelEnum level, String password, DBApi object) {
 //        if(object.editUser(userName,level,password) == true){
 //            return true;
@@ -55,8 +61,8 @@ public class AdminHandle extends TeacherHandle{
     public List<User> getUserList(DBApi object) {
         return object.getUserList();
     }
-    public void addGroup(String groupName, Integer groupYear, Short groupSpec, Department department, DBApi object) {
-            object.addGroup(groupName, groupYear, groupSpec, department);
+    public void addGroup(String groupName, Integer groupYear, Short groupSpec, Long departmentId, DBApi object) {
+            object.addGroup(groupName, groupYear, groupSpec, departmentId);
     }
     public void editGroup(Group group, DBApi object) {
         object.editGroup(group);
@@ -91,6 +97,14 @@ public class AdminHandle extends TeacherHandle{
     }
     public Student getTeacher(Long teacherId, DBApi object){
         return object.getStudent(teacherId);
+    }
+
+    public Iterable<Department> getAllDepartments(DBApi object){
+        return object.getAllDepartments();
+    }
+
+    public Department findDepartment(Long departmentId, DBApi object){
+        return object.findDepartment(departmentId);
     }
 
     @Override

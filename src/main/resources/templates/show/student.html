@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MyApp</title>
+</head>
+<body>
+    <h1>Student:</h1>
+    <p>Id: <span th:text="${student.id}" /></p>
+    <p>Login: <span th:text="${student.login}" /></p>
+    <p>Name: <span th:text="${student.name}" /></p>
+    <p>Surname: <span th:text="${student.surname}" /></p>
+    <p>Group id: <span th:text="${student.group.id}" /></p>
+    <p>Group name: <span th:text="${student.group.name}" /></p>
+    <p>Hostel: <span th:text="${student.hostel}" /></p>
+    <p>Scholarship: <span th:text="${student.scholarship}" /></p>
+
+<!--    <form th:action="@{{id}/delete(id=${student.login})}">-->
+<!--        <p><input type="submit" value="Delete" /></p>-->
+<!--    </form>-->
+    <form th:action=@{../students}>
+        <p><input type="submit" value="Back" /></p>
+    </form>
+</body>
+</html>

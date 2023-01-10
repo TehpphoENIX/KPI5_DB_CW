@@ -34,7 +34,7 @@ public class Teacher {
 	@JoinColumn(name="teacher_department")
 	private Department department;
 
-	@ManyToMany(mappedBy = "teachers", fetch = FetchType.EAGER)
+	@ManyToMany(mappedBy = "teachers", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Course> courses = new HashSet<>();
 
 	/*private ArrayList<AbstractMap.SimpleEntry<Float, Float>> contribution;*/

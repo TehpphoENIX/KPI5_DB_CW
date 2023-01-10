@@ -16,9 +16,9 @@ public class Course {
 	private Long id;
 	@Column(name="course_name", length=50, nullable=false, unique=false)
 	private String name;
-	@OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "course", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<StudentCourseMarks> marks = new HashSet<>();
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "teacher_course",
 		joinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"),
 		inverseJoinColumns = @JoinColumn(name = "teacher_id", referencedColumnName = "id"))

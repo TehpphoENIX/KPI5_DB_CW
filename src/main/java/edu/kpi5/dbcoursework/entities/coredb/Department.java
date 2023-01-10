@@ -20,10 +20,10 @@ public class Department {
 	@Column(name = "department_faculty", length = 50, nullable = false)
 	private String faculty;
 
-	@OneToMany(mappedBy = "department")
+	@OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
 	private Set<Group> groups;
 
-	@OneToMany(mappedBy = "department")
+	@OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
 	private Set<Teacher> teachers;
 
 	public Department() {

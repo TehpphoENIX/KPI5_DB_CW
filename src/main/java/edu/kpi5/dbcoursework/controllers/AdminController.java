@@ -1,7 +1,10 @@
 package edu.kpi5.dbcoursework.controllers;
 
 import edu.kpi5.dbcoursework.dbaccess.DBApi;
+import edu.kpi5.dbcoursework.entities.coredb.Group;
+import edu.kpi5.dbcoursework.entities.coredb.Student;
 import edu.kpi5.dbcoursework.entities.userdb.AccessLevelEnum;
+import edu.kpi5.dbcoursework.presets.Preset;
 import edu.kpi5.dbcoursework.userhandles.AdminHandle;
 import edu.kpi5.dbcoursework.utility.HttpSessionBean;
 import edu.kpi5.dbcoursework.utility.UserForm;
@@ -14,6 +17,10 @@ import org.springframework.data.mongodb.core.aggregation.ArithmeticOperators;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Controller
 @RequestMapping("admin")
@@ -55,14 +62,12 @@ public class AdminController {
         model.addAttribute("users",handle.getUserList(dbApi));
         return "list/user";
     }
-
     @Getter
     @Setter
-    public static class AddUserForm{
-        private String userName;
-        private String password;
+    static class AddUserForm{
+        protected String userName;
+        protected String password;
     }
-
     @GetMapping("users/add")
     public String sendAddUserForm(Model model){
         AddUserForm form = new AddUserForm();
@@ -73,7 +78,7 @@ public class AdminController {
     public String addUser(@ModelAttribute AddUserForm form, Model model){
         AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
         handle.createUser(form.getUserName(), AccessLevelEnum.admin,form.getPassword(),dbApi);
-        return "redirect:admin/users?с="+Status.adminCreated;
+        return "redirect:/admin/users?c="+Status.adminCreated;
     }
     @GetMapping("users/students")
     public String listStudents(Model model){
@@ -81,27 +86,61 @@ public class AdminController {
         model.addAttribute("list", handle.getAllStudents(dbApi));
         return "list/student(admin)";
     }
+    @Getter
+    @Setter
+    static class AddStudentForm extends AddUserForm{
+        String name;
+        String surname;
+        Integer hostel;
+        Long groupId;
+    }
+    @GetMapping("users/students/add")
+    public String sendAddStudentForm(Model model){
+        AddStudentForm form = new AddStudentForm();
+        model.addAttribute("form",form);
+        AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
+        model.addAttribute("list",handle.getGroupList(dbApi));
+        return "add/student";
+    }
+    @PostMapping("users/students/add")
+    public String addStudent(@ModelAttribute AddStudentForm form, Model model){
+        AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
+        Group group = handle.getGroup(form.getGroupId(),dbApi);
+        handle.createStudent(form.getUserName(),form.getPassword(),form.getName(),form.getSurname(),form.getHostel(),group,dbApi);
+        return "redirect:/admin/users/students";
+    }
+    @GetMapping("users/students/{name}")
+    public String viewStudent(@PathVariable Long name, Model model){
+        AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
+        model.addAttribute("student",handle.getStudent(name,dbApi));
+        return "show/student";
+    }
     @GetMapping("users/teachers")
     public String listTeachers(Model model){
         AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
         model.addAttribute("list", handle.getAllTeachers(dbApi));
         return "list/teacher";
     }
-    @GetMapping("users/{name}")
-    public String viewUser(@PathVariable String name, Model model){
-        AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
-        model.addAttribute("user",handle.getUser(name,dbApi));
-        return "show/user";
+    @Getter
+    @Setter
+    static class AddTeacherForm extends AddUserForm{
+        String name;
+        String surname;
+        Long departmentId;
     }
-//    @GetMapping("users/{name}/delete")
-//    public String removeUser(@PathVariable String name){
-//        return "";
-//    }
-    @GetMapping("users/students/{name}")
-    public String viewStudent(@PathVariable Long name, Model model){
+    @GetMapping("users/teachers/add")
+    public String sendAddTeacherForm(Model model){
+        AddTeacherForm addTeacherForm = new AddTeacherForm();
+        model.addAttribute("form",addTeacherForm);
         AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
-        model.addAttribute("student",handle.getStudent(name,dbApi));
-        return "show/student";
+        model.addAttribute("list",handle.getAllDepartments(dbApi));
+        return "add/teacher";
+    }
+    @PostMapping("users/teachers/add")
+    public String addTeacher(@ModelAttribute AddTeacherForm form, Model model){
+        AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
+        handle.createTeacher(form.getUserName(),form.getPassword(),form.getName(),form.getSurname(),form.getDepartmentId(),dbApi);
+        return "redirect:/admin/users/teachers";
     }
     @GetMapping("users/teachers/{name}")
     public String viewTeacher(@PathVariable Long name, Model model){
@@ -109,6 +148,22 @@ public class AdminController {
         model.addAttribute("teacher",handle.getTeacher(name,dbApi));
         return "show/teacher";
     }
+
+    @GetMapping("users/{name}")
+    public String viewUser(@PathVariable String name, Model model){
+        AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
+        model.addAttribute("user",handle.getUser(name,dbApi));
+        return "show/user";
+    }
+    @GetMapping("users/{name}/delete")
+    public String removeUser(@PathVariable String name){
+        AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
+        List<String> listToDelete = new ArrayList<>();
+        listToDelete.add(name);
+        handle.removeUsers(listToDelete,dbApi);
+        return "redirect:/admin/users";
+    }
+
     @GetMapping("groups")
     public String viewGroups(Model model){
         AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
@@ -121,17 +176,52 @@ public class AdminController {
         private String groupName;
         private Integer groupYear;
         private Short groupSpec;
+        private Long departmentId;
     }
     @GetMapping("groups/add")
     public String sendAddGroupForm(Model model){
         AddGroupForm form = new AddGroupForm();
         model.addAttribute("form",form);
+        AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
+        model.addAttribute("list", handle.getAllDepartments(dbApi));
         return "add/group";
     }
     @PostMapping("groups/add")
     public String addGroup(@ModelAttribute AddGroupForm form, Model model){
         AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
-        handle.addGroup(form.getGroupName(),form.getGroupYear(),form.groupSpec,null,dbApi);//todo
-        return "redirect:admin/groups";
+        handle.addGroup(form.getGroupName(),form.getGroupYear(),form.groupSpec,form.getDepartmentId(),dbApi);//todo
+        return "redirect:/admin/groups";
+    }
+    @GetMapping("groups/{id}")
+    public String viewGroup(@PathVariable Long id, Model model){
+        AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
+        model.addAttribute("group",handle.getGroup(id,dbApi));
+        return "show/group";
+    }
+    @GetMapping("groups/{id}/remove")
+    public String removeGroup(@PathVariable Long id, Model model){
+        AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
+        handle.removeGroup(id,dbApi);
+        return "redirect:/admin/groups";
+    }
+    @GetMapping("kick")
+    public String getKickList(Model model){
+        AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
+        model.addAttribute("list",handle.kickStudents(false,dbApi));
+        return "list/kick";
+    }
+    @GetMapping("scholarship")
+    public String getScholarshipList(Model model){
+        AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
+        model.addAttribute("list1",handle.getScholarshipList(false,dbApi));
+        model.addAttribute("list2",handle.getScholarshipList(true,dbApi));
+        return "list/scholar";
+    }
+    @PostMapping("scholarship")
+    public String applyScholarship(@ModelAttribute(name = "list1")List<Student> list1, @ModelAttribute List<Student> list2){
+        AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
+        handle.applyScholarship(list1,false,dbApi);
+        handle.applyScholarship(list2,true,dbApi);
+        return "redirect:/admin";
     }
 }

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MyApp</title>
+</head>
+<body>
+    <h1>Admin Menu:</h1>
+    <p th:text="${status}" />
+    <form th:action=@{users}>
+        <p><input type="submit" value="users" /></p>
+    </form>
+    <form th:action=@{groups}>
+        <p><input type="submit" value="groups" /></p>
+    </form>
+    <form th:action=@{kick}>
+        <p><input type="submit" value="get kick list" /></p>
+    </form>
+    <form th:action=@{scholarship}>
+        <p><input type="submit" value="apply scholarship" /></p>
+    </form>
+    <form th:action=@{/exit}>
+        <p><input type="submit" value="exit" /></p>
+    </form>
+</body>
+</html>

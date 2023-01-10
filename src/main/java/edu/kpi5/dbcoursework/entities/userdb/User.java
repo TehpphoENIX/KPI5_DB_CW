@@ -23,13 +23,11 @@ public class User {
 
     @Relationship(type = "HAS_ACCESS_LEVEL", direction = Relationship.Direction.OUTGOING)
     private Set<AccessLevel> accessLevels = new HashSet<>();
-
     public User() {}
 
     public User(String login, String password) {
 
         this.login = login;
-
         this.password = password;
     }
 
@@ -44,7 +42,6 @@ public class User {
 
     @Override
     public boolean equals(Object o) {
-
         if (this == o)
             return true;
 

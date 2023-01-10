@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MyApp</title>
+</head>
+<body>
+    <h1>User:</h1>
+    <p>Login: <span th:text="${user.login}" /></p>
+    <p>Access Level:
+        <span th:each="accessLevel : ${user.accessLevels}">
+            <span th:text="${accessLevel.name}"> AccessLevel </span>
+        </span>
+    </p>
+    <p>Password: <span th:text="${user.password}" /></p>
+    <form th:action="@{{id}/delete(id=${user.login})}">
+        <p><input type="submit" value="Delete" /></p>
+    </form>
+    <form th:action=@{../users}>
+        <p><input type="submit" value="Back" /></p>
+    </form>
+</body>
+</html>

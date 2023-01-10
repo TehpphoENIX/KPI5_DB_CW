@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MyApp</title>
+</head>
+<body>
+    <h1>Add Group:</h1>
+    <p th:text="${status}" />
+
+    <form th:action="@{add}" th:object="${form}" method="post">
+
+        <p>Group Name: <input type="text" th:field="*{groupName}" /></p>
+        <p>Group Year: <input type="text" th:field="*{groupYear}" /></p>
+        <p>Group Speciality: <input type="text" th:field="*{groupSpec}" /></p>
+        Group Department:
+        <select th:field="*{departmentId}">
+            <option th:each="d : ${list}" th:value="${d.id}">
+                <span th:text="${d.name}"/>
+                <span th:text="${d.faculty}"/>
+            </option>
+        </select>
+
+
+        <p><input type="submit" value="Add" /> <input type="reset" value="Reset" /></p>
+    </form>
+
+    <form th:action=@{../groups} method="get">
+        <p><input type="submit" value="Cancel" /></p>
+    </form>
+</body>
+</html>

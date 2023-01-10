@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MyApp</title>
+</head>
+<body>
+    <h1>Teacher List:</h1>
+    <p th:text="${status}" />
+
+    <table>
+        <thead>
+        <tr>
+            <th> id </th>
+            <th> name </th>
+            <th> surname </th>
+            <th> department </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="teacher : ${list}">
+            <td>
+                <a th:text="${teacher.id}" th:href="@{students/{id}(id=${student.id})}"
+            </td>
+            <td th:text="${teacher.name}"/>
+            <td th:text="${teacher.surname}"/>
+            <td th:text="${teacher.department}"/>
+        </tr>
+        </tbody>
+
+    </table>
+
+    <form th:action="@{teachers/add}">
+        <p><input type="submit" value="Add Teacher" /></p>
+    </form>
+
+    <form th:action=@{../users}>
+        <p><input type="submit" value="Back" /></p>
+    </form>
+</body>
+</html>

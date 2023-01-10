@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MyApp</title>
+</head>
+<body>
+    <h1>Add Student:</h1>
+    <p th:text="${status}" />
+
+    <form th:action="@{add}" th:object="${form}" method="post">
+
+        <p>Login: <input type="text" th:field="*{userName}" /></p>
+        <p>Password: <input type="text" th:field="*{password}" /></p>
+        <p>Name: <input type="text" th:field="*{name}" /></p>
+        <p>Surname: <input type="text" th:field="*{surname}" /></p>
+        <p>Hostel: <input type="number" th:field="*{hostel}" /></p>
+        Group :
+        <select th:field="*{groupId}">
+            <option th:each="g : ${list}" th:value="${g.id}">
+                <span th:text="${g.name}"/>
+                <span th:text="${g.yearCreated}"/>
+            </option>
+        </select>
+
+        <p><input type="submit" value="Add" /> <input type="reset" value="Reset" /></p>
+    </form>
+
+    <form th:action=@{../users} method="get">
+        <p><input type="submit" value="Cancel" /></p>
+    </form>
+</body>
+</html>

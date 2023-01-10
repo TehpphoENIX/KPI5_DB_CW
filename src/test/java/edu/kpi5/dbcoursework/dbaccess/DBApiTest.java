@@ -317,7 +317,7 @@ class DBApiTest {
                 group.getName(),
                 group.getYearCreated(),
                 group.getSpeciality(),
-                group.getDepartment()
+                group.getDepartment().getId()
         );
 
         Group recieved = groupRepository.findById(id).get();
@@ -386,7 +386,7 @@ class DBApiTest {
         Teacher dummy = new Teacher("","","",d);
         String password = "";
 
-        Long id = underTest.createTeacher(dummy.getLogin(),password,dummy.getName(),dummy.getSurname(),dummy.getDepartment());
+        Long id = underTest.createTeacher(dummy.getLogin(),password,dummy.getName(),dummy.getSurname(),dummy.getDepartment().getId());
 
         User user = userRepository.findById(dummy.getLogin()).get();
         Teacher teacher = teacherRepository.findById(id).get();

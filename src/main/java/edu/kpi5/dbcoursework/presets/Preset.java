@@ -23,12 +23,13 @@ public class Preset implements CommandLineRunner {
     @Autowired
     private DepartmentRepository departmentRepository;
 
-    static final Department[] departments = {
-            new Department("CAD", "IPSA")
+    public static final Department[] departments = {
+            new Department("CAD", "IASA"),
+            new Department("MMSA","IASA")
     };
 
-    static final User root = new User("root","root");
-    static final AccessLevel[] accessLevels = {
+    public static final User root = new User("root","root");
+    public static final AccessLevel[] accessLevels = {
             new AccessLevel(AccessLevelEnum.admin.label),
             new AccessLevel(AccessLevelEnum.student.label),
             new AccessLevel(AccessLevelEnum.teacher.label),
@@ -39,8 +40,14 @@ public class Preset implements CommandLineRunner {
 
     @Override
     public void run(String... args){
-        departmentRepository.saveAll(Arrays.stream(departments).toList());
+        //departmentRepository.deleteAll();
+        for (var item : departments) {
+            if (departmentRepository.findByNameAndFaculty(item.getName(), item.getFaculty()).isEmpty()){
+                departmentRepository.save(item);
+            }
+        }
         accessLevelRepository.saveAll(Arrays.stream(accessLevels).toList());
         userRepository.save(root);
+        System.out.println("\n\n=====================\nApp finished loading");
     }
 }

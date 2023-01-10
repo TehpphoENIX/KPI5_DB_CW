@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MyApp</title>
+</head>
+<body>
+    <h1>User List:</h1>
+    <p th:text="${status}" />
+
+    <table>
+        <thead>
+        <tr>
+            <th> Login </th>
+            <th> AccessLevel </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td><a th:href="@{users/{id}(id=${user.login})}" th:text="${user.login}"> Login </a></td>
+            <td th:each="accessLevel : ${user.accessLevels}">
+                <span th:text="${accessLevel.name}"> AccessLevel </span>
+            </td>
+        </tr>
+        </tbody>
+
+    </table>
+
+    <form th:action="@{users/add}">
+        <p><input type="submit" value="Add Admin" /></p>
+    </form>
+    <form th:action="@{users/teachers}">
+        <p><input type="submit" value="Teachers" /></p>
+    </form>
+    <form th:action="@{users/students}">
+        <p><input type="submit" value="Students" /></p>
+    </form>
+    <form th:action=@{menu}>
+        <p><input type="submit" value="Back" /></p>
+    </form>
+</body>
+</html>

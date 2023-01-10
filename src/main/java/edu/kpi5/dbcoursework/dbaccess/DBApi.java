@@ -21,6 +21,8 @@ import java.util.*;
 public class DBApi {
     //MySQL
     @Autowired
+    private DepartmentRepository departmentRepository;
+    @Autowired
     private CourseRepository courseRepository;
     @Autowired
     private GroupRepository groupRepository;
@@ -296,10 +298,11 @@ public class DBApi {
      * @param groupName
      * @param groupYear
      * @param groupSpec
-     * @param department
+     * @param departmentId
      * @return id of new group
      */
-    public Long addGroup(String groupName, Integer groupYear, Short groupSpec, Department department) {
+    public Long addGroup(String groupName, Integer groupYear, Short groupSpec, Long departmentId) {
+        Department department = departmentRepository.findById(departmentId).get();
         Group group = new Group(groupName, groupYear, groupSpec, department);
         groupRepository.save(group);
         return group.getId();
@@ -367,7 +370,8 @@ public class DBApi {
         return groupRepository.findAll();
     }
 
-    public Long createTeacher(String login, String password,String name, String surname, Department department){
+    public Long createTeacher(String login, String password,String name, String surname, Long departmentId){
+        Department department = departmentRepository.findById(departmentId).get();
         createUser(login,AccessLevelEnum.teacher,password);
         Teacher teacher = new Teacher(login,name,surname,department);
         teacherRepository.save(teacher);
@@ -481,5 +485,18 @@ public class DBApi {
         Integer value = contribution.get().get(LocalDate.now());
         contribution.get().put(LocalDate.now(), value + 1);
         contributionRepository.save(contribution);
+    }
+
+    public Department findDepartment(Long departmentId){
+        var out = departmentRepository.findById(departmentId);
+        if(out.isPresent()){
+            return out.get();
+        }else{
+            return null;
+        }
+    }
+
+    public Iterable<Department> getAllDepartments(){
+        return departmentRepository.findAll();
     }
 }

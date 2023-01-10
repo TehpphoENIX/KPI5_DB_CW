@@ -30,7 +30,7 @@ public class Group {
 	@JoinColumn(name="group_department")
 	private Department department;
 
-	@OneToMany(mappedBy = "group", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "group", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Student> students = new HashSet<>();
 
 	public Group() {
