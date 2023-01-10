@@ -27,7 +27,7 @@ public class Student {
 	@Column(name = "student_surname", length = 50, nullable = false)
 	private String surname;
 
-	@ManyToOne(cascade = {CascadeType.ALL})
+	@ManyToOne
 	@JoinColumn(name="group_id")
 	private Group group;
 
