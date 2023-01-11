@@ -56,20 +56,20 @@ public class StudentRepositoryTest {
         stud1scm1.setStudent(student1);
         stud1scm1.setSocialWork(false);
         stud1scm1.setCourse(course1);
-        stud1scm1.setTotalPoints(1.0);
+        stud1scm1.setTotalPoints(1);
 
 
         stud1scm2 = new StudentCourseMarks();
         stud1scm2.setStudent(student1);
         stud1scm2.setSocialWork(true);
         stud1scm2.setCourse(course2);
-        stud1scm2.setTotalPoints(2.0);
+        stud1scm2.setTotalPoints(2);
 
         stud1scm3 = new StudentCourseMarks();
         stud1scm3.setStudent(student1);
         stud1scm3.setSocialWork(false);
         stud1scm3.setCourse(course3);
-        stud1scm3.setTotalPoints(0.0);
+        stud1scm3.setTotalPoints(0);
 
         underTest.save(student1);
 
@@ -90,19 +90,19 @@ public class StudentRepositoryTest {
         stud2scm1.setStudent(student2);
         stud2scm1.setSocialWork(true);
         stud2scm1.setCourse(course1);
-        stud2scm1.setTotalPoints(3.0);
+        stud2scm1.setTotalPoints(3);
 
         stud2scm2 = new StudentCourseMarks();
         stud2scm2.setStudent(student2);
         stud2scm2.setSocialWork(true);
         stud2scm2.setCourse(course2);
-        stud2scm2.setTotalPoints(4.0);
+        stud2scm2.setTotalPoints(4);
 
         stud2scm3 = new StudentCourseMarks();
         stud2scm3.setStudent(student2);
         stud2scm3.setSocialWork(false);
         stud2scm3.setCourse(course3);
-        stud2scm3.setTotalPoints(5.0);
+        stud2scm3.setTotalPoints(5);
 
         underTest.save(student2);
 
@@ -121,20 +121,20 @@ public class StudentRepositoryTest {
         stud3scm1.setStudent(student3);
         stud3scm1.setSocialWork(false);
         stud3scm1.setCourse(course1);
-        stud3scm1.setTotalPoints(5.0);
+        stud3scm1.setTotalPoints(5);
 
 
         stud3scm2 = new StudentCourseMarks();
         stud3scm2.setStudent(student3);
         stud3scm2.setSocialWork(true);
         stud3scm2.setCourse(course2);
-        stud3scm2.setTotalPoints(5.0);
+        stud3scm2.setTotalPoints(5);
 
         stud3scm3 = new StudentCourseMarks();
         stud3scm3.setStudent(student3);
         stud3scm3.setSocialWork(false);
         stud3scm3.setCourse(course3);
-        stud3scm3.setTotalPoints(5.0);
+        stud3scm3.setTotalPoints(5);
 
         underTest.save(student3);
 

@@ -148,6 +148,7 @@ public class AdminController {
     public String viewTeacher(@PathVariable Long name, Model model){
         AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
         model.addAttribute("teacher",handle.getTeacher(name,dbApi));
+        model.addAttribute("activity",handle.getTeachersContribution(name,dbApi));
         return "show/teacher";
     }
 
