@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>MyApp</title>
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
     <h1>Student List:</h1>
     <p th:text="${status}" />
 
-    <table style="border: 1px solid;">
+    <table>
         <thead>
         <tr>
             <th> id </th>
@@ -20,7 +21,7 @@
         <tbody>
         <tr th:each="student : ${list}">
             <td>
-                <a th:text="${student.id}" th:href="@{students/{id}(id=${student.id})}"
+                <a th:text="${student.id}" th:href="@{students/{id}(id=${student.id})}"/>
             </td>
             <td th:text="${student.name}"/>
             <td th:text="${student.surname}"/>
