@@ -80,10 +80,6 @@ public class AdminHandle extends TeacherHandle{
         return object.getGroup(groupId);
     }
 
-    public List<Group> getGroupList(DBApi object){
-        return object.getGroupList();
-    }
-
     public List<Student> getAllStudents(DBApi object){
         return object.getAllStudents();
     }

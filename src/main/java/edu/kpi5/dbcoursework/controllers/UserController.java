@@ -103,7 +103,7 @@ public class UserController {
             return "redirect:/student/menu";
         }
         throw new IllegalStateException("user had accessLevel=none");
-    }//todo
+    }
 
     /**
      * Deletes user handle and redirects to home page
