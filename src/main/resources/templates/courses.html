@@ -9,5 +9,9 @@
 <div th:each="el:${courses}">
     <button th:text="${el.name}"/>
 </div>
+
+<form th:action=@{/exit}>
+    <p><input type="submit" value="Exit" /></p>
+</form>
 </body>
 </html>

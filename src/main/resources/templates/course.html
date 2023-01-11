@@ -5,12 +5,11 @@
   <title>MyApp</title>
 </head>
 <body>
-<h1 th:text="Курс: ${course.name}" />
-<!-- TODO тут треба якось вивести цю страшилку
-"ArrayList<AbstractMap.SimpleEntry<String, ArrayList <AbstractMap.SimpleEntry<String, Float>>>>"
--->
+<h1>
+  <span>Курс:</span>
+  <span  th:text = "${course.name}"/>
+</h1>
 
-<button></button>
 
 <!-- TODO buttons to view students, add mark, add social work and add exam and list of all course marks
 -->

@@ -13,8 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Controller
@@ -35,7 +33,7 @@ public class TeacherController {
      */
     @GetMapping("/menu")
     public String menu(Model model){
-        return "teacher-menu";
+        return "menu/teacher";
     }
 
     //THIS FUNCTION IS NOT USED
@@ -176,13 +174,13 @@ public class TeacherController {
     @GetMapping("/courses/{course}/add-exam")
     public String getCourseAddExam(@PathVariable(value = "course") Long courseId, Model model) {
         model.addAttribute("course-id", courseId);
-        return "teacher-add-exam";
+        return "add/exam";
     }
 
     @GetMapping(path="/about")
     public String About(Model model) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
         model.addAttribute("teacher", handle.getTeacher());
-        return "teacher-about";
+        return "about/teacher";
     }
 }
