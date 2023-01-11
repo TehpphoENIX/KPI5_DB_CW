@@ -21,7 +21,7 @@ public class Teacher {
 	private Long id;
 
 	//@OneToOne
-	@Column(name = "teacher_login")
+	@Column(name = "teacher_login", unique = true)
 	private String login;
 
 	@Column(name = "teacher_name", length = 50, nullable = false)
