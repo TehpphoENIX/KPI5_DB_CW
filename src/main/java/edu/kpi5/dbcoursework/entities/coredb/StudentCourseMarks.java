@@ -24,7 +24,7 @@ public class StudentCourseMarks {
     private Course course;
 
     @Column(name = "total_points")
-    private Double totalPoints = 0.0;
+    private Integer totalPoints = 0;
 
     @Column(name = "social_work")
     private Boolean socialWork = false;

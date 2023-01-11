@@ -224,7 +224,7 @@ public class AdminController {
         AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
         handle.applyScholarship(handle.getScholarshipList(false,dbApi),false,dbApi);
         handle.applyScholarship(handle.getScholarshipList(true,dbApi),true,dbApi);
-        return "redirect:/admin";
+        return "redirect:/admin/menu";
     }
     @GetMapping("/courses")
     public String getCourseList(Model model) {
