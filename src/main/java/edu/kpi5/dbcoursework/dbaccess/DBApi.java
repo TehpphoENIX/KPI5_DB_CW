@@ -131,7 +131,7 @@ public class DBApi {
      * @param courseID -- course id
      */
     public void removeCourse(Long courseID) {
-        SCMRepository.deleteByCourseId(courseID);
+        scmRepository.deleteByCourseId(courseID);
         courseRepository.deleteById(courseID);
     }
 
@@ -484,6 +484,7 @@ public class DBApi {
     public void incrementContribution(Long teacherId){
         Contribution contribution = contributionRepository.findById(teacherId).get();
         Integer value = contribution.get().get(LocalDate.now());
+        if(value == null) value = 0;
         contribution.get().put(LocalDate.now(), value + 1);
         contributionRepository.save(contribution);
     }

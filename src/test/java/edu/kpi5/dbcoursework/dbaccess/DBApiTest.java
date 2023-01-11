@@ -152,8 +152,8 @@ class DBApiTest {
 
         underTest.addTeacherToCourse(course.getId(),teacher.getId());
 
-        course = courseRepository.findById(course.getId()).get();
-        assertTrue(course.getTeachers().contains(teacher));
+        teacher = teacherRepository.findById(teacher.getId()).get();
+        assertTrue(teacher.getCourses().contains(course));
     }
 
     @Test

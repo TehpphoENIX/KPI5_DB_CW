@@ -26,6 +26,7 @@ public class Group {
 	@Column(name = "group_spec", nullable = false)
 	private Short speciality;
 
+	//@ManyToOne(fetch = FetchType.LAZY)
 	@ManyToOne
 	@JoinColumn(name="group_department")
 	private Department department;

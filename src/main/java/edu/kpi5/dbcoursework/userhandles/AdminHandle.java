@@ -91,8 +91,8 @@ public class AdminHandle extends TeacherHandle{
     public Student getStudent(Long studentId, DBApi object){
         return object.getStudent(studentId);
     }
-    public Student getTeacher(Long teacherId, DBApi object){
-        return object.getStudent(teacherId);
+    public Teacher getTeacher(Long teacherId, DBApi object){
+        return object.getTeacher(teacherId);
     }
 
     public Iterable<Department> getAllDepartments(DBApi object){

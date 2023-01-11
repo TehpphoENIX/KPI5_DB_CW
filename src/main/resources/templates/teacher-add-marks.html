@@ -8,10 +8,10 @@
 <div>
   <h1>Додати оцінку</h1>
 
-  <form th:action="@{add}" th:object="${form}" method="post">
+  <form th:action="@{add-marks}" th:object="${form}" method="post">
 
     <p>За що оцінка: <input type="text" th:field="*{markName}" /></p>
-    <p>Оцінка: <input type="text" th:field="*{value}" /></p>
+    <p>Оцінка: <input type="number" th:field="*{value}" /></p>
     Айді студента:
     <select th:field="*{studentId}">
       <option th:each="s : ${list}" th:value="${s.id}">

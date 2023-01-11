@@ -18,6 +18,13 @@ public class StudentRepositoryTest {
     private SCMRepository SCMRepo;
     @Autowired
     private CourseRepository courseRepository;
+    @Autowired
+    private TeacherRepository teacherRepository;
+    @Autowired
+    private GroupRepository groupRepository;
+    @Autowired
+    private DepartmentRepository departmentRepository;
+
 
     Student student1;
     Student student2;
@@ -203,5 +210,23 @@ public class StudentRepositoryTest {
         var result = underTest.findByCourse(course.getId());
 
         assertIterableEquals(students, result);
+    }
+
+    @Test
+    void circular(){
+        Department d = new Department("","");
+        Group g = new Group("",0,(short)0,d);
+        Student s = new Student("","","",g,0);
+        Course c = new Course("");
+        StudentCourseMarks scm = new StudentCourseMarks(s,c);
+        Teacher t = new Teacher("","","",d);
+        departmentRepository.save(d);
+        groupRepository.save(g);
+        underTest.save(s);
+        teacherRepository.save(t);
+        courseRepository.save(c);
+        SCMRepo.save(scm);
+
+        var recieved = underTest.findAll();
     }
 }

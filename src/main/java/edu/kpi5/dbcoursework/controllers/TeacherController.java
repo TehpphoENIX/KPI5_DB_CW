@@ -54,21 +54,21 @@ public class TeacherController {
         private Long studentId;
         private Integer value;
     }
-    @GetMapping("/courses/{course}/mark/set")
-    public String sendSetMarkForm(@PathVariable(value = "course") Long courseId, Model model){
-        SetMarkForm form = new SetMarkForm();
-        model.addAttribute("form",form);
-        TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
-        model.addAttribute("listOfStudents",handle.getCourseStudents(courseId,dbApi));
-        model.addAttribute("list",handle.getCourseStudents(courseId,dbApi));
-        return "add/mark";
-    }
-    @PostMapping("/courses/{course}/mark/set")
-    public String setMark(@PathVariable(value = "course") Long courseId, @ModelAttribute SetMarkForm form) {
-        TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
-        handle.setMark(courseId, form.getMarkName(), form.getStudentId(), form.getValue(), dbApi);
-        return "redirect:/courses/{course}";
-    }
+//    @GetMapping("/courses/{course}/mark/set")
+//    public String sendSetMarkForm(@PathVariable(value = "course") Long courseId, Model model){
+//        SetMarkForm form = new SetMarkForm();
+//        model.addAttribute("form",form);
+//        TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
+//        model.addAttribute("listOfStudents",handle.getCourseStudents(courseId,dbApi));
+//        model.addAttribute("list",handle.getCourseStudents(courseId,dbApi));
+//        return "teacher-add-marks";
+//    }
+//    @PostMapping("/courses/{course}/mark/set")
+//    public String setMark(@PathVariable(value = "course") Long courseId, @ModelAttribute SetMarkForm form) {
+//        TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
+//        handle.setMark(courseId, form.getMarkName(), form.getStudentId(), form.getValue(), dbApi);
+//        return "redirect:/courses/{course}";
+//    }
     @PostMapping("/courses/{course}/marks/set")
     public String setMarks(@PathVariable(value = "course") Long courseId,  @RequestParam MarksList marksList) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
@@ -92,29 +92,29 @@ public class TeacherController {
 
         return "redirect:/courses/{course}";
     }
-    @PostMapping("/courses/{course}/edit")
-    public String editCourse(@PathVariable(value = "course") @RequestParam long CourseId, @RequestParam String CourseName) {
-        TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
-
-        Course newCourse = new Course(CourseName);
-        newCourse.setId(CourseId);
-
-        //TODO якось зробити ввід цього з форми html
-        Set<StudentCourseMarks> marks = handle.getCourse(CourseId, dbApi).getMarks();
-        newCourse.setMarks(marks);
-        Set<Teacher> teachers = handle.getCourse(CourseId, dbApi).getTeachers();
-        newCourse.setTeachers(teachers);
-
-        handle.editCourse(newCourse, dbApi);
-        return "redirect:/courses/"+newCourse;
-
-    }
-    @PostMapping("/courses/delete")
-    public String removeCourse(@RequestParam Long courseId) {
-        TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
-        handle.removeCourse(courseId, dbApi);
-        return "redirect:/courses";
-    }
+//    @PostMapping("/courses/{course}/edit")
+//    public String editCourse(@PathVariable(value = "course") @RequestParam long CourseId, @RequestParam String CourseName) {
+//        TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
+//
+//        Course newCourse = new Course(CourseName);
+//        newCourse.setId(CourseId);
+//
+//        //TODO якось зробити ввід цього з форми html
+//        Set<StudentCourseMarks> marks = handle.getCourse(CourseId, dbApi).getMarks();
+//        newCourse.setMarks(marks);
+//        Set<Teacher> teachers = handle.getCourse(CourseId, dbApi).getTeachers();
+//        newCourse.setTeachers(teachers);
+//
+//        handle.editCourse(newCourse, dbApi);
+//        return "redirect:/courses/"+newCourse;
+//
+//    }
+    //@PostMapping("/courses/delete")
+    //public String removeCourse(@RequestParam Long courseId) {
+    //    TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
+    //    handle.removeCourse(courseId, dbApi);
+    //    return "redirect:/courses";
+    //}
 
     /**
      * View information of a course
@@ -126,11 +126,9 @@ public class TeacherController {
     public String getCourse(@PathVariable(value = "course") Long courseId, Model model) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
         model.addAttribute("course", handle.getCourse(courseId, dbApi));
+        model.addAttribute("marks",handle.getMarksOfCourse(courseId, dbApi));
         return "course";
     }
-
-
-
 
     @Getter
     @Setter
@@ -164,8 +162,9 @@ public class TeacherController {
     @GetMapping("/courses/{course}/students")
     public String getCourseStudents(@PathVariable(value = "course") Long courseId, Model model) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
-        model.addAttribute("course-students", handle.getCourseStudents(courseId, dbApi));
-        return "course-students";
+        model.addAttribute("students", handle.getCourseStudents(courseId, dbApi));
+        model.addAttribute("id",courseId);
+        return "list/student";
     }
 
     /**
@@ -177,27 +176,40 @@ public class TeacherController {
     public String getCourseList(Model model) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
         model.addAttribute("courses", handle.getCourseList(dbApi));
-        return "courses";
+        return "list/course";
     }
 
-    @GetMapping("/courses/{course}/edit")
-    public String getCourseEdit(@PathVariable(value = "course") Long courseId, Model model) {
-        TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
-        model.addAttribute("course-students", handle.getCourse(courseId, dbApi));
-        return "teacher-course-edit";
-    }
+//    @GetMapping("/courses/{course}/edit")
+//    public String getCourseEdit(@PathVariable(value = "course") Long courseId, Model model) {
+//        TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
+//        model.addAttribute("course-students", handle.getCourse(courseId, dbApi));
+//        return "teacher-course-edit";
+//    }
 
     @GetMapping("/courses/{course}/delete")
-    public String getCourseDeleteConfirm(@PathVariable(value = "course") Long courseId, Model model) {
-        model.addAttribute("course-id", courseId);
-        return "teacher-course-delete";
+    //public String getCourseDeleteConfirm(@PathVariable(value = "course") Long courseId, Model model) {
+    //    model.addAttribute("course-id", courseId);
+    //    return "teacher-course-delete";
+    //}
+    public String removeCourse(@PathVariable("course") Long courseId) {
+        TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
+        handle.removeCourse(courseId, dbApi);
+        return "redirect:/teacher/courses";
     }
 
     @GetMapping("/courses/{course}/add-marks")
     public String getCourseAddMArks(@PathVariable(value = "course") Long courseId, Model model) {
+        SetMarkForm form = new SetMarkForm();
+        model.addAttribute("form",form);
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
-        model.addAttribute("course", handle.getCourse(courseId, dbApi));
+        model.addAttribute("list", handle.getCourseStudents(courseId, dbApi));
         return "teacher-add-marks";
+    }
+    @PostMapping("/courses/{course}/add-marks")
+    public String addMarks(@ModelAttribute SetMarkForm form, @PathVariable("course") Long courseId){
+        TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
+        handle.setMark(courseId, form.getMarkName(), form.getStudentId(), form.getValue(), dbApi);
+        return "redirect:/teacher/courses/"+courseId;
     }
 
     @GetMapping("/courses/{course}/add-social-work")

@@ -65,6 +65,7 @@ public class TeacherHandle extends Handle {
 
     public void addCourse(String courseName, ArrayList<Long> groups,DBApi object) {
         Long courseId = object.addCourse(courseName);
+        object.addTeacherToCourse(courseId, teacher.getId());
         for (long id :
                 groups) {
             object.addStudentsToCourse(courseId, id);

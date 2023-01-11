@@ -84,7 +84,8 @@ public class AdminController {
     @GetMapping("users/students")
     public String listStudents(Model model){
         AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
-        model.addAttribute("list", handle.getAllStudents(dbApi));
+        var out = handle.getAllStudents(dbApi);
+        model.addAttribute("list", out);
         return "list/student(admin)";
     }
     @Getter
