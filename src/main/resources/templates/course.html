@@ -13,11 +13,11 @@
 
 <!-- TODO buttons to view students, add mark, add social work and add exam and list of all course marks
 -->
-<form th:action=@{/courses/{course}/edit}>
+<form th:action="@{../courses/} + ${course.id} + @{/edit}">
   <p><input type="submit" value="Edit" /></p>
 </form>
 
-<form th:action=@{/courses/{course}/delete}>
+<form th:action="@{../courses/} + ${course.id} + @{/delete}">
   <p><input type="submit" value="Delete" /></p>
 </form>
 

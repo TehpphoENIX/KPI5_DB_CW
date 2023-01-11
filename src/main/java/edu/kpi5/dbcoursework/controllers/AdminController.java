@@ -6,6 +6,7 @@ import edu.kpi5.dbcoursework.entities.coredb.Student;
 import edu.kpi5.dbcoursework.entities.userdb.AccessLevelEnum;
 import edu.kpi5.dbcoursework.presets.Preset;
 import edu.kpi5.dbcoursework.userhandles.AdminHandle;
+import edu.kpi5.dbcoursework.userhandles.TeacherHandle;
 import edu.kpi5.dbcoursework.utility.HttpSessionBean;
 import edu.kpi5.dbcoursework.utility.UserForm;
 import jakarta.annotation.Resource;
@@ -224,13 +225,33 @@ public class AdminController {
         handle.applyScholarship(handle.getScholarshipList(true,dbApi),true,dbApi);
         return "redirect:/admin";
     }
-//
-//    @GetMapping("teacher/courses")
-//    public String listCourses(Model model){
-//        AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
-//        model.addAttribute("courses",handle.getCourseList(dbApi));
-//        return "list/course";
-//    }
+    @GetMapping("/courses")
+    public String getCourseList(Model model) {
+        AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
+        model.addAttribute("courses", handle.getCourseList(dbApi));
+        return "courses";
+    }
+
+
+    @GetMapping("/courses/{course}")
+    public String getCourse(@PathVariable(value = "course") Long courseId, Model model) {
+        AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
+        model.addAttribute("course", handle.getCourse(courseId, dbApi));
+        return "course";
+    }
+
+    @GetMapping("/courses/{course}/delete")
+    public String getCourseDeleteConfirm(@PathVariable(value = "course") Long courseId, Model model) {
+        model.addAttribute("id", courseId);
+        return "teacher-course-delete";
+    }
+
+    @PostMapping("/courses/{course}/delete")
+    public String removeCourse(@PathVariable(value = "course") Long courseId) {
+        AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
+        handle.removeCourse(courseId, dbApi); //TODO somehow it not works
+        return "redirect:/admin/courses";
+    }
 //
 //    @GetMapping("/teacher/courses/add")
 //    public String sendAddCourseForm(Model model){

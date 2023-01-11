@@ -7,7 +7,10 @@
 <body>
 <h1>Courses:</h1>
 <div th:each="el:${courses}">
-    <button th:text="${el.name}"/>
+
+    <form th:action="@{courses/} + ${el.id}">
+        <p><input type="submit" value="Обрати" th:text="${el.name}"/></p>
+    </form>
 </div>
 
 <form th:action=@{/exit}>

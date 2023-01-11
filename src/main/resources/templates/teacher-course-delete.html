@@ -6,9 +6,13 @@
 </head>
 <body>
 <div>
-  <h1 th:text="Delete course ${course-id} ?" />
-  <form th:action="/courses/delete" method="post">
-    <input type="hidden" name="course-id" th:value="${course-id}" />
+  <h1>
+    <span>"Delete course </span>
+    <span  th:text=${id}></span>
+    <span>?</span>
+  </h1>
+  <form th:action="@{../} + ${id} + @{/delete}" method="post">
+    <input type="hidden" th:value="${id}" />
     <button type="submit"> Видалити </button>
   </form>
 </div>

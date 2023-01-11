@@ -25,6 +25,8 @@ public class DBApi {
     @Autowired
     private CourseRepository courseRepository;
     @Autowired
+    private SCMRepository SCMRepository;
+    @Autowired
     private GroupRepository groupRepository;
     @Autowired
     private StudentRepository studentRepository;
@@ -131,6 +133,7 @@ public class DBApi {
      * @param courseID -- course id
      */
     public void removeCourse(Long courseID) {
+        SCMRepository.deleteByCourseId(courseID);
         courseRepository.deleteById(courseID);
     }
 

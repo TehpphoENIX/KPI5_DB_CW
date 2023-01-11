@@ -6,17 +6,25 @@
 </head>
 <body>
 <div>
-  <h1 th:text="Add marks" />
+  <h1>Додати оцінку</h1>
 
-    <input type="text" name="CourseName" th:value="$course-students.name" placeholder="Введіть назву курсу">
-    <div th:each="mark: ${course-students.marks}}">
-      <p th:text="Студент ${mark.student.name} ${mark.student.surname} Оцінка ${mark.totalPoints}"/>
-    </div>
-  <form th:action="/courses/{course}/social_work/set" method="post">
-    <input type="text" name="course-id" placeholder="Введіть айді студента" />
-    <input type="text" name="mark" placeholder="Введіть оцінку студента" />
-    <button type="submit"> Додати </button>
+  <form th:action="@{add}" th:object="${form}" method="post">
+
+    <p>За що оцінка: <input type="text" th:field="*{markName}" /></p>
+    <p>Оцінка: <input type="text" th:field="*{value}" /></p>
+    Айді студента:
+    <select th:field="*{studentId}">
+      <option th:each="s : ${list}" th:value="${s.id}">
+        <span th:text="${s.name}"/>
+        <span th:text="${s.surname}"/>
+        <span> Група:</span>
+        <span th:text="${s.group}"/>
+      </option>
+    </select>
+
+    <p><input type="submit" value="Add" /><input type="reset" value="Reset" /></p>
   </form>
+
 </div>
 
 <form th:action=@{/exit}>

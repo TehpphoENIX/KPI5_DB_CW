@@ -45,6 +45,21 @@ class CourseRepositoryTest {
     }
 
     @Test
+    void delete() {
+        ArrayList<Course> courses = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            courses.add(new Course(String.valueOf(i)));
+        }
+        underTest.saveAll(courses);
+
+        for (long i = 1; i < 11; i++) {
+            underTest.deleteById(i);
+        }
+
+        assertEquals(0,underTest.count());
+    }
+
+    @Test
     void findById() {
 
         Course course = new Course("course1");

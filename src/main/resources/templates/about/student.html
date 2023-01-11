@@ -6,10 +6,15 @@
 </head>
 <body>
 <h1>
-    <span>Студент:</span>
+    <span>Студент: </span>
     <span th:text="${student.name}"/>
     <span th:text="${student.surname}"/>
 </h1>
+
+<p>
+    <span>Cтипендія: </span>
+    <span th:text="${student.scholarship}"/>
+</p>
 
 <form th:action=@{/student/menu}>
     <p><input type="submit" value="Back" /></p>
