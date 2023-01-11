@@ -45,6 +45,11 @@ public class TeacherHandle extends Handle {
         object.setMarks(courseId, markName,marksOfStudents);
         increment(object);
     }
+
+    public List<Group> getGroupList(DBApi object){
+        return object.getGroupList();
+    }
+
     public void setMarks(Long courseId, String markName, Map<Long, Integer> marksList, DBApi object) {
         object.setMarks(courseId,markName, marksList);
         increment(object);

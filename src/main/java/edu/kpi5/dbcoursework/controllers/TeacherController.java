@@ -7,6 +7,8 @@ import edu.kpi5.dbcoursework.utility.HttpSessionBean;
 import edu.kpi5.dbcoursework.entities.coredb.*;
 import edu.kpi5.dbcoursework.userhandles.TeacherHandle;
 import jakarta.annotation.Resource;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,14 +46,25 @@ public class TeacherController {
 //        handle.setAttestation(courseName, marksList, dbApi);
 //        return "redirect:/courses/{course}";
 //    }
-
-    @PostMapping("/courses/{course}/mark/set")
-    public String setMark(@PathVariable(value = "course") Long courseId, @RequestParam Long studentID, @RequestParam int mark) {
+    @Getter
+    @Setter
+    class SetMarkForm{
+        private String markName;
+        private Long studentId;
+        private Integer value;
+    }
+    @GetMapping("/courses/{course}/mark/set")
+    public String sendSetMarkForm(@PathVariable(value = "course") Long courseId, Model model){
+        SetMarkForm form = new SetMarkForm();
+        model.addAttribute("form",form);
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
-//        handle.setMark(courseId,
-//                       handle.getCourseStudents(courseId, dbApi).
-//                               stream().filter(x->x.getId()==studentID).findFirst().get(),
-//                       mark, dbApi);
+        model.addAttribute("listOfStudents",handle.getCourseStudents(courseId,dbApi));
+        return "add/mark";
+    }
+    @PostMapping("/courses/{course}/mark/set")
+    public String setMark(@PathVariable(value = "course") Long courseId, @ModelAttribute SetMarkForm form) {
+        TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
+        handle.setMark(courseId, form.getMarkName(), form.getStudentId(), form.getValue(), dbApi);
         return "redirect:/courses/{course}";
     }
     @PostMapping("/courses/{course}/marks/set")

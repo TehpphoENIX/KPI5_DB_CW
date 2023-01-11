@@ -172,7 +172,7 @@ public class AdminController {
     }
     @Getter
     @Setter
-    public static class AddGroupForm{
+    static class AddGroupForm{
         private String groupName;
         private Integer groupYear;
         private Short groupSpec;
@@ -224,4 +224,20 @@ public class AdminController {
         handle.applyScholarship(handle.getScholarshipList(true,dbApi),true,dbApi);
         return "redirect:/admin";
     }
+//
+//    @GetMapping("teacher/courses")
+//    public String listCourses(Model model){
+//        AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
+//        model.addAttribute("courses",handle.getCourseList(dbApi));
+//        return "list/course";
+//    }
+//
+//    @GetMapping("/teacher/courses/add")
+//    public String sendAddCourseForm(Model model){
+//        model.addAttribute("form",null);//todo make handle
+//        return "add/course";
+//    }
+//    @PostMapping("/teacher/courses/add")
+//    public String addCourse(Model model){}
+
 }
