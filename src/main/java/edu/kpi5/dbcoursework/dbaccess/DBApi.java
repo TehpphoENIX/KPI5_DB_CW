@@ -25,8 +25,6 @@ public class DBApi {
     @Autowired
     private CourseRepository courseRepository;
     @Autowired
-    private SCMRepository SCMRepository;
-    @Autowired
     private GroupRepository groupRepository;
     @Autowired
     private StudentRepository studentRepository;
