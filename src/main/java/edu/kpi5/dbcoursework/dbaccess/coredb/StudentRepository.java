@@ -85,10 +85,15 @@ public interface StudentRepository extends CrudRepository<Student,Long> {
                         WHERE all_marks.c = all_good_marks.c AND all_marks.i = s.id AND all_marks.i = all_good_marks.i;""",
             nativeQuery = true)
     List<Student> getIncreasedScholarshipList();
+    @Query(
+            nativeQuery = true,
+            value = """
+                    SELECT *
+                    FROM student
+                    """
+    )
     List<Student> findAll();
-
     Optional<Student> findByLogin(String login);
-
     @Query(
             nativeQuery = true,
             value = "SELECT s.* " +

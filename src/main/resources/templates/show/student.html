@@ -15,6 +15,30 @@
     <p>Group name: <span th:text="${student.group.name}" /></p>
     <p>Hostel: <span th:text="${student.hostel}" /></p>
     <p>Scholarship: <span th:text="${student.scholarship}" /></p>
+    <div>
+        <p>Courses:</p>
+        <table>
+            <thead>
+            <tr>
+                <th> id </th>
+                <th> Name </th>
+                <th> Average Mark </th>
+                <th> Social Work </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="scm : ${student.marks}">
+                <td th:text="${scm.course.id}"/>
+                <td th:text="${scm.course.name}"/>
+                <td th:text="${scm.totalPoints}"/>
+                <td th:text="${scm.socialWork}"/>
+
+
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
 
 <!--    <form th:action="@{{id}/delete(id=${student.login})}">-->
 <!--        <p><input type="submit" value="Delete" /></p>-->

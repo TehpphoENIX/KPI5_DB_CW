@@ -21,6 +21,9 @@
     (<span th:text="${mark.key}">name</span>):
     <span th:text="${mark.value}">_</span>
   </p>
+  <p>Average:<span th:text="${scm.totalPoints}"/></p>
+  <p>Social Work:<span th:text="${scm.socialWork}"/></p>
+
 </div>
 
 <!--<form th:action="@{../courses/} + ${course.id} + @{/edit}">-->
@@ -38,9 +41,9 @@
   <p><input type="submit" value="Add social work" /></p>
 </form>
 
-<form th:action="@{${course.id} + @{/add-exam}}">
-  <p><input type="submit" value="Add exam" /></p>
-</form>
+<!--<form th:action="@{${course.id} + @{/add-exam}}">-->
+<!--  <p><input type="submit" value="Add exam" /></p>-->
+<!--</form>-->
 
 <form th:action="@{${course.id} + @{/delete}}">
   <p><input type="submit" value="Delete" /></p>

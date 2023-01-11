@@ -233,52 +233,52 @@ public class AdminController {
         return "courses";
     }
 
-
-    @GetMapping("/courses/{course}")
-    public String getCourse(@PathVariable(value = "course") Long courseId, Model model) {
-        AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
-        model.addAttribute("course", handle.getCourse(courseId, dbApi));
-        return "course";
-    }
-
-    @GetMapping("/courses/{course}/delete")
-    public String getCourseDeleteConfirm(@PathVariable(value = "course") Long courseId, Model model) {
-        model.addAttribute("id", courseId);
-        return "teacher-course-delete";
-    }
-
-    @PostMapping("/courses/{course}/delete")
-    public String removeCourse(@PathVariable(value = "course") Long courseId) {
-        AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
-        handle.removeCourse(courseId, dbApi); //TODO somehow it not works
-        return "redirect:/admin/courses";
-    }
-    @Getter
-    @Setter
-    static class EditCourseForm{
-        private long courseId;
-        private String courseName;
-        private Set<StudentCourseMarks> marks;
-        private Set<Teacher> teachers;
-    }
-    @GetMapping("/courses/{course}/edit")
-    public String getCourseEdit(@PathVariable(value = "course") Long courseId, Model model, EditCourseForm form) {
-        AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
-        model.addAttribute("course", handle.getCourse(courseId, dbApi));
-        return "teacher-course-edit";
-    }
-
-    @PostMapping("/courses/{course}/edit")
-    public String editCourse(@RequestParam EditCourseForm form) {
-        AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
-
-        Course newCourse = new Course(form.courseName);
-        newCourse.setId(form.courseId);
-        newCourse.setTeachers(form.teachers);
-        newCourse.setMarks(form.marks);
-        handle.editCourse(newCourse, dbApi);
-        return "redirect:/admin/courses";
-    }
+//
+//    @GetMapping("/courses/{course}")
+//    public String getCourse(@PathVariable(value = "course") Long courseId, Model model) {
+//        AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
+//        model.addAttribute("course", handle.getCourse(courseId, dbApi));
+//        return "course";
+//    }
+//
+//    @GetMapping("/courses/{course}/delete")
+//    public String getCourseDeleteConfirm(@PathVariable(value = "course") Long courseId, Model model) {
+//        model.addAttribute("id", courseId);
+//        return "teacher-course-delete";
+//    }
+//
+//    @PostMapping("/courses/{course}/delete")
+//    public String removeCourse(@PathVariable(value = "course") Long courseId) {
+//        AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
+//        handle.removeCourse(courseId, dbApi); //TODO somehow it not works
+//        return "redirect:/admin/courses";
+//    }
+//    @Getter
+//    @Setter
+//    static class EditCourseForm{
+//        private long courseId;
+//        private String courseName;
+//        private Set<StudentCourseMarks> marks;
+//        private Set<Teacher> teachers;
+//    }
+//    @GetMapping("/courses/{course}/edit")
+//    public String getCourseEdit(@PathVariable(value = "course") Long courseId, Model model, EditCourseForm form) {
+//        AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
+//        model.addAttribute("course", handle.getCourse(courseId, dbApi));
+//        return "teacher-course-edit";
+//    }
+//
+//    @PostMapping("/courses/{course}/edit")
+//    public String editCourse(@RequestParam EditCourseForm form) {
+//        AdminHandle handle = (AdminHandle) httpSessionBean.getAppHandle();
+//
+//        Course newCourse = new Course(form.courseName);
+//        newCourse.setId(form.courseId);
+//        newCourse.setTeachers(form.teachers);
+//        newCourse.setMarks(form.marks);
+//        handle.editCourse(newCourse, dbApi);
+//        return "redirect:/admin/courses";
+//    }
 //
 //    @GetMapping("/teacher/courses/add")
 //    public String sendAddCourseForm(Model model){

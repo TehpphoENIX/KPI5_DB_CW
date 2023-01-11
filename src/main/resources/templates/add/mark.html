@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>MyApp</title>
+</head>
+<body>
+<div>
+  <h1>Додати оцінку</h1>
+
+  <form th:action="@{add-marks}" th:object="${form}" method="post">
+
+    <p>За що оцінка: <input type="text" th:field="*{markName}" /></p>
+    <p>Оцінка: <input type="number" th:field="*{value}" /></p>
+    Айді студента:
+    <select th:field="*{studentId}">
+      <option th:each="s : ${list}" th:value="${s.id}">
+        <span th:text="${s.name}"/>
+        <span th:text="${s.surname}"/>
+        <span> Група:</span>
+        <span th:text="${s.group}"/>
+      </option>
+    </select>
+
+    <p><input type="submit" value="Add" /><input type="reset" value="Reset" /></p>
+  </form>
+
+</div>
+
+<form th:action="@{/teacher/courses/{id} (id=${courseId})}">
+  <p><input type="submit" value="Exit" /></p>
+</form>
+
+</body>
+</html>
