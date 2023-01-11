@@ -1,9 +1,13 @@
 package edu.kpi5.dbcoursework.entities.coredb;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Set;
 @Entity
+@Getter
+@Setter
 public class Department {
 
 	@Id
@@ -13,58 +17,21 @@ public class Department {
 	@Column(name = "department_name", length = 50, nullable = false)
 	private String name;
 
-	@OneToMany(mappedBy = "department")
+	@Column(name = "department_faculty", length = 50, nullable = false)
+	private String faculty;
+
+	@OneToMany(mappedBy = "department", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Group> groups;
 
-	@OneToMany(mappedBy = "department")
+	@OneToMany(mappedBy = "department", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Teacher> teachers;
 
 	public Department() {
 	}
 
-	public Department(String name) {
-
+	public Department(String name, String faculty) {
 		this.name = name;
-	}
-
-	public Long getId() {
-
-		return id;
-	}
-
-	public String getName() {
-
-		return name;
-	}
-
-	public Set<Group> getGroups() {
-
-		return groups;
-	}
-
-	public Set<Teacher> getTeachers() {
-
-		return teachers;
-	}
-
-	public void setId(Long id) {
-
-		this.id = id;
-	}
-
-	public void setName(String name) {
-
-		this.name = name;
-	}
-
-	public void setGroups(Set<Group> groups) {
-
-		this.groups = groups;
-	}
-
-	public void setTeachers(Set<Teacher> teachers) {
-
-		this.teachers = teachers;
+		this.faculty = faculty;
 	}
 
 	@Override

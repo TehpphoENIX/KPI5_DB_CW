@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MyApp</title>
+</head>
+<body>
+    <h1>Menu:</h1>
+    <p th:text="${name}" />
+
+
+    <form th:action=@{courses}>
+        <p><input type="submit" value="courses" /></p>
+    </form>
+
+    <form th:action=@{courses/add}>
+        <p><input type="submit" value="add course" /></p>
+    </form>
+
+    <form th:action=@{about}>
+        <p><input type="submit" value="profile" /></p>
+    </form>
+
+
+    <form th:action=@{/exit}>
+        <p><input type="submit" value="Exit" /></p>
+    </form>
+</body>
+</html>

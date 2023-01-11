@@ -1,6 +1,8 @@
 package edu.kpi5.dbcoursework.entities.coredb;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -10,6 +12,8 @@ import java.util.Objects;
 
 @Entity
 @Table(name  = "TEACHER")
+@Getter
+@Setter
 public class Teacher {
 
 	@Id
@@ -17,7 +21,7 @@ public class Teacher {
 	private Long id;
 
 	//@OneToOne
-	@JoinColumn(name = "teacher_login")
+	@Column(name = "teacher_login", unique = true)
 	private String login;
 
 	@Column(name = "teacher_name", length = 50, nullable = false)
@@ -26,11 +30,11 @@ public class Teacher {
 	@Column(name = "teacher_surname", length = 50, nullable = false)
 	private String surname;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="teacher_department")
 	private Department department;
 
-	@ManyToMany(mappedBy = "teachers")
+	@ManyToMany(mappedBy = "teachers", fetch = FetchType.EAGER)
 	private Set<Course> courses = new HashSet<>();
 
 	/*private ArrayList<AbstractMap.SimpleEntry<Float, Float>> contribution;*/
@@ -48,79 +52,7 @@ public class Teacher {
 		this.surname = surname;
 
 		this.department = department;
-
-		/*this.contribution = contribution;*/
 	}
-
-	public Long getId() {
-
-		return id;
-	}
-
-	public String getLogin() {
-
-		return login;
-	}
-
-	public String getName() {
-
-		return name;
-	}
-
-	public String getSurname() {
-
-		return surname;
-	}
-
-	public Department getDepartment() {
-
-		return department;
-	}
-
-	public Set<Course> getCourses() {
-
-		return courses;
-	}
-
-	/*public ArrayList<AbstractMap.SimpleEntry<Float, Float>> getContribution() {
-
-		return contribution;
-	}*/
-
-	public void setId(Long id) {
-
-		this.id = id;
-	}
-
-	public void setLogin(String login) {
-
-		this.login = login;
-	}
-
-	public void setName(String name) {
-
-		this.name = name;
-	}
-
-	public void setSurname(String surname) {
-
-		this.surname = surname;
-	}
-
-	public void setDepartment(Department department) {
-
-		this.department = department;
-	}
-	public void setCourses(Set<Course> courses) {
-
-		this.courses = courses;
-	}
-
-
-	/*public void setContribution(ArrayList<AbstractMap.SimpleEntry<Float, Float>> contribution) {
-
-		this.contribution = contribution;
-	}*/
 
 	@Override
 	public String toString() {

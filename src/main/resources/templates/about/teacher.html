@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MyApp</title>
+</head>
+<body>
+<h1>
+    <span>Вчитель:</span>
+    <span th:text="${teacher.name}"/>
+    <span th:text="${teacher.surname}"/>
+</h1>
+
+<form th:action=@{/teacher/menu}>
+    <p><input type="submit" value="Back" /></p>
+</form>
+</body>
+</html>

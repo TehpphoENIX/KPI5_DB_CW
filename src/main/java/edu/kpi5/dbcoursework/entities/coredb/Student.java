@@ -1,12 +1,16 @@
 package edu.kpi5.dbcoursework.entities.coredb;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "STUDENT")
+@Getter
+@Setter
 public class Student {
 
 	@Id
@@ -14,7 +18,7 @@ public class Student {
 	private Long id;
 
 	//@OneToOne
-	@JoinColumn(name = "student_login")
+	@Column(name = "student_login", unique = true)
 	private String login;
 
 	@Column(name = "student_name", length = 50, nullable = false)
@@ -30,109 +34,28 @@ public class Student {
 	@Column(name = "student_hostel", nullable = false)
 	private Integer hostel;
 
-	@Column(name = "student_noe")
+	@Transient
 	private Short numberOfExams;
 
-	@Column(name = "student_avg")
+	@Transient
 	private Float averageMark;
 
-	@Column(name = "student_sw")
-	private Boolean socialWork;
+	@OneToMany(mappedBy = "student", fetch = FetchType.EAGER)
+	private Set<StudentCourseMarks> marks = new HashSet<>();
 
-	@OneToMany(mappedBy = "student")
-	private Set<StudentCourseMarks> courses = new HashSet<>();
-
+	@Column(name = "scholarship")
+	private Integer scholarship;
 
 	public Student() {
 	}
 
 	public Student(String login, String name, String surname, Group group,
-	               Integer hostel, Short numberOfExams, Float averageMark,
-	               Boolean socialWork) {
+				   Integer hostel) {
 		this.login = login;
 		this.name = name;
 		this.surname = surname;
 		this.group = group;
 		this.hostel = hostel;
-		this.numberOfExams = numberOfExams;
-		this.averageMark = averageMark;
-		this.socialWork = socialWork;
-	}
-
-	public Long getId() {
-
-		return id;
-	}
-
-	public String getLogin() {
-
-		return login;
-	}
-	public String getName() {
-
-		return name;
-	}
-	public String getSurname() {
-
-		return surname;
-	}
-	public Group getGroup() {
-
-		return group;
-	}
-	public Integer getHostel() {
-
-		return hostel;
-	}
-	public Short getNumberOfExams() {
-
-		return numberOfExams;
-	}
-	public Float getAverageMark() {
-
-		return averageMark;
-	}
-	public Boolean getSocialWork() {
-
-		return socialWork;
-	}
-
-	public void setId(Long id) {
-
-		this.id = id;
-	}
-
-	public void setLogin(String login) {
-
-		this.login = login;
-	}
-	public void setName(String name) {
-
-		this.name = name;
-	}
-	public void setSurname(String surname) {
-
-		this.surname = surname;
-	}
-	public void setGroup(Group group) {
-
-		this.group = group;
-	}
-	public void setHostel(Integer hostel) {
-
-		this.hostel = hostel;
-	}
-	public void setNumberOfExams(Short numberOfExams) {
-
-		this.numberOfExams = numberOfExams;
-	}
-	public void setAverageMark(Float averageMark) {
-
-		this.averageMark = averageMark;
-	}
-	public void setSocialWork(Boolean socialWork) {
-
-		this.socialWork = socialWork;
 	}
 
 	@Override
@@ -147,7 +70,7 @@ public class Student {
 				", hostel=" + hostel +
 				", numberOfExams=" + numberOfExams +
 				", averageMark=" + averageMark +
-				", socialWork=" + socialWork +
+				//", socialWork=" + socialWork +
 				'}';
 	}
 
@@ -162,8 +85,7 @@ public class Student {
 
 		Student student = (Student) o;
 
-		return login.equals(student.login)
-				&& id.equals(student.id);
+		return id.equals(student.id);
 	}
 
 	@Override

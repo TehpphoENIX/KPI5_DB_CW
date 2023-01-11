@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MyApp</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <h1>Group:</h1>
+    <p>id: <span th:text="${group.id}" /></p>
+    <p>name: <span th:text="${group.name}" /></p>
+    <p>Year of Creation: <span th:text="${group.yearCreated}" /></p>
+    <p>Department id: <span th:text="${group.department.id}" /></p>
+    <p>Department name: <span th:text="${group.department.name}" /></p>
+    <p>Faculty: <span th:text="${group.department.faculty}" /></p>
+
+    <form th:action="@{{id}/remove(id=${group.id})}">
+        <p><input type="submit" value="Delete" /></p>
+    </form>
+    <form th:action=@{../groups}>
+        <p><input type="submit" value="Back" /></p>
+    </form>
+</body>
+</html>

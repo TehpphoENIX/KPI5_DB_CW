@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MyApp</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <h1>Student:</h1>
+    <p>Id: <span th:text="${student.id}" /></p>
+    <p>Login: <span th:text="${student.login}" /></p>
+    <p>Name: <span th:text="${student.name}" /></p>
+    <p>Surname: <span th:text="${student.surname}" /></p>
+    <p>Group id: <span th:text="${student.group.id}" /></p>
+    <p>Group name: <span th:text="${student.group.name}" /></p>
+    <p>Hostel: <span th:text="${student.hostel}" /></p>
+    <p>Scholarship: <span th:text="${student.scholarship}" /></p>
+    <div>
+        <p>Courses:</p>
+        <table>
+            <thead>
+            <tr>
+                <th> id </th>
+                <th> Name </th>
+                <th> Average Mark </th>
+                <th> Social Work </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="scm : ${student.marks}">
+                <td th:text="${scm.course.id}"/>
+                <td th:text="${scm.course.name}"/>
+                <td th:text="${scm.totalPoints}"/>
+                <td th:text="${scm.socialWork}"/>
+
+
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+<!--    <form th:action="@{{id}/delete(id=${student.login})}">-->
+<!--        <p><input type="submit" value="Delete" /></p>-->
+<!--    </form>-->
+    <form th:action=@{../students}>
+        <p><input type="submit" value="Back" /></p>
+    </form>
+</body>
+</html>

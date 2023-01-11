@@ -1,98 +1,106 @@
 package edu.kpi5.dbcoursework.userhandles;
 
 import edu.kpi5.dbcoursework.dbaccess.DBApi;
-import edu.kpi5.dbcoursework.entities.Course;
-import edu.kpi5.dbcoursework.entities.Student;
-import edu.kpi5.dbcoursework.entities.User;
-import edu.kpi5.dbcoursework.utility.MarksList;
+import edu.kpi5.dbcoursework.entities.coredb.*;
+import edu.kpi5.dbcoursework.entities.marksdb.MarksList;
+import edu.kpi5.dbcoursework.entities.userdb.User;
+import lombok.extern.java.Log;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class TeacherHandle extends Handle {
+    private Teacher teacher;
+
     public TeacherHandle(User user) {
         super(user);
     }
 
-    public void setAttestation(String courseName, MarksList marksList, DBApi object) {
-        //потрібно знати за яким правилом виставлятиметься атестація, наприклад якщо більше 20 балів
-        //але за що? ключ в марксЛісті містить тільки назву роботи, тому ми будемо тільки враховуючи її
-        // виставляти атестацію ?
-        for(var pair : marksList.getList()){//отримуємо список пар учень - оцінка
-            if(pair.getValue() > 20){
-                object.setAttestation(courseName,pair.getKey());//треба додати метод до BDApi для виставлення атестації учню за ім'ям
-            }
+    public TeacherHandle(User user, DBApi object) {
+        super(user);
+        teacher = object.getTeacher(user.getLogin());
+    }
+
+    //UNREALIZED
+//    public void setAttestation(String courseName, MarksList marksList, DBApi object) {
+//        //потрібно знати за яким правилом виставлятиметься атестація, наприклад якщо більше 20 балів
+//        //але за що? ключ в марксЛісті містить тільки назву роботи, тому ми будемо тільки враховуючи її
+//        // виставляти атестацію ?
+//        for(var pair : marksList.getList()){//отримуємо список пар учень - оцінка
+//            if(pair.getValue() > 20){
+//                object.setAttestation(courseName,pair.getKey());//треба додати метод до BDApi для виставлення атестації учню за ім'ям
+//            }
+//        }
+//    }
+
+    public final Teacher getTeacher(){
+        return teacher;
+    }
+
+    public void setMark(Long courseId, String markName, Long studentId, int mark, DBApi object) {
+        Map<Long,Integer> marksOfStudents = new HashMap<>();
+        marksOfStudents.put(studentId,mark);
+        object.setMarks(courseId, markName,marksOfStudents);
+        increment(object);
+    }
+
+    public List<Group> getGroupList(DBApi object){
+        return object.getGroupList();
+    }
+
+    public void setMarks(Long courseId, String markName, Map<Long, Integer> marksList, DBApi object) {
+        object.setMarks(courseId,markName, marksList);
+        increment(object);
+    }
+    public void setSocialWork(Long courseId, Long studentId, DBApi object) {
+        object.setSocialWork(courseId, studentId);
+        increment(object);
+    }
+    public void setExam(Long courseId, Map<Long, Integer> marksList, DBApi object) {
+        object.setMarks(courseId, "EXAM", marksList);
+        increment(object);
+    }
+
+    public void addCourse(String courseName, ArrayList<Long> groups,DBApi object) {
+        Long courseId = object.addCourse(courseName);
+        object.addTeacherToCourse(courseId, teacher.getId());
+        for (long id :
+                groups) {
+            object.addStudentsToCourse(courseId, id);
         }
     }
 
-    public void setMark(String courseName, Student Student, int mark, DBApi object) {
-        try{
-            //переписати, бо непевний чи правильно розташував ключі
-            object.setMarks(courseName, new MarksList(courseName, new AbstractMap.SimpleEntry<String, Float>(Student.getName(),Float.valueOf(mark))));
-        }catch (Exception e){
-            //error handling
-        }
+    public void editCourse(Course course, DBApi object) {
+        object.editCourse(course);
     }
 
-    public void setMarks(String courseName, MarksList marksList, DBApi object) {
-        try{
-            object.setMarks(courseName, marksList);
-        }catch (Exception e){
-            //error handling
-        }
-    }
-
-    public void setSocialWork(String courseName, MarksList marksList, DBApi object) {
-        try{
-            object.setSocialWork(courseName, marksList);
-        }catch (Exception e){
-            //error handling
-        }
-    }
-
-    public void setExam(String courseName, MarksList marksList, DBApi object) {
-        try{
-            object.setExam(courseName, marksList);
-        }catch (Exception e){
-            //error handling
-        }
-    }
-
-    public void addCourse(String courseName, ArrayList<String> groups,DBApi object) {
-        try{
-            object.addCourse(courseName,groups);
-        }catch (Exception e){
-            //error handling
-        }
-    }
-
-    public void editCourse(String courseName, String newCourseName, DBApi object) {
-        try{
-            object.editCourse(courseName,newCourseName);
-        }catch (Exception e){
-            //error handling
-        }
-    }
-
-    public void removeCourse(Long courseID, DBApi object) {
-        //в класі курсу немає courseID
-        //навіщо повертати булл ?
-        try{
-            object.removeCourse(courseID);
-        }catch (Exception e){
-            //error handling
-        }
+    public void removeCourse(Long courseId, DBApi object) {
+        object.removeCourse(courseId);
     }
 
     public Course getCourse(Long courseId, DBApi object) {
         return object.getCourse(courseId);
     }
 
-    public ArrayList<Student> getCourseStudents(String courseName, DBApi object) {
-        return new ArrayList<>(object.getCourseStudents(courseName));
+    public List<StudentCourseMarks> getMarksOfCourse(Long courseId, DBApi object){
+        return object.getMarksOfCourse(courseId);
     }
 
-    public ArrayList<Course> getCourseList(DBApi object) {
-        return new ArrayList<>(object.getCourseList(super.getUser()));
+    public List<Student> getCourseStudents(Long courseId, DBApi object) {
+        return object.getCourseStudents(courseId);
+    }
+
+    public List<Course> getCourseList(DBApi object) {
+        return object.getCourseList(super.getUser());
+    }
+
+    public Teacher get(){
+        return teacher;
+    }
+
+    protected void increment(DBApi object){
+        object.incrementContribution(teacher.getId());
     }
 }

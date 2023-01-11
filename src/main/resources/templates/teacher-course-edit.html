@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MyApp</title>
+</head>
+<body>
+<div>
+    //TODO i stopped here
+    <h1 th:text="@{Edit course:} + ${form.name}" />
+    <form th:action="@{..courses/}+${course}+@{/edit}" method="post" th:object="${form}">
+        <input type="text" name="CourseName" th:value="*{name}" placeholder="Введіть назву курсу">
+        <div th:each="teacher:*{teachers}">
+            <p th:text="${teacher.name}">
+                <span th:text="${teacher.surname}"></span>
+            </p>
+        </div>
+
+        <form th:action=@{../add/teacher}>
+            <p><input type="submit" value="Exit" /></p>
+        </form>
+
+        <button type="submit"> Зберегти </button>
+    </form>
+</div>
+
+<form th:action=@{/exit}>
+    <p><input type="submit" value="Exit" /></p>
+</form>
+
+</body>
+</html>

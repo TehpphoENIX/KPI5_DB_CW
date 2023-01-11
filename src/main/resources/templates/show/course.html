@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>MyApp</title>
+</head>
+<body>
+<h1>
+  <span>Курс:</span>
+  <span  th:text = "${course.name}"/>
+</h1>
+
+
+
+<div th:each="scm : ${marks}">
+  <h3>
+    <span th:text="${scm.student.name}"/>
+    <span th:text="${scm.student.surname}"/>:
+  </h3>
+  <p th:each="mark : ${scm.marksList.field}">
+    (<span th:text="${mark.key}">name</span>):
+    <span th:text="${mark.value}">_</span>
+  </p>
+  <p>Average:<span th:text="${scm.totalPoints}"/></p>
+  <p>Social Work:<span th:text="${scm.socialWork}"/></p>
+
+</div>
+
+<!--<form th:action="@{../courses/} + ${course.id} + @{/edit}">-->
+<!--  <p><input type="submit" value="Edit" /></p>-->
+<!--</form>-->
+<form th:action="@{${course.id} + @{/students}}">
+  <p><input type="submit" value="Students" /></p>
+</form>
+
+<form th:action="@{${course.id} + @{/add-marks}}">
+  <p><input type="submit" value="Add marks" /></p>
+</form>
+
+<form th:action="@{${course.id} + @{/add-social-work}}">
+  <p><input type="submit" value="Add social work" /></p>
+</form>
+
+<!--<form th:action="@{${course.id} + @{/add-exam}}">-->
+<!--  <p><input type="submit" value="Add exam" /></p>-->
+<!--</form>-->
+
+<form th:action="@{${course.id} + @{/delete}}">
+  <p><input type="submit" value="Delete" /></p>
+</form>
+
+<form th:action=@{../courses}>
+  <p><input type="submit" value="Exit" /></p>
+</form>
+</body>
+</html>
