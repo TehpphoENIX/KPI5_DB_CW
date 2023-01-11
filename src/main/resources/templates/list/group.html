@@ -26,8 +26,8 @@
                 <a th:href="@{groups/{id}(id=${group.id})}" th:text="${group.id}"> id </a>
             </td>
             <td th:text="${group.name}"/>
-            <td th:text="${group.yearCreated}"/>
             <td th:text="${group.speciality}"/>
+            <td th:text="${group.yearCreated}"/>
             <td th:text="${group.department.name}"/>
             <td th:text="${group.department.faculty}"/>
         </tr>

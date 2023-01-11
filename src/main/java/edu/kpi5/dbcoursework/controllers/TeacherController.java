@@ -2,6 +2,7 @@ package edu.kpi5.dbcoursework.controllers;
 
 import edu.kpi5.dbcoursework.dbaccess.DBApi;
 import edu.kpi5.dbcoursework.entities.marksdb.MarksList;
+import edu.kpi5.dbcoursework.userhandles.AdminHandle;
 import edu.kpi5.dbcoursework.userhandles.StudentHandle;
 import edu.kpi5.dbcoursework.utility.HttpSessionBean;
 import edu.kpi5.dbcoursework.entities.coredb.*;
@@ -15,8 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Controller
@@ -37,7 +36,7 @@ public class TeacherController {
      */
     @GetMapping("/menu")
     public String menu(Model model){
-        return "teacher-menu";
+        return "menu/teacher";
     }
 
     //THIS FUNCTION IS NOT USED
@@ -61,6 +60,7 @@ public class TeacherController {
         model.addAttribute("form",form);
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
         model.addAttribute("listOfStudents",handle.getCourseStudents(courseId,dbApi));
+        model.addAttribute("list",handle.getCourseStudents(courseId,dbApi));
         return "add/mark";
     }
     @PostMapping("/courses/{course}/mark/set")
@@ -91,12 +91,6 @@ public class TeacherController {
 //        handle.setExam(courseId, marksList, dbApi);
 
         return "redirect:/courses/{course}";
-    }
-    @PostMapping("/courses/add")
-    public String addCourse(@RequestParam String courseName, @RequestParam ArrayList<String> groups) {
-        TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
-//        handle.addCourse(courseName, groups, dbApi);
-        return "redirect:/courses/"+courseName;
     }
     @PostMapping("/courses/{course}/edit")
     public String editCourse(@PathVariable(value = "course") @RequestParam long CourseId, @RequestParam String CourseName) {
@@ -134,6 +128,32 @@ public class TeacherController {
         model.addAttribute("course", handle.getCourse(courseId, dbApi));
         return "course";
     }
+
+
+
+
+    @Getter
+    @Setter
+    class AddCourseForm{
+        private String courseName;
+        private ArrayList<Long> groups;
+    }
+    @GetMapping("/courses/add")
+    public String addCourseForm(Model model){
+        AddCourseForm form = new AddCourseForm();
+        TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
+        model.addAttribute("form",form);
+        model.addAttribute("list",handle.getGroupList(dbApi));
+
+        return "add/course";
+    }
+    @PostMapping("/courses/add")
+    public String addCourse(@ModelAttribute AddCourseForm form) {
+        TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
+        handle.addCourse(form.courseName,form.groups, dbApi);
+        return "redirect:../courses";
+    }
+
 
     /**
      * View students of a course
@@ -189,13 +209,13 @@ public class TeacherController {
     @GetMapping("/courses/{course}/add-exam")
     public String getCourseAddExam(@PathVariable(value = "course") Long courseId, Model model) {
         model.addAttribute("course-id", courseId);
-        return "teacher-add-exam";
+        return "add/exam";
     }
 
     @GetMapping(path="/about")
     public String About(Model model) {
         TeacherHandle handle = (TeacherHandle) httpSessionBean.getAppHandle();
         model.addAttribute("teacher", handle.getTeacher());
-        return "teacher-about";
+        return "about/teacher";
     }
 }

@@ -6,15 +6,20 @@
 </head>
 <body>
 <div>
-    <h1 th:text="Edit course: ${course-students.name}" />
-    <form th:action="/courses/${course}/edit" method="post">
-        <input type="text" name="CourseName" th:value="$course-students.name" placeholder="Введіть назву курсу">
-        <div th:each="mark: ${course-students.marks}}">
-            //TODO
+    //TODO i stopped here
+    <h1 th:text="@{Edit course:} + ${form.name}" />
+    <form th:action="@{..courses/}+${course}+@{/edit}" method="post" th:object="${form}">
+        <input type="text" name="CourseName" th:value="*{name}" placeholder="Введіть назву курсу">
+        <div th:each="teacher:*{teachers}">
+            <p th:text="${teacher.name}">
+                <span th:text="${teacher.surname}"></span>
+            </p>
         </div>
-        <div th:each="teacher: ${course-students.teachers}}">
-            //TODO
-        </div>
+
+        <form th:action=@{../add/teacher}>
+            <p><input type="submit" value="Exit" /></p>
+        </form>
+
         <button type="submit"> Зберегти </button>
     </form>
 </div>

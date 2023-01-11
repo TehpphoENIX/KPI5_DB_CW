@@ -29,7 +29,7 @@ public class StudentController {
      */
     @GetMapping(path="/menu")
     public String menu(Model model){
-        return "student-menu";
+        return "menu/student";
     }
 
     /**
@@ -45,7 +45,7 @@ public class StudentController {
         return "course-list";
     }
 
-    @GetMapping(path="/about")
+    @GetMapping(path="about/student")
     public String About(Model model) {
         StudentHandle handle = (StudentHandle) httpSessionBean.getAppHandle();
         model.addAttribute("student", handle.getStudent());
@@ -73,16 +73,4 @@ public class StudentController {
 //        model.addAttribute("RSO", handle.GetRSOOfCourse(course));
 //        return "RSO";
 //    }
-
-    /**
-     * View student scholarship
-     * @param model -- storage model
-     * @return scholarship view
-     */
-    @GetMapping(path="/scholarship")
-    public String CheckScholarship(Model model) {
-        StudentHandle handle = (StudentHandle) httpSessionBean.getAppHandle();
-        model.addAttribute("scholarship", null);
-        return "scholarship";
-    }
 }

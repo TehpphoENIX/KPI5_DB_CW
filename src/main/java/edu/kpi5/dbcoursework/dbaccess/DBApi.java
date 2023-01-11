@@ -131,6 +131,7 @@ public class DBApi {
      * @param courseID -- course id
      */
     public void removeCourse(Long courseID) {
+        SCMRepository.deleteByCourseId(courseID);
         courseRepository.deleteById(courseID);
     }
 

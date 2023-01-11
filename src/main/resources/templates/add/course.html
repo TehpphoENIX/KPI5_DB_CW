@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MyApp</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<h1>Додати курс:</h1>
+
+<form th:action="@{add}" th:object="${form}" method="post">
+
+    <p>Name: <input type="text" th:field="*{courseName}" /></p>
+
+    Які групи включити:
+    <select name="групи" multiple="multiple" th:field="*{groups}">
+        <option th:each="group : ${list}"
+                th:value="${group.id}"
+                th:text="${group.name}">Назва групи</option>
+    </select>
+
+    <p><input type="submit" value="Add" /> <input type="reset" value="Reset" /></p>
+</form>
+
+<form th:action=@{../courses} method="get">
+    <p><input type="submit" value="Cancel" /></p>
+</form>
+</body>
+</html>

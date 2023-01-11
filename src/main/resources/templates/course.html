@@ -5,20 +5,19 @@
   <title>MyApp</title>
 </head>
 <body>
-<h1 th:text="Курс: ${course.name}" />
-<!-- TODO тут треба якось вивести цю страшилку
-"ArrayList<AbstractMap.SimpleEntry<String, ArrayList <AbstractMap.SimpleEntry<String, Float>>>>"
--->
+<h1>
+  <span>Курс:</span>
+  <span  th:text = "${course.name}"/>
+</h1>
 
-<button></button>
 
 <!-- TODO buttons to view students, add mark, add social work and add exam and list of all course marks
 -->
-<form th:action=@{/courses/{course}/edit}>
+<form th:action="@{../courses/} + ${course.id} + @{/edit}">
   <p><input type="submit" value="Edit" /></p>
 </form>
 
-<form th:action=@{/courses/{course}/delete}>
+<form th:action="@{../courses/} + ${course.id} + @{/delete}">
   <p><input type="submit" value="Delete" /></p>
 </form>
 
