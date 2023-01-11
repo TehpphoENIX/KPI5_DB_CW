@@ -72,12 +72,12 @@ public class MarksList {
     public static String calcId(Long courseId, Long studentId){
         return courseId + "_" + studentId;
     }
-    public static double getTotal(MarksList list){
+    public static int getTotal(MarksList list){
         var out = list.getField().stream().mapToDouble((Mark m)->m.value).average();
         if(out.isPresent()){
-            return out.getAsDouble();
+            return (int)Math.round(out.getAsDouble());
         }else{
-            return 0.0;
+            return 0;
         }
     }
 }
